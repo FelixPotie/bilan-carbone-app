@@ -58,18 +58,15 @@ function ProductValues(props: WithStyles<typeof styles>) {
             <div className={classes.item}>
               <img
                 className={classes.image}
-                src="/static/themes/onepirate/productValues1.svg"
+                src="/avion-ban.jpg"
                 alt="suitcase"
               />
               <Typography variant="h6" className={classes.title}>
-                The best luxury hotels
+                Lorem ipsum
               </Typography>
               <Typography variant="h5">
                 {
-                  'From the latest trendy boutique hotel to the iconic palace with XXL pool'
-                }
-                {
-                  ', go for a mini-vacation just a few subway stops away from your home.'
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
                 }
               </Typography>
             </div>
@@ -89,22 +86,6 @@ function ProductValues(props: WithStyles<typeof styles>) {
                   'Privatize a pool, take a Japanese bath or wake up in 900m2 of garden… '
                 }
                 {'your Sundays will not be alike.'}
-              </Typography>
-            </div>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <div className={classes.item}>
-              <img
-                className={classes.image}
-                src="/static/themes/onepirate/productValues3.svg"
-                alt="clock"
-              />
-              <Typography variant="h6" className={classes.title}>
-                Exclusive rates
-              </Typography>
-              <Typography variant="h5">
-                {'By registering, you will access specially negotiated rates '}
-                {'that you will not find anywhere else.'}
               </Typography>
             </div>
           </Grid>

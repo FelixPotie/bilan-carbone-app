@@ -56,9 +56,8 @@ const styles = (theme: Theme) =>
     },
   });
 
-function ProductHowItWorks(props: WithStyles<typeof styles>) {
+function HowItWorks(props: WithStyles<typeof styles>) {
   const { classes } = props;
-
   return (
     <section className={classes.root}>
       <Container className={classes.container}>
@@ -73,7 +72,7 @@ function ProductHowItWorks(props: WithStyles<typeof styles>) {
           className={classes.title}
           component="h2"
         >
-          How it works
+          Comment ça marche ?
         </Typography>
         <div>
           <Grid container spacing={5}>
@@ -86,7 +85,7 @@ function ProductHowItWorks(props: WithStyles<typeof styles>) {
                   className={classes.image}
                 />
                 <Typography variant="h5" align="center">
-                  Appointment every Wednesday 9am.
+                  vous rentrez votre destination et votre mode transport.
                 </Typography>
               </div>
             </Grid>
@@ -99,8 +98,7 @@ function ProductHowItWorks(props: WithStyles<typeof styles>) {
                   className={classes.image}
                 />
                 <Typography variant="h5" align="center">
-                  First come, first served. Our offers are in limited quantities, so
-                  be quick.
+                  Le simulateur calcul l'impact carbone du trajet.
                 </Typography>
               </div>
             </Grid>
@@ -113,8 +111,8 @@ function ProductHowItWorks(props: WithStyles<typeof styles>) {
                   className={classes.image}
                 />
                 <Typography variant="h5" align="center">
-                  {'New offers every week. New experiences, new surprises. '}
-                  {'Your Sundays will no longer be alike.'}
+
+                  L'école obtient des statistiques sur son empreinte carbone.
                 </Typography>
               </div>
             </Grid>
@@ -128,10 +126,10 @@ function ProductHowItWorks(props: WithStyles<typeof styles>) {
           component="a"
           href="/premium-themes/onepirate/sign-up/"
         >
-          Get started
+          Commencer
         </Button>
       </Container>
     </section>
   );
 }
-export default withStyles(styles)(ProductHowItWorks);
+export default withStyles(styles)(HowItWorks);

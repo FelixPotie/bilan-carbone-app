@@ -13,15 +13,18 @@ const styles = (theme: Theme) => ({
   placeholder: toolbarStyles(theme).root,
   toolbar: {
     justifyContent: 'space-between',
+    backgroundColor: '#00adef'
   },
   left: {
-    flex: 1,
+    flex: 0,
+    display: 'flex',
+    justifyContent: 'flex-start'
   },
   leftLinkActive: {
     color: theme.palette.common.white,
   },
   right: {
-    flex: 1,
+    flex: 2,
     display: 'flex',
     justifyContent: 'flex-end',
   },
@@ -31,11 +34,16 @@ const styles = (theme: Theme) => ({
     marginLeft: theme.spacing(3),
   },
   linkSecondary: {
-    color: theme.palette.secondary.main,
+    // color: theme.palette.secondary.main,
   },
+  center: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+  }
 });
 
-function AppAppBar(props: WithStyles<typeof styles> & AppBarProps) {
+function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
   const { classes } = props;
 
   return (
@@ -48,9 +56,37 @@ function AppAppBar(props: WithStyles<typeof styles> & AppBarProps) {
             underline="none"
             color="inherit"
             className={classes.title}
-            href="/premium-themes/onepirate/"
+            href="/home"
           >
             {'Bilan Carbone des mobilités'}
+          </Link>
+
+          <div className={classes.center} />
+          <Link
+            color="inherit"
+            variant="h6"
+            underline="none"
+            className={classes.rightLink}
+            href="/home"
+          >
+            {'Accueil'}
+          </Link>
+          <Link
+            variant="h6"
+            underline="none"
+            className={clsx(classes.rightLink, classes.linkSecondary)}
+            href="/simulation"
+          >
+            {'Simuler'}
+          </Link>
+          <Link
+            color="inherit"
+            variant="h6"
+            underline="none"
+            className={classes.rightLink}
+            href="statistics"
+          >
+            {'Statistiques'}
           </Link>
           <div className={classes.right}>
             <Link
@@ -58,17 +94,9 @@ function AppAppBar(props: WithStyles<typeof styles> & AppBarProps) {
               variant="h6"
               underline="none"
               className={classes.rightLink}
-              href="/premium-themes/onepirate/sign-in/"
+              href="/signin"
             >
               {'Se connecter'}
-            </Link>
-            <Link
-              variant="h6"
-              underline="none"
-              className={clsx(classes.rightLink, classes.linkSecondary)}
-              href="/premium-themes/onepirate/sign-up/"
-            >
-              {'s\'inscrire'}
             </Link>
           </div>
         </Toolbar>
@@ -78,4 +106,4 @@ function AppAppBar(props: WithStyles<typeof styles> & AppBarProps) {
   );
 }
 
-export default withStyles(styles)(AppAppBar);
+export default withStyles(styles)(NavBar);

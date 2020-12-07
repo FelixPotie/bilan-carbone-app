@@ -21,7 +21,8 @@ function Copyright() {
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: 'flex',
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: "#00adef",
+    bottom: 0,
   },
   container: {
     marginTop: theme.spacing(8),
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: 120,
   },
   icons: {
-    display: 'flex',
+    display: 'block',
   },
   icon: {
     width: 48,
@@ -40,11 +41,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: theme.palette.warning.main,
     marginRight: theme.spacing(1),
-    '&:hover': {
-      backgroundColor: theme.palette.warning.dark,
-    },
+    // '&:hover': {
+    //   backgroundColor: theme.palette.warning.dark,
+    // },
   },
   list: {
     margin: 0,
@@ -81,24 +81,13 @@ export default function AppFooter() {
         <Grid container spacing={5}>
           <Grid item xs={6} sm={4} md={3}>
             <Grid
-              // container
-              // direction="column"
-              // justifyContent="flex-end"
-              // className={classes.iconsWrapper}
-              // spacing={2}
             >
               <Grid item className={classes.icons}>
-                <a href="https://material-ui.com/" className={classes.icon}>
-                  <img
-                    src="/static/themes/onepirate/appFooterFacebook.png"
-                    alt="Facebook"
-                  />
+                <a href="https://www.facebook.com/ecole.polytechmontpellier" className={classes.icon}>
+                    Facebook
                 </a>
                 <a href="https://twitter.com/MaterialUI" className={classes.icon}>
-                  <img
-                    src="/static/themes/onepirate/appFooterTwitter.png"
-                    alt="Twitter"
-                  />
+                    Instagram
                 </a>
               </Grid>
               <Grid item>
@@ -112,10 +101,10 @@ export default function AppFooter() {
             </Typography>
             <ul className={classes.list}>
               <li className={classes.listItem}>
-                <Link href="/premium-themes/onepirate/terms/">Terms</Link>
+                <Link href="/terms">Terms</Link>
               </li>
               <li className={classes.listItem}>
-                <Link href="/premium-themes/onepirate/privacy/">Privacy</Link>
+                <Link href="/privacy">Privacy</Link>
               </li>
             </ul>
           </Grid>

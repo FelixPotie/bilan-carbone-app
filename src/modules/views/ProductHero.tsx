@@ -10,7 +10,7 @@ import Typography from '../components/Typography';
 import ProductHeroLayout from './ProductHeroLayout';
 
 const backgroundImage =
-  'https://images.unsplash.com/photo-1534854638093-bada1813ca19?auto=format&fit=crop&w=1400&q=80';
+  'https://steamuserimages-a.akamaihd.net/ugc/956336538496054615/AEF72FC419F4E49F1127F64DF6CC93BC3DDB16EE/';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -40,11 +40,6 @@ function ProductHero(props: WithStyles<typeof styles>) {
   return (
     <ProductHeroLayout backgroundClassName={classes.background}>
       {/* Increase the network loading priority of the background image. */}
-      <img
-        style={{ display: 'none' }}
-        src={backgroundImage}
-        alt="increase priority"
-      />
       <Typography color="inherit" align="center" variant="h2" marked="center">
         Simuler votre trajet
       </Typography>
