@@ -7,6 +7,7 @@ import NotFound from './pages/NotFound';
 import SignIn from './pages/SignIn';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
+import Ecolab from './pages/Ecolab';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/signin" component={SignIn} />
           <Route path="/privacy" component={Privacy} />
           <Route path="/terms" component={Terms} />
+          <Route path="/simulation" component={Ecolab}/>
           <Route path="**" component={NotFound} />
         </Switch>
       </Router>

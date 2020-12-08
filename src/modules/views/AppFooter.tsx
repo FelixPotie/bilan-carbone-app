@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: 'flex',
     backgroundColor: "#00adef",
-    bottom: 0,
   },
   container: {
     marginTop: theme.spacing(8),
