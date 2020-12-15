@@ -8,6 +8,7 @@ import SignIn from './pages/SignIn';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Ecolab from './pages/Ecolab';
+import Mobilities from './pages/Mobilities';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/privacy" component={Privacy} />
           <Route path="/terms" component={Terms} />
           <Route path="/simulation" component={Ecolab}/>
+          <Route path="/mobilites" component={Mobilities}/>
           <Route path="**" component={NotFound} />
         </Switch>
       </Router>
