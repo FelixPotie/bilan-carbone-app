@@ -34,11 +34,11 @@ const styles = (theme: Theme) =>
       right: 0,
       top: 0,
       bottom: 0,
-      backgroundColor: theme.palette.common.black,
       opacity: 0.5,
       zIndex: -1,
     },
     background: {
+      backgroundImage: 'linear-gradient(to bottom, #004978, #056095, #0979b3, #0892d1, #00adef)',
       position: 'absolute',
       left: 0,
       right: 0,
@@ -54,26 +54,21 @@ const styles = (theme: Theme) =>
     },
   });
 
-interface ProductHeroLayoutProps {
-  backgroundClassName: string;
-}
 
-function ProductHeroLayout(
+function HomeHeaderLayout(
   props: WithStyles<typeof styles> &
-    React.HTMLAttributes<HTMLDivElement> &
-    ProductHeroLayoutProps,
-) {
-  const { backgroundClassName, children, classes } = props;
+    React.HTMLAttributes<HTMLDivElement>) {
+  const { children, classes } = props;
 
   return (
     <section className={classes.root}>
       <Container className={classes.container}>
         {children}
         <div className={classes.backdrop} />
-        <div className={clsx(classes.background, backgroundClassName)} />
+        <div className={clsx(classes.background)} />
       </Container>
     </section>
   );
 }
 
-export default withStyles(styles)(ProductHeroLayout);
+export default withStyles(styles)(HomeHeaderLayout);

@@ -7,21 +7,18 @@ import {
 } from '@material-ui/core/styles';
 import Button from '../components/Button';
 import Typography from '../components/Typography';
-import ProductHeroLayout from './ProductHeroLayout';
-
-const backgroundImage =
-  'https://steamuserimages-a.akamaihd.net/ugc/956336538496054615/AEF72FC419F4E49F1127F64DF6CC93BC3DDB16EE/';
+import HomeHeaderLayout from './HomeHeaderLayout';
+import { useTranslation} from 'react-i18next'
 
 const styles = (theme: Theme) =>
   createStyles({
-    background: {
-      backgroundImage: `url(${backgroundImage})`,
-      backgroundColor: '#7fc7d9', // Average color of the background image.
-      backgroundPosition: 'center',
-    },
     button: {
       minWidth: 200,
+      color: 'white',
+      fontWeight: 900,//theme.typography.fontWeightRegular,
+      fontSize: 20
     },
+    
     h5: {
       marginBottom: theme.spacing(4),
       marginTop: theme.spacing(4),
@@ -34,17 +31,19 @@ const styles = (theme: Theme) =>
     },
   });
 
-function ProductHero(props: WithStyles<typeof styles>) {
+function HomeHeader(props: WithStyles<typeof styles>) {
   const { classes } = props;
 
+  const  {t, i18n} = useTranslation('homePage');
+
   return (
-    <ProductHeroLayout backgroundClassName={classes.background}>
+    <HomeHeaderLayout >
       {/* Increase the network loading priority of the background image. */}
       <Typography color="inherit" align="center" variant="h2" marked="center">
-        Simuler votre trajet
+       {t("SIMULATE_YOUR_TRAJECT")}
       </Typography>
       <Typography color="inherit" align="center" variant="h5" className={classes.h5}>
-        Entrer sur notre simulateur pour découvrir l'empreinte carbone de votre trajet
+       {t("ENTER_SIMULATE_DESCIPTION")}
       </Typography>
       <Button
         color="secondary"
@@ -54,13 +53,10 @@ function ProductHero(props: WithStyles<typeof styles>) {
         component="a"
         href="/premium-themes/onepirate/sign-up/"
       >
-        Lancer la simulation
+        {t("LAUNCH_SIMULATION")}
       </Button>
-      <Typography variant="body2" color="inherit" className={classes.more}>
-        Discover the experience
-      </Typography>
-    </ProductHeroLayout>
+    </HomeHeaderLayout>
   );
 }
 
-export default withStyles(styles)(ProductHero);
+export default withStyles(styles)(HomeHeader);

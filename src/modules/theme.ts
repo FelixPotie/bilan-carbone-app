@@ -4,15 +4,15 @@ import { green, grey, red } from '@material-ui/core/colors';
 const rawTheme = createMuiTheme({
   palette: {
     primary: {
-      light: '#00adef',
+      light: '#009EE0',
       main: '#28282a',
-      dark: '#004976',
+      dark: '#004978',
 
     },
     secondary: {
       light: '#fff5f8',
-      main: '#ff3366',
-      dark: '#e62958',
+      main: '#00E08E',
+      dark: '#00C07A',
     },
     warning: {
       main: '#ffc071',
@@ -40,7 +40,7 @@ const rawTheme = createMuiTheme({
 
 const fontHeader = {
   color: rawTheme.palette.text.primary,
-  fontWeight: rawTheme.typography.fontWeightMedium,
+  fontWeight: rawTheme.typography.fontWeightLight,
   fontFamily: "'Roboto Condensed', sans-serif",
   textTransform: 'uppercase',
 };
