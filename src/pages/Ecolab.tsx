@@ -1,6 +1,9 @@
+import { Box, Container } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
+import Typography from '../modules/components/Typography';
+import withRoot from '../modules/withRoot';
 
-export default function Ecolab() {
+function Ecolab() {
     const [loaded, setLoaded] = useState(false)
 
 
@@ -25,9 +28,20 @@ export default function Ecolab() {
 
 
     return (
-    <div style={{"height":"1100px", "margin":"20px"}}>
-        <script  style={{"height":"1070px"}} id="ecolab-transport" data-distanceInitiale="29" src="https://ecolab.ademe.fr/apps/transport/iframe.js"></script>
-    </div>
+        <React.Fragment>
+            <Container>
+                <Box>
+                    <Typography variant="h3" gutterBottom marked="center" align="center">
+                        Simulez votre trajet !
+                    </Typography>
+                    <div style={{"height":"1100px", "margin":"20px"}}>
+                        <script  style={{"height":"1070px"}} id="ecolab-transport" data-distanceInitiale="29" src="https://ecolab.ademe.fr/apps/transport/iframe.js"></script>
+                    </div>
+                </Box>
+            </Container>
+        </React.Fragment>
+    
     )
 }
  
+export default withRoot(Ecolab);

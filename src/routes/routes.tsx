@@ -1,5 +1,6 @@
 import Ecolab from "../pages/Ecolab";
 import Home from "../pages/Home";
+import Mobilities from "../pages/Mobilities";
 import NotFound from "../pages/NotFound";
 import Privacy from "../pages/Privacy";
 import SignIn from "../pages/SignIn";
@@ -30,6 +31,10 @@ const routes = [
     {
         path: "/simulation",
         component: Ecolab
+    },
+    {
+        path: "/mobilites",
+        component: Mobilities
     },
     // NotFound
     {
