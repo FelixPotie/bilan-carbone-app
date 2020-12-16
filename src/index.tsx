@@ -6,7 +6,6 @@ import './index.css';
 import App from './App';
 import AppAdmin from './App.admin';
 import reportWebVitals from './reportWebVitals';
-import { AppBar } from '@material-ui/core';
 
 // create history for the user
 const hist = createBrowserHistory();
