@@ -1,7 +1,7 @@
 import { withStyles } from '@material-ui/core';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import NavBar from './modules/views/NavBar';
+import NavBar from './modules/components/navBar/NavBar';
 import routes from './routes/routes.admin';
 
 class Main extends React.PureComponent { 
