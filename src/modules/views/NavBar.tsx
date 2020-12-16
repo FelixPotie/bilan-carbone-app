@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { AppBarProps, WithStyles } from '@material-ui/core';
+import { AppBarProps, useScrollTrigger, WithStyles } from '@material-ui/core';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import AppBar from '../components/AppBar';
@@ -13,7 +13,6 @@ const styles = (theme: Theme) => ({
   placeholder: toolbarStyles(theme).root,
   toolbar: {
     justifyContent: 'space-between',
-    backgroundColor: '#00adef'
   },
   left: {
     flex: 0,
@@ -43,64 +42,66 @@ const styles = (theme: Theme) => ({
   }
 });
 
+
+
 function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
   const { classes } = props;
 
   return (
     <div>
-      <AppBar position="fixed">
-        <Toolbar className={classes.toolbar}>
-          <div className={classes.left} />
-          <Link
-            variant="h6"
-            underline="none"
-            color="inherit"
-            className={classes.title}
-            href="/home"
-          >
-            {'Bilan Carbone des mobilités'}
-          </Link>
+        <AppBar position="fixed">
+          <Toolbar className={classes.toolbar}>
+            <div className={classes.left} />
+            <Link
+              variant="h6"
+              underline="none"
+              color="inherit"
+              className={classes.title}
+              href="/home"
+            >
+              {'Bilan Carbone des mobilités'}
+            </Link>
 
-          <div className={classes.center} />
-          <Link
-            color="inherit"
-            variant="h6"
-            underline="none"
-            className={classes.rightLink}
-            href="/home"
-          >
-            {'Accueil'}
-          </Link>
-          <Link
-            variant="h6"
-            underline="none"
-            className={clsx(classes.rightLink, classes.linkSecondary)}
-            href="/simulation"
-          >
-            {'Simuler'}
-          </Link>
-          <Link
-            color="inherit"
-            variant="h6"
-            underline="none"
-            className={classes.rightLink}
-            href="statistics"
-          >
-            {'Statistiques'}
-          </Link>
-          <div className={classes.right}>
+            <div className={classes.center} />
             <Link
               color="inherit"
               variant="h6"
               underline="none"
               className={classes.rightLink}
-              href="/signin"
+              href="/home"
             >
-              {'Se connecter'}
+              {'Accueil'}
             </Link>
-          </div>
-        </Toolbar>
-      </AppBar>
+            <Link
+              variant="h6"
+              underline="none"
+              className={clsx(classes.rightLink, classes.linkSecondary)}
+              href="/simulation"
+            >
+              {'Simuler'}
+            </Link>
+            <Link
+              color="inherit"
+              variant="h6"
+              underline="none"
+              className={classes.rightLink}
+              href="statistics"
+            >
+              {'Statistiques'}
+            </Link>
+            <div className={classes.right}>
+              <Link
+                color="inherit"
+                variant="h6"
+                underline="none"
+                className={classes.rightLink}
+                href="/signin"
+              >
+                {'Se connecter'}
+              </Link>
+            </div>
+          </Toolbar>
+        </AppBar>
       <div className={classes.placeholder} />
     </div>
   );
