@@ -1,7 +1,9 @@
 import { withStyles } from '@material-ui/core';
 import React from 'react';
+import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import NavBar from './modules/views/NavBar';
+import { store } from './redux';
 import routes from './routes/routes.admin';
 
 class Main extends React.PureComponent { 
@@ -15,6 +17,7 @@ class Main extends React.PureComponent {
 
         return (
             <div>
+                <Provider store={store}>
                 <NavBar />
                 <Switch>
                 {routes.map((prop,key) => {
@@ -22,6 +25,7 @@ class Main extends React.PureComponent {
                 })
                 }
                 </Switch>
+                </Provider>
             </div>
             
         )
