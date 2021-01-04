@@ -22,10 +22,16 @@ export function logoutUser() : UserActionTypes{
 }
 
 export const login = (username: string, password:string) => {
+    console.log(username);
+    console.log(password);
     return(dispatch:any) => {
-        axios.post('http://localhost:4000/user/auth', {username: username, password: password})
+        var headers = {
+            'Content-Type': 'application/json', 
+        }
+        axios.post('http://localhost:4000/user/auth', {username: username, password: password}, {headers:headers})
             .then(response => {
                 const user = response.data
+                sessionStorage.setItem('token', JSON.stringify(user.access_token))
                 dispatch(loginUserSucess(user))
             })
             .catch(error => {

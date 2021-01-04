@@ -10,6 +10,7 @@ import AppForm from '../views/AppForm';
 import { RootState } from '../../redux';
 import { connect, ConnectedProps } from 'react-redux';
 import { login } from '../../redux/user/actions';
+import { Redirect } from 'react-router-dom';
 
 
 const mapState = (state: RootState, ownProps: any) => {
@@ -21,7 +22,7 @@ const mapState = (state: RootState, ownProps: any) => {
 
 const mapDispatch = (dispatch:any) => {
     return {
-        login: (username: string, password: string) => dispatch(login(username, password)),
+        login : (username: string, password: string) => dispatch(login(username, password)),
     }
 }
 
@@ -61,11 +62,14 @@ function SignInContainer(props: Props) {
 
     const {username, password} = stateLogin;
     
-    const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setStateLogin({ ...stateLogin, [event.target.name]: event.target.value });
     };
 
-    return (
+    
+    return props.user.success ? (
+            <Redirect to="/" />
+        ) : (
         <React.Fragment>
             <Grid container justify="space-evenly" alignItems="center" >
                 <Grid item md={6}>
@@ -74,6 +78,10 @@ function SignInContainer(props: Props) {
                         <Typography variant="h3" gutterBottom marked="center" align="center">
                             Connexion {props.label}
                         </Typography>
+                        <Typography variant="h5">
+                            {props.user.failure}
+                        </Typography>
+        
                     </React.Fragment>
                     <form className={classes.form}>
                         <TextField
@@ -85,7 +93,7 @@ function SignInContainer(props: Props) {
                             label="Identifiant Polytech"
                             name="username"
                             autoComplete="username"
-                            onChange={handleUsernameChange}
+                            onChange={handleChange}
                             value={username}
                             autoFocus
                         />
@@ -99,7 +107,7 @@ function SignInContainer(props: Props) {
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                            onChange={handleUsernameChange}
+                            onChange={handleChange}
                             value={password}
                         />
                         <FormControlLabel
@@ -107,11 +115,11 @@ function SignInContainer(props: Props) {
                             label="Se souvenir de moi"
                         />
                         <Button
-                            type="submit"
+                            // type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
-                            // onClick={props.login(username,password)}
+                            onClick={() => props.login(username,password)}
                         >
                             Connexion
                         </Button>
