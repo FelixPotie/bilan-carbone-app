@@ -1,6 +1,8 @@
 import { Link } from "@material-ui/core";
 import { AppBarProps } from "material-ui";
 import React from "react";
+import { useTranslation} from 'react-i18next'
+
 
 interface NavBarLinksProps {
     classesRow: string
@@ -11,6 +13,8 @@ interface NavBarLinksProps {
 function NavBarLinks(props: AppBarProps & NavBarLinksProps) {
     const { classesRow, classesLinks } = props;
 
+    const  {t, i18n} = useTranslation();
+
     return (
         <div className={classesRow}>
             <Link
@@ -20,7 +24,7 @@ function NavBarLinks(props: AppBarProps & NavBarLinksProps) {
                 className={classesLinks}
                 href="/home"
             >
-                {'Accueil'}
+                {t("HOME")}
             </Link>
             <Link
                 color="inherit"
@@ -29,7 +33,7 @@ function NavBarLinks(props: AppBarProps & NavBarLinksProps) {
                 className={classesLinks}
                 href="/simulation"
             >
-                {'Simuler'}
+                {t("SIMULATE")}
             </Link>
             <Link
                 color="inherit"
@@ -38,7 +42,7 @@ function NavBarLinks(props: AppBarProps & NavBarLinksProps) {
                 className={classesLinks}
                 href="statistics"
             >
-                {'Statistiques'}
+                {t("STATISTICS")}
             </Link>
         </div>
     );

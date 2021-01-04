@@ -54,30 +54,16 @@ function ProductValues(props: WithStyles<typeof styles>) {
           alt="curvy lines"
         />
         <Grid container spacing={5}>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={6}>
             <div className={classes.item}>
               <img
-                className={classes.image}
+                //className={classes.image}
                 src="/avion-ban.jpg"
-                alt="suitcase"
               />
-              <Typography variant="h6" className={classes.title}>
-                Lorem ipsum
-              </Typography>
-              <Typography variant="h5">
-                {
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-                }
-              </Typography>
             </div>
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={6}>
             <div className={classes.item}>
-              <img
-                className={classes.image}
-                src="/static/themes/onepirate/productValues2.svg"
-                alt="graph"
-              />
               <Typography variant="h6" className={classes.title}>
                 New experiences
               </Typography>

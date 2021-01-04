@@ -7,6 +7,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Drawer from "@material-ui/core/Drawer";
 import Toolbar, { styles as toolbarStyles } from '../Toolbar';
 import NavBarLinks from './NavBarLinks';
+import { useTranslation} from 'react-i18next'
+
 
 // @material-ui/icons
 import Menu from "@material-ui/icons/Menu";
@@ -104,6 +106,8 @@ function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  const  {t, i18n} = useTranslation();
   
 
   return (
@@ -119,7 +123,7 @@ function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
               className={classes.title}
               href="/home"
             >
-              {'Mobilan'}
+              {t("APP_NAME")}
             </Link>
           </div>
           <div /* center */>
@@ -136,7 +140,7 @@ function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
                 className={classes.rightLink}
                 href="/signin"
               >
-                {'Se connecter'}
+                {t("LOGIN")}
               </Link>
             </Hidden>
             <Hidden mdUp>
@@ -169,7 +173,7 @@ function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
                 className={classes.linksContainerDrawer}
                 href="/signin"
               >
-                {'Se connecter'}
+                {t("LOGIN")}
               </Link>
             </div>
           </Drawer>
