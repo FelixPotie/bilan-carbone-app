@@ -21,7 +21,7 @@ const markSyleMapping: {
   left: {
     h1: '',
     h2: '',
-    h3: '',
+    h3: 'markedH3Left',
     h4: '',
     h5: '',
     h6: 'markedH6Left',
@@ -66,6 +66,13 @@ const styles = (theme: Theme) =>
       marginTop: theme.spacing(0.5),
       background: 'currentColor',
     },
+    [markSyleMapping['left']['h3']]: {
+      height: 2,
+      width: 28,
+      display: 'block',
+      marginTop: theme.spacing(0.5),
+      background: theme.palette.secondary.main,
+    },
   });
 
 interface ExtraTypographyProps {
@@ -75,7 +82,7 @@ interface ExtraTypographyProps {
 const variantMapping = {
   h1: 'h1',
   h2: 'h1',
-  h3: 'h1',
+  h3: 'h3',
   h4: 'h1',
   h5: 'h3',
   h6: 'h2',

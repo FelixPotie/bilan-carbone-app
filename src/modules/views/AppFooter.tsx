@@ -5,6 +5,7 @@ import Link from '@material-ui/core/Link';
 import Container from '@material-ui/core/Container';
 import Typography from '../components/Typography';
 import TextField from '../components/TextField';
+import { useTranslation } from 'react-i18next';
 
 function Copyright() {
   return (
@@ -71,8 +72,15 @@ const LANGUAGES = [
   },
 ];
 
-export default function AppFooter() {
+function AppFooter() {
   const classes = useStyles();
+
+  const { t, i18n } = useTranslation()
+
+  const changeLanguage = (e: React.FormEvent<EventTarget>) => {
+    let target = e.target as HTMLInputElement;
+    i18n.changeLanguage(target.value)
+  }
 
   return (
     <Typography component="footer" className={classes.root}>
@@ -119,6 +127,8 @@ export default function AppFooter() {
               }}
               className={classes.language}
               variant="standard"
+              onChange={changeLanguage}
+              value={i18n.language}
             >
               {LANGUAGES.map((language) => (
                 <option value={language.code} key={language.code}>
@@ -153,3 +163,6 @@ export default function AppFooter() {
     </Typography>
   );
 }
+
+
+export default AppFooter;

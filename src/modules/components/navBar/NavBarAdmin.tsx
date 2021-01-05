@@ -3,9 +3,9 @@ import clsx from 'clsx';
 import { AppBarProps, WithStyles } from '@material-ui/core';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
-import AppBar from '../components/AppBar';
-import SignInOutButton from '../components/SignInOutButton';
-import Toolbar, { styles as toolbarStyles } from '../components/Toolbar';
+import AppBar from './AppBar';
+import SignInOutButton from '../SignInOutButton';
+import Toolbar, { styles as toolbarStyles } from '../Toolbar';
 
 const styles = (theme: Theme) => ({
   title: {

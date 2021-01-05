@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import NavBar from './modules/views/NavBar';
+import NavBar from './modules/components/navBar/NavBar';
 import AppFooter from './modules/views/AppFooter';
 import { Provider } from 'react-redux';
 import routes from './routes/routes';

@@ -3,8 +3,9 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import Auth from './modules/components/Auth';
-import NavBarAdmin from './modules/views/NavBarAdmin';
+import NavBarAdmin from './modules/components/navBar/NavBarAdmin';
 import { store } from './redux';
+import NavBar from './modules/components/navBar/NavBar';
 import routes from './routes/routes.admin';
 
 class AppAdmin extends React.PureComponent { 
