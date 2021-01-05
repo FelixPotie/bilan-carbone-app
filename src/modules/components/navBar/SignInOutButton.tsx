@@ -1,9 +1,9 @@
 import { Link } from '@material-ui/core';
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { RootState } from '../../redux';
-import { logoutAdmin } from '../../redux/admin/actions';
-import { logoutUser } from '../../redux/user/actions';
+import { RootState } from '../../../redux';
+import { logoutAdmin } from '../../../redux/admin/actions';
+import { logoutUser } from '../../../redux/user/actions';
 
 
 const mapState = (state: RootState, ownProps: any) => {

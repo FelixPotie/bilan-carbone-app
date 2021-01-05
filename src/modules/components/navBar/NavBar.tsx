@@ -1,5 +1,5 @@
 import React from 'react';
-import SignInOutButton from '../SignInOutButton';
+import SignInOutButton from './SignInOutButton';
 import Toolbar, { styles as toolbarStyles } from '../Toolbar';
 import { AppBarProps, Hidden, WithStyles } from '@material-ui/core';
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
