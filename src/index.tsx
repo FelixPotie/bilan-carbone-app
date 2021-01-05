@@ -9,7 +9,10 @@ import reportWebVitals from './reportWebVitals';
 import './i18n'
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:4000/';
+require('dotenv').config()
+
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+
 // create history for the user
 const hist = createBrowserHistory();
 
