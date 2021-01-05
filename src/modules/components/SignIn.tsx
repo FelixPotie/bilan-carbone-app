@@ -66,8 +66,13 @@ function SignInContainer(props: Props) {
         setStateLogin({ ...stateLogin, [event.target.name]: event.target.value });
     };
 
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        props.login(username,password);
+    }
+
     
-    return props.user.success ? (
+    return props.user.isLoggedIn ? (
             <Redirect to="/" />
         ) : (
         <React.Fragment>
@@ -83,7 +88,7 @@ function SignInContainer(props: Props) {
                         </Typography>
         
                     </React.Fragment>
-                    <form className={classes.form}>
+                    <form className={classes.form} onSubmit={e => onSubmit(e)}>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -110,16 +115,11 @@ function SignInContainer(props: Props) {
                             onChange={handleChange}
                             value={password}
                         />
-                        <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Se souvenir de moi"
-                        />
                         <Button
-                            // type="submit"
+                            type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
-                            onClick={() => props.login(username,password)}
                         >
                             Connexion
                         </Button>

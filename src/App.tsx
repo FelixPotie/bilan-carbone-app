@@ -5,6 +5,7 @@ import AppFooter from './modules/views/AppFooter';
 import { Provider } from 'react-redux';
 import routes from './routes/routes';
 import { store } from './redux';
+import Auth from './modules/components/Auth';
 
 class App extends React.PureComponent {
 
@@ -17,6 +18,7 @@ class App extends React.PureComponent {
     return (
       <div>
         <Provider store={store}>
+          <Auth/>
           <NavBar />
           <Router>
             <Switch>

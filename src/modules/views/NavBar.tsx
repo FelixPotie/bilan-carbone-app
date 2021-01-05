@@ -4,6 +4,7 @@ import { AppBarProps, useScrollTrigger, WithStyles } from '@material-ui/core';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import AppBar from '../components/AppBar';
+import SignInOutButton from '../components/SignInOutButton';
 import Toolbar, { styles as toolbarStyles } from '../components/Toolbar';
 
 const styles = (theme: Theme) => ({
@@ -90,15 +91,7 @@ function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
               {'Statistiques'}
             </Link>
             <div className={classes.right}>
-              <Link
-                color="inherit"
-                variant="h6"
-                underline="none"
-                className={classes.rightLink}
-                href="/signin"
-              >
-                {'Se connecter'}
-              </Link>
+              <SignInOutButton classes={classes}/>
             </div>
           </Toolbar>
         </AppBar>
