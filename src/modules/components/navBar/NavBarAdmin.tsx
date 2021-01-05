@@ -1,10 +1,10 @@
 import React from 'react';
-import clsx from 'clsx';
-import { AppBarProps, useScrollTrigger, WithStyles } from '@material-ui/core';
+import { AppBarProps, WithStyles } from '@material-ui/core';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
-import AppBar from '../components/AppBar';
-import Toolbar, { styles as toolbarStyles } from '../components/Toolbar';
+import AppBar from './AppBar';
+import SignInOutButton from '../SignInOutButton';
+import Toolbar, { styles as toolbarStyles } from '../Toolbar';
 
 const styles = (theme: Theme) => ({
   title: {
@@ -44,7 +44,7 @@ const styles = (theme: Theme) => ({
 
 
 
-function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
+function NavBarAdmin(props: WithStyles<typeof styles> & AppBarProps) {
   const { classes } = props;
 
   return (
@@ -57,7 +57,6 @@ function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
               underline="none"
               color="inherit"
               className={classes.title}
-              href="/home"
             >
               {'Bilan Carbone des mobilités'}
             </Link>
@@ -68,37 +67,11 @@ function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
               variant="h6"
               underline="none"
               className={classes.rightLink}
-              href="/home"
             >
-              {'Accueil'}
-            </Link>
-            <Link
-              variant="h6"
-              underline="none"
-              className={clsx(classes.rightLink, classes.linkSecondary)}
-              href="/simulation"
-            >
-              {'Simuler'}
-            </Link>
-            <Link
-              color="inherit"
-              variant="h6"
-              underline="none"
-              className={classes.rightLink}
-              href="statistics"
-            >
-              {'Statistiques'}
+              {'Admin'}
             </Link>
             <div className={classes.right}>
-              <Link
-                color="inherit"
-                variant="h6"
-                underline="none"
-                className={classes.rightLink}
-                href="/signin"
-              >
-                {'Se connecter'}
-              </Link>
+              <SignInOutButton className={classes.rightLink} classes={classes} label="admin"/>
             </div>
           </Toolbar>
         </AppBar>
@@ -107,4 +80,4 @@ function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
   );
 }
 
-export default withStyles(styles)(NavBar);
+export default withStyles(styles)(NavBarAdmin);
