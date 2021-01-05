@@ -1,5 +1,4 @@
 import React from 'react';
-import clsx from 'clsx';
 import SignInOutButton from '../SignInOutButton';
 import Toolbar, { styles as toolbarStyles } from '../Toolbar';
 import { AppBarProps, Hidden, WithStyles } from '@material-ui/core';

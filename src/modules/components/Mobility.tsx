@@ -1,7 +1,6 @@
 import { Box, Button, Container, createStyles, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Theme, withStyles } from '@material-ui/core';
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import { RootState } from '../../redux';
 import { getMobilitiesByUser } from '../../redux/mobility/actions';
 import Typography from './Typography';
