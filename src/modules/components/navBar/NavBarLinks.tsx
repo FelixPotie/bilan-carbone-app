@@ -2,6 +2,7 @@ import { Link } from "@material-ui/core";
 import { AppBarProps } from "material-ui";
 import React from "react";
 import { useTranslation} from 'react-i18next'
+import NavBarIn from "./NavBarIn";
 
 
 interface NavBarLinksProps {
@@ -44,6 +45,7 @@ function NavBarLinks(props: AppBarProps & NavBarLinksProps) {
             >
                 {t("STATISTICS")}
             </Link>
+            <NavBarIn classesLinks={classesLinks}/>
         </div>
     );
 }
