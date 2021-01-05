@@ -69,8 +69,10 @@ const styles = (theme: Theme) => createStyles({
 
   linksContainerDrawer:{
     color: 'black', //use theme black text 
-    fontSize: 16,
     margin:'10px'
+  },
+
+  empty:{ //should be deleted
   },
 
   drawerPaper: {
@@ -134,17 +136,8 @@ function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
           </div>
           <div /* right */>
              <Hidden smDown implementation="css">
-             {/*} <Link
-                color="inherit"
-                variant="h6"
-                underline="none"
-                className={classes.rightLink}
-                href="/signin"
-              >
-                {t("LOGIN")}
-              </Link>  */}
-              <div className={classes.right}>
-                <SignInOutButton classes={classes}/>
+              <div className={classes.rightLink}>
+                <SignInOutButton classesName={classes.rightLink} classes={classes}/>
               </div>
             </Hidden>
             <Hidden mdUp>
@@ -170,17 +163,8 @@ function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
           >
             <div className={classes.appResponsive}>
               <NavBarLinks classesRow={classes.NavDrawerLinks} classesLinks={classes.linksContainerDrawer}/>
-              {/* <Link
-                style={{margin:'10px'}} //don't take his 10 px fukkk
-                variant="h6"
-                underline="none"
-                className={classes.linksContainerDrawer}
-                href="/signin"
-              >
-                {t("LOGIN")}
-              </Link> */}
-              <div className={classes.right}>
-                <SignInOutButton classes={classes}/>
+              <div className={classes.linksContainerDrawer} >
+                <SignInOutButton classesName={classes.empty} classes={classes}/>
               </div>
             </div>
           </Drawer>

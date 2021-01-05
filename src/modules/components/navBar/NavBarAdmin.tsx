@@ -71,7 +71,7 @@ function NavBarAdmin(props: WithStyles<typeof styles> & AppBarProps) {
               {'Admin'}
             </Link>
             <div className={classes.right}>
-              <SignInOutButton classes={classes} label="admin"/>
+              <SignInOutButton className={classes.rightLink} classes={classes} label="admin"/>
             </div>
           </Toolbar>
         </AppBar>

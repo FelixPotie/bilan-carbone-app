@@ -9,7 +9,7 @@ import { logoutUser } from '../../redux/user/actions';
 const mapState = (state: RootState, ownProps: any) => {
     return {
         user: state.user,
-        classes: ownProps.classes,
+        classesName: ownProps.classesName,
         label: ownProps.label,
         admin: state.admin
     }
@@ -32,7 +32,7 @@ function SignInOutButton(props: Props) {
             color="inherit"
             variant="h6"
             underline="none"
-            className={props.classes.rightLink}
+            className={props.classesName}
             onClick={() => props.logoutAdmin()}
             href="/admin"
             >
@@ -43,7 +43,7 @@ function SignInOutButton(props: Props) {
             color="inherit"
             variant="h6"
             underline="none"
-            className={props.classes.rightLink}
+            className={props.classesName}
             href="/admin"
             >
             {'Se connecter'}
@@ -53,7 +53,7 @@ function SignInOutButton(props: Props) {
             color="inherit"
             variant="h6"
             underline="none"
-            className={props.classes.rightLink}
+            className={props.classesName}
             onClick={() => props.logoutUser()}
             href="/"
             >
@@ -64,7 +64,7 @@ function SignInOutButton(props: Props) {
             color="inherit"
             variant="h6"
             underline="none"
-            className={props.classes.rightLink}
+            className={props.classesName}
             href="/signin"
             >
             {'Se connecter'}
