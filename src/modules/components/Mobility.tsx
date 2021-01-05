@@ -1,6 +1,7 @@
 import { Box, Button, Container, createStyles, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Theme, withStyles } from '@material-ui/core';
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { RootState } from '../../redux';
 import { getMobilitiesByUser } from '../../redux/mobility/actions';
 import Typography from './Typography';
@@ -8,13 +9,14 @@ import Typography from './Typography';
 
 const mapState = (state: RootState) => {
     return {
-        mobilityData: state.mobility
+        mobilityData: state.mobility,
+        user: state.user
     }
 }
 
 const mapDispatch = (dispatch:any) => {
     return {
-        getMobilitiesByUser: () => dispatch(getMobilitiesByUser('felix.potie'))
+        getMobilitiesByUser: (username: string) => dispatch(getMobilitiesByUser(username))
     }
 }
 
@@ -60,10 +62,12 @@ const StyledTableCell = withStyles((theme: Theme) =>
 function MobilitiesContainer(props: Props) {
     const classes = useStyles();
     useEffect(()=> {
-        props.getMobilitiesByUser()
-    }, [])
-    return props.mobilityData.loading ? (
-            <h2>Loading</h2>
+        console.log(props.user)
+        if(props.user.isLoggedIn) props.getMobilitiesByUser(props.user.user.username)
+    }, [props])
+    console.log(props.user);
+    return  !props.user.isLoggedIn ? (
+            <div>Vous devez être connecté pour acceder à cette page</div>
         ) : props.mobilityData.error ? (
             <h2>{props.mobilityData.error}</h2>
         ) : (

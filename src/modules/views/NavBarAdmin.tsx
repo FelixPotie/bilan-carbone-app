@@ -45,7 +45,7 @@ const styles = (theme: Theme) => ({
 
 
 
-function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
+function NavBarAdmin(props: WithStyles<typeof styles> & AppBarProps) {
   const { classes } = props;
 
   return (
@@ -58,7 +58,6 @@ function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
               underline="none"
               color="inherit"
               className={classes.title}
-              href="/home"
             >
               {'Bilan Carbone des mobilités'}
             </Link>
@@ -69,29 +68,11 @@ function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
               variant="h6"
               underline="none"
               className={classes.rightLink}
-              href="/home"
             >
-              {'Accueil'}
-            </Link>
-            <Link
-              variant="h6"
-              underline="none"
-              className={clsx(classes.rightLink, classes.linkSecondary)}
-              href="/simulation"
-            >
-              {'Simuler'}
-            </Link>
-            <Link
-              color="inherit"
-              variant="h6"
-              underline="none"
-              className={classes.rightLink}
-              href="statistics"
-            >
-              {'Statistiques'}
+              {'Admin'}
             </Link>
             <div className={classes.right}>
-              <SignInOutButton classes={classes}/>
+              <SignInOutButton classes={classes} label="admin"/>
             </div>
           </Toolbar>
         </AppBar>
@@ -100,4 +81,4 @@ function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
   );
 }
 
-export default withStyles(styles)(NavBar);
+export default withStyles(styles)(NavBarAdmin);

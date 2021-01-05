@@ -22,10 +22,10 @@ export function getMobilityFailure(error:any) : MobilityActionTypes{
     }
 }
 
-export const getMobilitiesByUser = (userId: string) => {
+export const getMobilitiesByUser = (username: string) => {
     return(dispatch:any) => {
-        dispatch(getMobilityRequest(userId))
-        axios.get('http://localhost:4000/mobility/user/felix.potie')
+        dispatch(getMobilityRequest(username))
+        axios.get('mobility/user/'+username)
             .then(response => {
                 const mobilities = response.data
                 dispatch(getMobilitySuccess(mobilities))

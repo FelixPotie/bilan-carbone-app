@@ -6,9 +6,7 @@ import MobilitiesContainer from '../modules/components/Mobility';
 function Mobilities() {
 
     return (
-        <React.Fragment>
-            <MobilitiesContainer/>
-        </React.Fragment>
+        <MobilitiesContainer/>
     )
 }
 

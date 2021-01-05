@@ -4,9 +4,11 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { userReducer } from "./user/reducer";
 import { mobilityReducer } from "./mobility/reducer";
+import { adminReducer } from "./admin/reducer";
 
 const rootReducer = combineReducers({
     user: userReducer,
+    admin: adminReducer,
     mobility: mobilityReducer
 })
 

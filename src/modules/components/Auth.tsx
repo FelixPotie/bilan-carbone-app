@@ -1,19 +1,23 @@
 import { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux';
+import { loadAdmin } from '../../redux/admin/actions';
 import { loadUser } from '../../redux/user/actions';
 import setAuthToken from '../setAuthToken';
 
 
-const mapState = (state: RootState) => {
+const mapState = (state: RootState, ownProps: any) => {
     return {
-        user: state.user
+        label: ownProps.label,
+        user: state.user,
+        admin: state.admin
     }
 }
 
 const mapDispatch = (dispatch:any) => {
     return {
         loadUser : () => dispatch(loadUser()),
+        loadAdmin : () => dispatch(loadAdmin())
     }
 }
 
@@ -23,10 +27,18 @@ type Props = PropsFromRedux
 
 function Auth(props: Props) {
     useEffect(() => {
-        const token =localStorage.getItem('token')
-        if (token) {
-          setAuthToken(token);
-          props.loadUser();
+        if(props.label==="admin"){
+            const token =localStorage.getItem('admintoken')
+            if (token) {
+                setAuthToken(token);
+                props.loadAdmin();
+            }
+        } else {
+            const token =localStorage.getItem('token')
+            if (token) {
+                setAuthToken(token);
+                props.loadUser();
+            }
         }
       }, []);
     return(
