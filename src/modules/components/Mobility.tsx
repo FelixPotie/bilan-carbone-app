@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux';
 import { getMobilitiesByUser } from '../../redux/mobility/actions';
+import { loadUser } from '../../redux/user/actions';
 import Typography from './Typography';
 
 
@@ -15,7 +16,8 @@ const mapState = (state: RootState) => {
 
 const mapDispatch = (dispatch:any) => {
     return {
-        getMobilitiesByUser: (username: string) => dispatch(getMobilitiesByUser(username))
+        getMobilitiesByUser: (username: string) => dispatch(getMobilitiesByUser(username)),
+        loadUser : () => dispatch(loadUser()),
     }
 }
 
@@ -61,10 +63,8 @@ const StyledTableCell = withStyles((theme: Theme) =>
 function MobilitiesContainer(props: Props) {
     const classes = useStyles();
     useEffect(()=> {
-        console.log(props.user)
         if(props.user.isLoggedIn) props.getMobilitiesByUser(props.user.user.username)
-    }, [props])
-    console.log(props.user);
+    }, [props.user.isLoggedIn])
     return  !props.user.isLoggedIn ? (
             <div>Vous devez être connecté pour acceder à cette page</div>
         ) : props.mobilityData.error ? (
