@@ -1,3 +1,4 @@
+import AddMobility from "../pages/AddMobility";
 import Ecolab from "../pages/Ecolab";
 import Home from "../pages/Home";
 import Mobilities from "../pages/Mobilities";
@@ -35,6 +36,10 @@ const routes = [
     {
         path: "/mobilites",
         component: Mobilities
+    },
+    {
+        path: "/add-mobility",
+        component: AddMobility
     },
     // NotFound
     {

@@ -1,4 +1,4 @@
-import { GET_MOBILITY_FAILURE, GET_MOBILITY_REQUEST, GET_MOBILITY_SUCCESS, MobilityActionTypes } from "./types";
+import { GET_MOBILITY_FAILURE, GET_MOBILITY_REQUEST, GET_MOBILITY_SUCCESS, ADD_MOBILITY_SUCCESS, ADD_MOBILITY_FAILURE , MobilityActionTypes } from "./types";
 import axios from 'axios'
 
 export function getMobilityRequest(userId: string) : MobilityActionTypes{
@@ -33,6 +33,36 @@ export const getMobilitiesByUser = (username: string) => {
             .catch(error => {
                 const errorMsg = error.message
                 dispatch(getMobilityFailure(errorMsg))
+            })
+    }
+}
+
+export function addMobilitySuccess() : MobilityActionTypes{
+    return {
+        type: ADD_MOBILITY_SUCCESS
+    }
+}
+
+export function addMobilityFailure(error:any) : MobilityActionTypes{
+    return {
+        type: ADD_MOBILITY_FAILURE,
+        payload: error
+    }
+}
+
+export const addMobility = (body: object) => {
+    return(dispatch:any) => {
+        const headers = {
+            'Content-Type': 'application/json', 
+        }
+        console.log(body)
+        axios.post('mobility/', body, {headers:headers})
+            .then(response => {
+                dispatch(addMobilitySuccess())
+            })
+            .catch(error => {
+                const errorMsg = error.message
+                dispatch(addMobilityFailure(errorMsg))
             })
     }
 }

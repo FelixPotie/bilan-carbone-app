@@ -87,7 +87,7 @@ function MobilitiesContainer(props: Props) {
                         <Button
                             variant="contained"
                             className={classes.button}
-                            href="/"
+                            href="/add-mobility"
                         >
                             Ajouter une mobilité
                         </Button>
