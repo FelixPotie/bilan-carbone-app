@@ -4,73 +4,73 @@ import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import Container from '@material-ui/core/Container';
 import Typography from '../components/Typography';
-import TextField from '../components/TextField';
+import { FormControl, Select } from '@material-ui/core';
+import MenuItem from '@material-ui/core/MenuItem';
+//locales
+import LANGUAGES from '../../locales/Languages'
 import { useTranslation } from 'react-i18next';
 
-function Copyright() {
-  return (
-    <React.Fragment>
-      {'© '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-    </React.Fragment>
-  );
-}
+
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: 'flex',
-    backgroundColor: "#00adef",
+    backgroundColor: "#004978",
   },
   container: {
     marginTop: theme.spacing(8),
     marginBottom: theme.spacing(8),
     display: 'flex',
-  },
-  iconsWrapper: {
-    height: 120,
-  },
-  icons: {
-    display: 'block',
-  },
-  icon: {
-    width: 48,
-    height: 48,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: theme.spacing(1),
-    // '&:hover': {
-    //   backgroundColor: theme.palette.warning.dark,
-    // },
+    color: 'white'
   },
   list: {
     margin: 0,
     listStyle: 'none',
     padding: 0,
-  },
-  listItem: {
-    paddingTop: theme.spacing(0.5),
-    paddingBottom: theme.spacing(0.5),
+    fontSize: 'small',
+    color: 'white'
   },
   language: {
     marginTop: theme.spacing(1),
     width: 150,
   },
-}));
+  navigation: {
+    fontSize: 'small'
+  },
+  Link: {
+    color: 'white'
+  },
+  title: {
+    fontSize: theme.typography.h4.fontSize,
+    color: 'white'
+  },
+  text: {
+    marginTop: '2%',
+    color: 'secondary',
+  },
+  item: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  formControl: {
+    minWidth: 100,
+  },
 
-const LANGUAGES = [
-  {
-    code: 'en-US',
-    name: 'English',
+  select: {
+    color:"white",
+    '&:before': {
+      borderColor: 'white',
+    },
+    '&:after': {
+      borderColor: 'white',
+    }
   },
-  {
-    code: 'fr-FR',
-    name: 'Français',
+  icon: {
+    fill: 'white',
   },
-];
+
+}));
 
 function AppFooter() {
   const classes = useStyles();
@@ -86,77 +86,82 @@ function AppFooter() {
     <Typography component="footer" className={classes.root}>
       <Container className={classes.container}>
         <Grid container spacing={5}>
-          <Grid item xs={6} sm={4} md={3}>
-            <Grid
-            >
-              <Grid item className={classes.icons}>
-                <a href="https://www.facebook.com/ecole.polytechmontpellier" className={classes.icon}>
-                    Facebook
-                </a>
-                <a href="https://twitter.com/MaterialUI" className={classes.icon}>
-                    Instagram
-                </a>
-              </Grid>
-              <Grid item>
-                <Copyright />
-              </Grid>
-            </Grid>
+          <Grid item xs={12} sm={12} md={5} >
+            <Typography variant="h5" marked="left" className={classes.title}>
+              {t("FOOTER.TITLE")}
+            </Typography>
+            <div className={classes.item}>
+              <Typography className={classes.text}  >
+                {
+                  'Lorem ipsum, or lipsum as it is sometimes known,'}
+                {'is dummy text used in laying out print, graphic or web designs.'}
+                {'The passage is attributed to an unknown typesetter in the 15th century who is'}
+                {'thought to have scrambled parts of Cicero\'s De Finibus Bonorum et Malorum for use in a type specimen book.'}
+              </Typography>
+            </div>
           </Grid>
           <Grid item xs={6} sm={4} md={2}>
-            <Typography variant="h6" marked="left" gutterBottom>
-              Legal
+            <Typography variant="h5" gutterBottom>
+              {t("NAVIGATION")}
             </Typography>
             <ul className={classes.list}>
-              <li className={classes.listItem}>
-                <Link href="/terms">Terms</Link>
+              <li >
+                <Link color="inherit" href="/home">{t("HOME")}</Link>
               </li>
-              <li className={classes.listItem}>
-                <Link href="/privacy">Privacy</Link>
+              <li >
+                <Link color="inherit" href="/simulation">{t("SIMULATE")}</Link>
+              </li>
+              <li >
+                <Link color="inherit" href="/statistics">{t("STATISTICS")}</Link>
               </li>
             </ul>
           </Grid>
-          <Grid item xs={6} sm={8} md={4}>
-            <Typography variant="h6" marked="left" gutterBottom>
-              Language
+
+          <Grid item xs={6} sm={4} md={2}>
+            <Typography variant="h5" gutterBottom>
+              {t("LEGAL")}
             </Typography>
-            <TextField
-              size="medium"
-              select
-              SelectProps={{
-                native: true,
-              }}
-              className={classes.language}
-              variant="standard"
-              onChange={changeLanguage}
-              value={i18n.language}
-            >
-              {LANGUAGES.map((language) => (
-                <option value={language.code} key={language.code}>
-                  {language.name}
-                </option>
-              ))}
-            </TextField>
+            <ul className={classes.list}>
+              <li>
+                <Link color="inherit" href="/terms">{t("TERMS")}</Link>
+              </li>
+              <li>
+                <Link color="inherit" href="/privacy">{t("PRIVACY")}</Link>
+              </li>
+            </ul>
           </Grid>
-          <Grid item>
-            <Typography variant="caption">
-              {'Icons made by '}
-              <Link href="https://www.freepik.com" rel="sponsored" title="Freepik">
-                Freepik
-              </Link>
-              {' from '}
-              <Link href="https://www.flaticon.com" rel="sponsored" title="Flaticon">
-                www.flaticon.com
-              </Link>
-              {' is licensed by '}
-              <Link
-                href="https://creativecommons.org/licenses/by/3.0/"
-                title="Creative Commons BY 3.0"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                CC 3.0 BY
-              </Link>
+
+          <Grid item xs={6} sm={4} md={3}>
+            <Typography variant="h5" gutterBottom>
+              {t("LANGUAGE")}
             </Typography>
+            <FormControl className={classes.formControl}>
+              <Select
+                value={i18n.language}
+                onChange={changeLanguage}
+                className={classes.select}
+                inputProps={{
+                  classes: {
+                    icon: classes.icon,
+                  },
+                }}
+              >
+                {LANGUAGES.map((language) => (
+                  <MenuItem value={language.code} key={language.code}>
+                    {language.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <React.Fragment>
+              {'© '}
+              <Link color="inherit" href="https://material-ui.com/">
+                {t("MADE_BY")} Bourrat Mathis, Potié Félix, Gayet Simon.
+              </Link>{' '}
+              {new Date().getFullYear()}
+            </React.Fragment>
           </Grid>
         </Grid>
       </Container>
