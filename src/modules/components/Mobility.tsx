@@ -65,6 +65,7 @@ function MobilitiesContainer(props: Props) {
     useEffect(()=> {
         if(props.user.isLoggedIn) props.getMobilitiesByUser(props.user.user.username)
     }, [props.user.isLoggedIn])
+    
     return  !props.user.isLoggedIn ? (
             <div>Vous devez être connecté pour acceder à cette page</div>
         ) : props.mobilityData.error ? (
@@ -87,7 +88,7 @@ function MobilitiesContainer(props: Props) {
                         <Button
                             variant="contained"
                             className={classes.button}
-                            href="/"
+                            href="/add-mobility"
                         >
                             Ajouter une mobilité
                         </Button>
@@ -114,9 +115,9 @@ function MobilitiesContainer(props: Props) {
                             <StyledTableCell align="center">{row.type}</StyledTableCell>
                             <StyledTableCell align="center">{row.place}</StyledTableCell>
                             <StyledTableCell align="center">{row.year}A</StyledTableCell>
-                            <StyledTableCell align="center">{row.start_date}</StyledTableCell>
-                            <StyledTableCell align="center">{row.end_date}</StyledTableCell>
-                            <StyledTableCell align="center">500 kg</StyledTableCell>
+                            <StyledTableCell align="center">{row.start_date.substring(0, 10)}</StyledTableCell>
+                            <StyledTableCell align="center">{row.end_date.substring(0, 10)}</StyledTableCell>
+                            <StyledTableCell align="center">kg</StyledTableCell>
                             <StyledTableCell align="center">
                                 <Button
                                     variant="contained"
