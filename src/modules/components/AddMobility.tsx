@@ -104,7 +104,6 @@ function AddMobilityContainer(props: Props) {
         }
         console.log(body)
         props.addMobility(body);
-        // return <Redirect to="/"
     }
 
     
