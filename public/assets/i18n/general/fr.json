@@ -1,8 +1,19 @@
 {
   "APP_NAME": "Mobilan",
+  "FOOTER": {
+    "TITLE": "Calculateur d'émission carbone des mobilités Polytech"
+  },
   "HOME": "Accueil",
+  "LANGUAGE": "Langue",
+  "LEGAL": "Mentions légales",
   "LOGIN": "Se connecter",
+  "MADE_BY": "Réalisé par",
+  "MOBILITIES": "Mobilités",
+  "NAVIGATION": "Navigation",
+  "PRIVACY": "Vie privé",
   "SIMULATE": "Simuler",
   "STATISTICS": "Statistiques",
-  "MOBILITIES": "Mobilités"
+  "TERMS": "Termes"
+
+  
 }
