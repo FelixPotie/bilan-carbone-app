@@ -40,7 +40,7 @@ function HomeHeader(props: WithStyles<typeof styles>) {
     <HomeHeaderLayout >
       {/* Increase the network loading priority of the background image. */}
       <Typography color="inherit" align="center" variant="h2" marked="center">
-       {t("SIMULATE_YOUR_TRAJECT")}
+       {t("SIMULATE_YOUR_JOURNEY")}
       </Typography>
       <Typography color="inherit" align="center" variant="h5" className={classes.h5}>
        {t("ENTER_SIMULATE_DESCIPTION")}
