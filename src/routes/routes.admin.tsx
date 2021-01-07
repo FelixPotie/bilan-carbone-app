@@ -1,11 +1,11 @@
 import ExportData from "../pages/ExportData";
 import NotFound from "../pages/NotFound";
-import SignIn from "../pages/SignIn";
+import SignInAdmin from "../pages/SignInAdmin";
 
 const routes = [
     {
         path: "/admin",
-        component: SignIn,
+        component: SignInAdmin,
     },
     {
         path: "/admin/export-data",

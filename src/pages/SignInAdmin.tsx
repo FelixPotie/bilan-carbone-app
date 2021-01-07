@@ -6,7 +6,7 @@ import SignInContainer from '../modules/views/SignIn';
 function SignIn() {
 
   return (
-    <SignInContainer/>
+    <SignInContainer label="admin"/>
   );
 }
 

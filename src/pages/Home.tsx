@@ -1,8 +1,8 @@
 import React from 'react';
-import ProductCategories from '../modules/views/ProductCategories';
+import ColabSection from '../modules/views/ColabSection';
 import HomeHeader from '../modules/views/HomeHeader';
-import ProductValues from '../modules/views/ProductValues';
-import HowItWorks from '../modules/views/HowItWorks';
+import GraphSection from '../modules/views/GraphSection';
+import ShowStatSection from '../modules/views/ShowStatSection';
 import withRoot from '../modules/withRoot';
 
 function Index() {
@@ -10,9 +10,9 @@ function Index() {
   return (
     <React.Fragment>
       <HomeHeader />
-      <ProductValues />
-      <ProductCategories />
-      <HowItWorks />
+      <GraphSection />
+      <ColabSection />
+      <ShowStatSection />
     </React.Fragment>
   );
 }

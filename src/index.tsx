@@ -6,8 +6,12 @@ import './index.css';
 import App from './App';
 import AppAdmin from './App.admin';
 import reportWebVitals from './reportWebVitals';
-import './i18n'
+import './locales/i18n'
+import axios from 'axios';
 
+require('dotenv').config()
+
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 // create history for the user
 const hist = createBrowserHistory();
