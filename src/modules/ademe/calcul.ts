@@ -9,7 +9,7 @@ const dansIntervalle = (distance: number, inter: string) => {
 
 }
 
-export const facteur = (distance : number, moyen: string, voyageurs :number) : number => {
+export const calculateur = (distance : number, moyen: string, voyageurs :number) : number => {
 	switch(moyen){
 		case "avion": {
 			const intervalle = Object.keys(data[moyen].parPersonne).find(inter => dansIntervalle(distance,inter))
