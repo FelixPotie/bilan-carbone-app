@@ -1,10 +1,11 @@
-import { Box, Button, Container, Grid, makeStyles, TextField, ListItem, List } from '@material-ui/core';
+import { Box, Button, Container, Grid, makeStyles, TextField} from '@material-ui/core';
 import React, { useState } from 'react'
 import withRoot from '../modules/withRoot'
 import Typography from '../modules/components/Typography';
 import FormButton from '../modules/form/FormButton';
 import Step from '../modules/components/Step';
 import { getDistance } from 'geolib'
+import { useTranslation } from 'react-i18next';
 
 
 interface place {
@@ -85,6 +86,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 function Simulation() {
+    const {t} = useTranslation('simulationPage');
     const classes = useStyles();
     const [listStepInfo, setListStepInfo] = useState(defaultListStep)
 
@@ -116,11 +118,10 @@ function Simulation() {
         event.preventDefault();
 
     }
-
     const distance = listStepInfo.map((step, index) => (
         <li>
             <Typography variant="h5">
-                etape {index+1} : de {step.from.name} à {step.to.name} {getDistance({ latitude: step.from.lat, longitude: step.from.lng }, { latitude: step.to.lat, longitude: step.to.lng }) / 1000} km
+                {t("STEP")} {index + 1} : de {step.from.name} à {step.to.name} {getDistance({ latitude: step.from.lat, longitude: step.from.lng }, { latitude: step.to.lat, longitude: step.to.lng }) / 1000} km
 
                 </Typography>
         </li>
@@ -136,42 +137,42 @@ function Simulation() {
                     <Box display="flex">
                         <Box m="auto">
                             <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
-                                Simuler votre trajet
-                        </Typography>
+                                {t("SIMULATE_YOUR_JOURNEY")}
+                            </Typography>
                         </Box>
                     </Box>
 
                     <Typography variant="h5" gutterBottom marked="center" align="center">
-                        Retrouvez vos différentes expériences à l'étranger effectuées durant vos études à Polytech Montpellier
-                </Typography>
+                        {t("PAGE_DESCRIPTION")}
+                    </Typography>
                 </Container>
                 <Grid md={6} alignItems="center">
                     <Container className={classes.journeyCard}>
                         <Box>
                             <Typography variant="h4" marked="center" align="center" color="inherit">
-                                Votre trajet
-                        </Typography>
+                                {t("YOUR_JOURNEY")}
+                            </Typography>
 
-                            <label><h4>Date du trajet: </h4></label>
+                            <label><h4>{t("DATE")} :</h4></label>
                             <TextField type="date" />
 
                             <div>
-                                <label><h4>Etape(s) du trajet</h4></label>
+                                <label><h4>{t("STEP")} :</h4></label>
                                 {listStep}
                             </div>
 
                             <div className={classes.actionButton}>
                                 {listStep.length <= 1 ?
-                                    <Button onClick={addStep}>add step</Button>
+                                    <Button onClick={addStep}>{t("ADD_STEP")}</Button>
                                     :
                                     <div>
-                                        <Button onClick={removeStep}>remove step</Button>
-                                        <Button onClick={addStep}>add step</Button>
+                                        <Button onClick={removeStep}>{t("REMOVE_STEP")}</Button>
+                                        <Button onClick={addStep}>{t("ADD_STEP")}</Button>
                                     </div>
                                 }
                             </div>
 
-                            <FormButton >Simuler</FormButton>
+                            <FormButton >{t("SIMULATE")}</FormButton>
                         </Box>
                     </Container>
                 </Grid>
@@ -181,16 +182,16 @@ function Simulation() {
                         <Container className={classes.journeyCard}>
                             <Box>
                                 <Typography variant="h4" marked="center" align="center" color="inherit">
-                                    Vos émissions
-                        </Typography>
+                                    {t("YOUR_EMISSIONS")}
+                                </Typography>
 
                                 <Typography variant="h5" marked="center" align="center" color="inherit">
-                                    Voici une estimations de CO2 pour chacune de vos étapes.
-                        </Typography>
+                                    {t("EMISSION_DESCRIPTION")}
+                                </Typography>
                                 <ul>
                                     {distance}
                                 </ul>
-                                <FormButton >Enregistrer</FormButton>
+                                <FormButton >{t("SAVE")}</FormButton>
                             </Box>
                         </Container>
                     </div>

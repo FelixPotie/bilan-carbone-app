@@ -2,14 +2,8 @@
 import { Button, Container, makeStyles, Select, Popover } from '@material-ui/core'
 import { TextField, MenuItem } from '@material-ui/core'
 import React, { useState } from 'react'
-import {geonames} from './../../utils/geonames'
-
-interface place {
-    name: string,
-    country: string,
-    lat: number,
-    lng: number
-}
+import { useTranslation } from 'react-i18next';
+import { geonames } from './../../utils/geonames'
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -41,6 +35,9 @@ export default function Step(props: any) {
     const [results, setResults] = useState([])
     const [step, setStep] = useState({ from: props.step.from, to: props.step.to, by: "plane" })
 
+
+    const {t} = useTranslation('simulationPage');
+
     const [popoverFrom, setPopoverFrom] = useState(true)
 
 
@@ -53,7 +50,7 @@ export default function Step(props: any) {
     }
 
     const find = (event: any, point: string) => {
-        if (point && point != '')
+        if (point && point !== '')
             geonames.search({ q: point, maxRows: 3 }).then((resp: any) => {
                 setResults(resp.geonames)
                 setAnchorEl(event.target);
@@ -80,73 +77,73 @@ export default function Step(props: any) {
         <React.Fragment>
             <Container className={classes.card}>
                 <div>
-                    <label>from : </label>
+                    <label>{t("FROM")} : </label>
                     <TextField value={from} type="text" placeholder="from" className={classes.places} onChange={onChangeFrom} />
                     <Button id="fromID" onClick={(e) => {
                         setPopoverFrom(true)
                         find(e, from)
-                    }}>Find</Button>
+                    }}>{t("FIND")}</Button>
                 </div>
                 <div>
-                    <label>To : </label>
+                    <label>{t("TO")} : </label>
                     <TextField value={to} type="text" placeholder="to" className={classes.places} onChange={onChangeTo} />
                     <Button onClick={(e) => {
                         setPopoverFrom(false)
                         find(e, to)
-                    }}>Find</Button>
+                    }}>{t("FIND")}</Button>
                 </div>
                 <div >
                     <Select value={step.by} label="transport" className={classes.transport} onChange={handleChangeTransport}>
-                        <MenuItem value={"train"} >Train</MenuItem>
-                        <MenuItem value={"plane"}>Avion</MenuItem>
-                        <MenuItem value={"car"}>Voiture</MenuItem>
-                        <MenuItem value={"bus"}>Bus</MenuItem>
+                        <MenuItem value={"train"} >{t("PLANE")}</MenuItem>
+                        <MenuItem value={"plane"}>{t("TRAIN")}</MenuItem>
+                        <MenuItem value={"car"}>{t("CAR")}</MenuItem>
+                        <MenuItem value={"bus"}>{t("BUS")}</MenuItem>
                     </Select>
                 </div>
             </Container>
             <Popover id={id} open={open} anchorEl={anchorEl} onClose={handleClose}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
-                        }}>
-                        {(results && results.length != 0) ?
-                            results.map((result: any) => (
-                                <p onClick={() => {
-                                    if (popoverFrom) {
-                                        console.log(props.key)
-                                        setFrom(`${result.name}, ${result.countryName}`)
-                                        props.updateStep({
-                                            ...props.step, from: {
-                                                name: result.name,
-                                                country: result.countryName,
-                                                lat: parseFloat(result.lat),
-                                                lng: parseFloat(result.lng)
-                                            },
-                                        }, props.id)
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                }}>
+                {(results && results.length !== 0) ?
+                    results.map((result: any) => (
+                        <p onClick={() => {
+                            if (popoverFrom) {
+                                console.log(props.key)
+                                setFrom(`${result.name}, ${result.countryName}`)
+                                props.updateStep({
+                                    ...props.step, from: {
+                                        name: result.name,
+                                        country: result.countryName,
+                                        lat: parseFloat(result.lat),
+                                        lng: parseFloat(result.lng)
+                                    },
+                                }, props.id)
 
-                                    }
-                                    else {
-                                        setTo(`${result.name}, ${result.countryName}`)
-                                        props.updateStep({
-                                            
-                                            ...props.step, to: {
-                                                name: result.name,
-                                                country: result.countryName,
-                                                lat: parseFloat(result.lat),
-                                                lng: parseFloat(result.lng)
-                                            },
-                                        }, props.id)
-                                    }
-                                    handleClose()
-                                }}> {result.name}, {result.countryName} </p>
-                            ))
-                            :
-                            <div>pas de resultats</div>
-                        }</Popover>
+                            }
+                            else {
+                                setTo(`${result.name}, ${result.countryName}`)
+                                props.updateStep({
+
+                                    ...props.step, to: {
+                                        name: result.name,
+                                        country: result.countryName,
+                                        lat: parseFloat(result.lat),
+                                        lng: parseFloat(result.lng)
+                                    },
+                                }, props.id)
+                            }
+                            handleClose()
+                        }}> {result.name}, {result.countryName} </p>
+                    ))
+                    :
+                    <div>pas de resultats</div>
+                }</Popover>
         </React.Fragment>
     )
 }
