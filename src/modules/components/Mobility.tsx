@@ -1,10 +1,12 @@
 import { Box, Button, Container, createStyles, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Theme, withStyles } from '@material-ui/core';
 import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux';
 import { getMobilitiesByUser } from '../../redux/mobility/actions';
 import { loadUser } from '../../redux/user/actions';
 import Typography from './Typography';
+import UnauthorizedContainer from './Unauthorized';
 
 
 const mapState = (state: RootState) => {
@@ -62,12 +64,14 @@ const StyledTableCell = withStyles((theme: Theme) =>
   
 function MobilitiesContainer(props: Props) {
     const classes = useStyles();
+    const  {t} = useTranslation('mobility');
+
     useEffect(()=> {
         if(props.user.isLoggedIn) props.getMobilitiesByUser(props.user.user.username)
     }, [props.user.isLoggedIn])
     
     return  !props.user.isLoggedIn ? (
-            <div>Vous devez être connecté pour acceder à cette page</div>
+            <UnauthorizedContainer/>
         ) : props.mobilityData.error ? (
             <h2>{props.mobilityData.error}</h2>
         ) : (
@@ -76,12 +80,12 @@ function MobilitiesContainer(props: Props) {
                 <Box display="flex">
                     <Box m="auto">
                         <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
-                            Mes mobilités
+                            {t("MY_MOBILITIES")}
                         </Typography>
                     </Box>
                 </Box>
                 <Typography variant="h5" gutterBottom marked="center" align="center">
-                    Retrouvez vos différentes expériences à l'étranger effectuées durant vos études à Polytech Montpellier
+                    {t("INFO_MOBILITIES")}
                 </Typography>
                 <Box display="flex">
                     <Box m="auto">
@@ -90,7 +94,7 @@ function MobilitiesContainer(props: Props) {
                             className={classes.button}
                             href="/add-mobility"
                         >
-                            Ajouter une mobilité
+                            {t("ADD_MOBILITY")}
                         </Button>
                     </Box>
                 </Box>
@@ -101,12 +105,12 @@ function MobilitiesContainer(props: Props) {
                         <TableHead>
                         <TableRow>
                             <StyledTableCell align="center">Type</StyledTableCell>
-                            <StyledTableCell align="center">Ville, Pays</StyledTableCell>
-                            <StyledTableCell align="center">Année d'étude</StyledTableCell>
-                            <StyledTableCell align="center">Date de début</StyledTableCell>
-                            <StyledTableCell align="center">Date de fin</StyledTableCell>
-                            <StyledTableCell align="center">Emissions carbones</StyledTableCell>
-                            <StyledTableCell align="center">Ajouter un trajet</StyledTableCell>
+                            <StyledTableCell align="center">{t("CITY")}</StyledTableCell>
+                            <StyledTableCell align="center">{t("STUDY_YEAR")}</StyledTableCell>
+                            <StyledTableCell align="center">{t("START_DATE")}</StyledTableCell>
+                            <StyledTableCell align="center">{t("END_DATE")}</StyledTableCell>
+                            <StyledTableCell align="center">{t("CARBON")}</StyledTableCell>
+                            <StyledTableCell align="center">{t("ADD_TRAJECT")}</StyledTableCell>
                         </TableRow>
                         </TableHead>
                         <TableBody>

@@ -62,6 +62,7 @@ function ProductValues(props: WithStyles<typeof styles>) {
                 <img
                   className={classes.image}
                   src="/assets/img/homePage/graphe1_t.png"
+                  alt=""
                 />
               </div>
             </Grid>
@@ -85,6 +86,7 @@ function ProductValues(props: WithStyles<typeof styles>) {
                 <img
                   className={classes.image}
                   src="/assets/img/homePage/graphe2_t.png"
+                  alt=""
                 />
               </div>
             </Grid>
@@ -108,6 +110,7 @@ function ProductValues(props: WithStyles<typeof styles>) {
                 <img
                   className={classes.image}
                   src="/assets/img/homePage/graphe3_t.png"
+                  alt=""
                 />
               </div>
             </Grid>

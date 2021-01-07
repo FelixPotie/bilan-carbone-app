@@ -3,8 +3,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../../redux';
-import { logoutAdmin } from '../../../redux/admin/actions';
-import { logoutUser } from '../../../redux/user/actions';
 
 
 const mapState = (state: RootState, ownProps: any) => {
@@ -19,7 +17,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 type Props = PropsFromRedux
 
 function NavBarIn(props: Props) {
-    const  {t, i18n} = useTranslation();
+    const  {t} = useTranslation();
     
     return props.user.isLoggedIn ? (
         <Link

@@ -67,6 +67,7 @@ function ProductCategories(props: WithStyles<typeof styles>) {
             <img
               className={classes.gif}
               src="/assets/img/homePage/ademe_ecolab3.gif"
+              alt=""
             />
           </div>
         </Grid>
