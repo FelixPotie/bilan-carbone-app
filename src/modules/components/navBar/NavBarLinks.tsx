@@ -14,7 +14,7 @@ interface NavBarLinksProps {
 function NavBarLinks(props: AppBarProps & NavBarLinksProps) {
     const { classesRow, classesLinks } = props;
 
-    const  {t} = useTranslation();
+    const  {t, i18n} = useTranslation();
 
     return (
         <div className={classesRow}>

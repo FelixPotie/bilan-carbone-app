@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
         minWidth: "100px",
         marginTop: "15px",
         borderStyle: "solid",
-
+        marginRight: "15px",
         textAlign: "center"
     },
     places: {
@@ -33,10 +33,10 @@ export default function Step(props: any) {
     const [to, setTo] = useState('Montpellier, France')
     const [anchorEl, setAnchorEl] = useState(null);
     const [results, setResults] = useState([])
-    const [step, setStep] = useState({ from: props.step.from, to: props.step.to, by: "plane" })
+    const [step, setStep] = useState({ from: props.step.from, to: props.step.to, by: props.step.by, nbPers: props.step.nbPers })
 
 
-    const {t} = useTranslation('simulationPage');
+    const { t } = useTranslation('simulationPage');
 
     const [popoverFrom, setPopoverFrom] = useState(true)
 
@@ -62,6 +62,17 @@ export default function Step(props: any) {
             ...step, by: event.target.value
         }, props.id)
         setStep({ ...step, by: event.target.value })
+    }
+
+    const ChangeNumber = (event: any) => {
+        props.updateStep({
+            ...step,
+            nbPers: event.target.value
+        }, props.id)
+        setStep({
+            ...step,
+            nbPers: event.target.value
+        })
     }
 
     // POPOVER
@@ -94,11 +105,26 @@ export default function Step(props: any) {
                 </div>
                 <div >
                     <Select value={step.by} label="transport" className={classes.transport} onChange={handleChangeTransport}>
-                        <MenuItem value={"train"} >{t("PLANE")}</MenuItem>
-                        <MenuItem value={"plane"}>{t("TRAIN")}</MenuItem>
-                        <MenuItem value={"car"}>{t("CAR")}</MenuItem>
-                        <MenuItem value={"bus"}>{t("BUS")}</MenuItem>
+                        <MenuItem value={"TGV"} >{t("TGV")}</MenuItem>
+                        <MenuItem value={"PLANE"}>{t("PLANE")}</MenuItem>
+                        <MenuItem value={"CAR"}>{t("CAR")}</MenuItem>
+                        <MenuItem value={"ELECTRIC_CAR"}>{t("ELECTRIC_CAR")}</MenuItem>
+                        <MenuItem value={"TER"}>{t("TER")}</MenuItem>
+                        <MenuItem value={"MOTO"}>{t("MOTO")}</MenuItem>
+                        <MenuItem value={"BUS"}>{t("BUS")}</MenuItem>
+
                     </Select>
+                    {
+                        (step.by === "CAR" || step.by === "ELECTRIC_CAR") && <Select value={step.nbPers} className={classes.transport} onChange={ChangeNumber}>
+                            <MenuItem value={1}>1 {t("PASSENGER")}</MenuItem>
+                            <MenuItem value={2}>2 {t("PASSENGERS")}</MenuItem>
+                            <MenuItem value={3}>3 {t("PASSENGERS")}</MenuItem>
+                            <MenuItem value={4}>4 {t("PASSENGERS")}</MenuItem>
+                            <MenuItem value={5}>5 {t("PASSENGERS")}</MenuItem>
+                            <MenuItem value={6}>6 {t("PASSENGERS")}</MenuItem>
+                            <MenuItem value={7}>7 {t("PASSENGERS")}</MenuItem>
+                        </Select>
+                    }
                 </div>
             </Container>
             <Popover id={id} open={open} anchorEl={anchorEl} onClose={handleClose}
@@ -116,27 +142,32 @@ export default function Step(props: any) {
                             if (popoverFrom) {
                                 console.log(props.key)
                                 setFrom(`${result.name}, ${result.countryName}`)
-                                props.updateStep({
-                                    ...props.step, from: {
+                                let newStep = {
+                                    ...step,
+                                    from: {
                                         name: result.name,
                                         country: result.countryName,
                                         lat: parseFloat(result.lat),
                                         lng: parseFloat(result.lng)
-                                    },
-                                }, props.id)
+                                    }
+                                }
+                                props.updateStep(newStep, props.id)
+                                setStep(newStep)
 
                             }
                             else {
                                 setTo(`${result.name}, ${result.countryName}`)
-                                props.updateStep({
-
-                                    ...props.step, to: {
+                                let newStep = {
+                                    ...step,
+                                    to: {
                                         name: result.name,
                                         country: result.countryName,
                                         lat: parseFloat(result.lat),
                                         lng: parseFloat(result.lng)
-                                    },
-                                }, props.id)
+                                    }
+                                }
+                                props.updateStep(newStep, props.id)
+                                setStep(newStep)
                             }
                             handleClose()
                         }}> {result.name}, {result.countryName} </p>

@@ -33,7 +33,7 @@ const styles = (theme: Theme) =>
 function HomeHeader(props: WithStyles<typeof styles>) {
   const { classes } = props;
 
-  const  {t} = useTranslation('homePage');
+  const  {t, i18n} = useTranslation();
 
   return (
     <HomeHeaderLayout >

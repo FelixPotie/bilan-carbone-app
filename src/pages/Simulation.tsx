@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, makeStyles, TextField} from '@material-ui/core';
+import { Box, Button, Container, Grid, makeStyles, TextField } from '@material-ui/core';
 import React, { useState } from 'react'
 import withRoot from '../modules/withRoot'
 import Typography from '../modules/components/Typography';
@@ -6,6 +6,7 @@ import FormButton from '../modules/form/FormButton';
 import Step from '../modules/components/Step';
 import { getDistance } from 'geolib'
 import { useTranslation } from 'react-i18next';
+import { calculateur } from '../modules/ademe/calcul'
 
 
 interface place {
@@ -18,7 +19,8 @@ interface place {
 interface stepInterface {
     from: place,
     to: place,
-    by: string
+    by: string,
+    nbPers: number
 }
 
 const defaultPlace: place = {
@@ -33,7 +35,8 @@ const defaultStep: stepInterface =
 {
     from: defaultPlace,
     to: defaultPlace,
-    by: "plane"
+    by: "CAR",
+    nbPers: 1
 }
 
 const defaultListStep: stepInterface[] = [defaultStep]
@@ -86,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 function Simulation() {
-    const {t} = useTranslation('simulationPage');
+    const { t } = useTranslation('simulationPage');
     const classes = useStyles();
     const [listStepInfo, setListStepInfo] = useState(defaultListStep)
 
@@ -118,12 +121,19 @@ function Simulation() {
         event.preventDefault();
 
     }
+
+    const getDist = (step: stepInterface): number => {
+        return Math.round(getDistance({ latitude: step.from.lat, longitude: step.from.lng }, { latitude: step.to.lat, longitude: step.to.lng }) / 10)/100
+    }
     const distance = listStepInfo.map((step, index) => (
         <li>
             <Typography variant="h5">
-                {t("STEP")} {index + 1} : de {step.from.name} à {step.to.name} {getDistance({ latitude: step.from.lat, longitude: step.from.lng }, { latitude: step.to.lat, longitude: step.to.lng }) / 1000} km
-
-                </Typography>
+                {t("STEP")} {index + 1} : {t("FROM")} {step.from.name} {t("TO")} {step.to.name} {getDist(step)} km {t("BY")} {t(`${step.by}`)}
+            </Typography>
+            <Typography variant="h5">
+                rejet : {Math.round(calculateur(getDist(step), step.by, step.nbPers) / 10)/100} kg
+            </Typography>
+            <br></br>
         </li>
     ))
 
@@ -157,7 +167,7 @@ function Simulation() {
                             <TextField type="date" />
 
                             <div>
-                                <label><h4>{t("STEP")} :</h4></label>
+                                <label><h4>{t("STEPS")} :</h4></label>
                                 {listStep}
                             </div>
 
@@ -171,8 +181,6 @@ function Simulation() {
                                     </div>
                                 }
                             </div>
-
-                            <FormButton >{t("SIMULATE")}</FormButton>
                         </Box>
                     </Container>
                 </Grid>
@@ -184,6 +192,8 @@ function Simulation() {
                                 <Typography variant="h4" marked="center" align="center" color="inherit">
                                     {t("YOUR_EMISSIONS")}
                                 </Typography>
+
+                                <br></br>
 
                                 <Typography variant="h5" marked="center" align="center" color="inherit">
                                     {t("EMISSION_DESCRIPTION")}

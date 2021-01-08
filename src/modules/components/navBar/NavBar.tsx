@@ -110,7 +110,7 @@ function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
     setMobileOpen(!mobileOpen);
   };
 
-  const  {t} = useTranslation();
+  const  {t, i18n} = useTranslation();
   
 
   return (

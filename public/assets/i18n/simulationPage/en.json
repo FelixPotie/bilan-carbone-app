@@ -4,8 +4,10 @@
     "YOUR_JOURNEY":"Your journey",
     "DATE":"Date",
     "STEP":"Step",
+    "STEPS":"Step(s)",
     "FROM":"From",
     "TO":"To",
+    "BY":"by",
     "FIND":"Find",
     "SIMULATE":"Simulate",
     "ADD_STEP":"Add step",
@@ -13,10 +15,14 @@
     "PLANE":"Plane",
     "CAR":"Car",
     "BUS":"Bus",
-    "TRAIN":"Train",
-    "TGV":"High speed train",
+    "MOTO":"Motorbike",
+    "TER":"TER",
+    "TGV":"TGV",
     "ELECTRIC_CAR":"Electric car",
     "YOUR_EMISSIONS":"Your emissions",
     "EMISSION_DESCRIPTION":"This is an estimation of CO2 emissions for each each of your steps.",
-    "SAVE":"Save"
+    "SAVE":"Save",
+    "PASSENGER":"passenger",
+    "PASSENGERS":"passengers",
+    "EN": "in"
 }

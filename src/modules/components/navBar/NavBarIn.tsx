@@ -19,7 +19,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 type Props = PropsFromRedux
 
 function NavBarIn(props: Props) {
-    const  {t} = useTranslation();
+    const  {t, i18n} = useTranslation();
     
     return props.user.isLoggedIn ? (
         <Link
