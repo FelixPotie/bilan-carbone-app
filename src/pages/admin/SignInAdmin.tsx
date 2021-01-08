@@ -1,6 +1,6 @@
 import React from 'react';
-import withRoot from '../modules/withRoot';
-import SignInContainer from '../modules/views/SignIn';
+import withRoot from '../../modules/withRoot';
+import SignInContainer from '../../modules/views/SignIn';
 
 
 function SignIn() {

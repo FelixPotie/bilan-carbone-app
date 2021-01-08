@@ -57,8 +57,9 @@ function NavBarAdmin(props: WithStyles<typeof styles> & AppBarProps) {
               underline="none"
               color="inherit"
               className={classes.title}
+              href="/home"
             >
-              {'Bilan Carbone des mobilités'}
+              Retourner sur MOBILAN
             </Link>
 
             <div className={classes.center} />
@@ -67,8 +68,18 @@ function NavBarAdmin(props: WithStyles<typeof styles> & AppBarProps) {
               variant="h6"
               underline="none"
               className={classes.rightLink}
+              href="/admin/export-data"
             >
-              {'Admin'}
+              Exporter les données
+            </Link>
+            <Link
+                color="inherit"
+                variant="h6"
+                underline="none"
+                className={classes.rightLink}
+                href="/admin/list"
+            >
+              Gestion des admins
             </Link>
             <div className={classes.right}>
               <SignInOutButton className={classes.rightLink} classes={classes} label="admin"/>
