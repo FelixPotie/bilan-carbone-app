@@ -1,6 +1,6 @@
 import React from 'react'
-import withRoot from '../modules/withRoot'
-import ExportDataContainer from '../modules/components/ExportData';
+import withRoot from '../../modules/withRoot'
+import ExportDataContainer from '../../modules/components/ExportData';
 
 
 
