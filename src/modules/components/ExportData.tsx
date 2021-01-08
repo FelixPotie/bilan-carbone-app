@@ -6,6 +6,7 @@ import { RootState } from '../../redux';
 import { loadAdmin } from '../../redux/admin/actions';
 import Button from './Button';
 import Typography from './Typography';
+import UnauthorizedAdminContainer from './UnauthorizedAdmin';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -106,7 +107,7 @@ function ExportDataContainer(props: Props) {
     };
 
     return !props.admin.isLoggedIn ? (
-            <Redirect to="/admin/" />
+            <UnauthorizedAdminContainer/>
         ) : (
         <React.Fragment>
             <Container className={classes.title}>
