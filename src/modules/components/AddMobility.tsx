@@ -4,14 +4,15 @@ import Typography from './Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Grid, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 import { RootState } from '../../redux';
 import { connect, ConnectedProps } from 'react-redux';
-import { login } from '../../redux/user/actions';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import AppForm from '../views/AppForm';
 import { addMobility } from '../../redux/mobility/actions';
 import { Redirect } from 'react-router-dom';
+import UnauthorizedContainer from './Unauthorized';
 
 
 const mapState = (state: RootState, ownProps: any) => {
@@ -36,9 +37,9 @@ type Props = PropsFromRedux
 
 const useStyles = makeStyles((theme) => ({
     title: {
-        marginTop: theme.spacing(4),
-        marginRight: '10%',
-        marginLeft: '10%',
+        marginRight: '-8%',
+        marginLeft: '-8%',
+        marginBottom: theme.spacing(2),
       },
   form: {
     marginRight: '5%',
@@ -63,6 +64,8 @@ const useStyles = makeStyles((theme) => ({
 
 function AddMobilityContainer(props: Props) {
     const classes = useStyles();
+    const  {t} = useTranslation('mobility');
+
     
     const [state, setState] = React.useState({
         type: "",
@@ -108,34 +111,37 @@ function AddMobilityContainer(props: Props) {
 
     
     return !props.user.isLoggedIn ? (
-            <div>Vous devez être connecté pour acceder à cette page</div>
+            <UnauthorizedContainer/>
         ) : props.mobility.error ?(
-            <h2>{props.mobility.error} : Veuillez réessayer</h2>
+            <Typography variant="h3" gutterBottom marked="center" align="center">
+                {props.mobility.error} : Veuillez réessayer
+            </Typography>
         ) : props.mobility.success ?(
             <Redirect to="/mobilites"/>
         ) : (
         <React.Fragment>
             <Grid container justify="space-evenly" alignItems="center" >
                 <Grid item md={12}>
+                <AppForm>
+
                     <div className={classes.title}>
                         <React.Fragment>
                             <Typography variant="h3" gutterBottom marked="center" align="center">
-                                Ajouter une mobilité
+                                {t("ADD_MOBILITY")}
                             </Typography>
                         </React.Fragment>
                     </div>
-                <AppForm>
 
                     <form onSubmit={e => onSubmit(e)}>
                         <FormControl className={classes.form} variant="outlined">
-                            <InputLabel htmlFor="type">Type de mobilité *</InputLabel>
+                            <InputLabel htmlFor="type">{t("TYPE")}</InputLabel>
                             <Select
                                 required
                                 variant="outlined"
                                 fullWidth
                                 id="type"
                                 name="type"
-                                label="Type de mobilité *"
+                                label={t("TYPE")}
                                 autoComplete="type"
                                 onChange={handleChange}
                                 value={type}
@@ -152,7 +158,7 @@ function AddMobilityContainer(props: Props) {
                                 required
                                 fullWidth
                                 name="place"
-                                label="Ville, Pays"
+                                label={t("CITY")}
                                 id="place"
                                 autoComplete="place"
                                 onChange={handleChange}
@@ -161,14 +167,14 @@ function AddMobilityContainer(props: Props) {
                             />
                         </div>
                         <FormControl className={classes.form} variant="outlined">
-                            <InputLabel id="year">Année d'étude *</InputLabel>
+                            <InputLabel id="year">{t("STUDY_YEAR_")}</InputLabel>
                             <Select
                                 required
                                 fullWidth
                                 labelId="year"
                                 id="year"
                                 name="year"
-                                label="Année d'étude *"
+                                label={t("STUDY_YEAR_")}
                                 autoComplete="year"
                                 onChange={handleChange}
                                 value={year}
@@ -187,7 +193,7 @@ function AddMobilityContainer(props: Props) {
                                     inputVariant="outlined"
                                     format="dd/MM/yyyy"
                                     id="start_date"
-                                    label="Date de début"
+                                    label={t("START_DATE")}
                                     value={start_date}
                                     onChange={handleStartDateChange}
                                     className={classes.field}
@@ -205,7 +211,7 @@ function AddMobilityContainer(props: Props) {
                                     inputVariant="outlined"
                                     format="dd/MM/yyyy"
                                     id="end_date"
-                                    label="Date de fin"
+                                    label={t("END_DATE")}
                                     value={end_date}
                                     onChange={handleEndDateChange}
                                     className={classes.field}
@@ -224,7 +230,7 @@ function AddMobilityContainer(props: Props) {
                             variant="contained"
                             color="primary"
                         >
-                            Ajouter
+                            {t("ADD")}
                         </Button>
                         </div>
                     </form>

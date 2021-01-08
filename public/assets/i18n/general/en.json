@@ -13,7 +13,9 @@
   "PRIVACY": "Privacy",
   "SIMULATE": "Simulate",
   "STATISTICS": "Statistics",
-  "TERMS": "Terms"
+  "TERMS": "Terms",
+  "SIGNIN": "Login",
+  "SIGNOUT": "Logout"
   
 
 }
