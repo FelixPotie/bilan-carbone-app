@@ -1,6 +1,8 @@
-import ExportData from "../pages/ExportData";
+import AddAdmin from "../pages/admin/AddAdmin";
+import ExportData from "../pages/admin/ExportData";
+import ListAdmin from "../pages/admin/ListAdmin";
 import NotFound from "../pages/NotFound";
-import SignInAdmin from "../pages/SignInAdmin";
+import SignInAdmin from "../pages/admin/SignInAdmin";
 
 const routes = [
     {
@@ -10,6 +12,14 @@ const routes = [
     {
         path: "/admin/export-data",
         component: ExportData
+    },
+    {
+        path: "/admin/list",
+        component: ListAdmin
+    },
+    {
+        path: "/admin/add",
+        component: AddAdmin
     },
     {
         path: "*",
