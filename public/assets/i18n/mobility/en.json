@@ -10,7 +10,9 @@
     "CARBON": "Carbon emissions",
     "ADD_TRAJECT": "Add a traject",
     "TYPE": "Type of mobility *",
-    "ADD": "Add"
+    "ADD": "Add",
+    "EDIT_TRAJECT": "Edit",
+    "DELETE_TRAJECT": "Delete"
   
     
   }
