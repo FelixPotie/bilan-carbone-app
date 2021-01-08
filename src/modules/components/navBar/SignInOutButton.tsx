@@ -1,5 +1,6 @@
 import { Link } from '@material-ui/core';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../../redux';
 import { logoutAdmin } from '../../../redux/admin/actions';
@@ -27,6 +28,8 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 type Props = PropsFromRedux
 
 function SignInOutButton(props: Props) {
+    const  {t} = useTranslation();
+
     return (props.label==="admin" && props.admin.isLoggedIn) ?(
         <Link
             color="inherit"
@@ -36,7 +39,7 @@ function SignInOutButton(props: Props) {
             onClick={() => props.logoutAdmin()}
             href="/admin"
             >
-            {'Se déconnecter'}
+            {t("SIGNOUT")}
         </Link>
     ) : (props.label==="admin" && !props.admin.isLoggedIn) ?(
         <Link
@@ -46,7 +49,7 @@ function SignInOutButton(props: Props) {
             className={props.classesName}
             href="/admin"
             >
-            {'Se connecter'}
+            {t("SIGNIN")}
         </Link>
     ) : props.user.isLoggedIn ? (
         <Link
@@ -57,7 +60,8 @@ function SignInOutButton(props: Props) {
             onClick={() => props.logoutUser()}
             href="/"
             >
-            {'Se déconnecter'}
+            {t("SIGNOUT")}
+
         </Link>
     ) : (
         <Link
@@ -67,7 +71,7 @@ function SignInOutButton(props: Props) {
             className={props.classesName}
             href="/signin"
             >
-            {'Se connecter'}
+            {t("SIGNIN")}
         </Link>
     )
 }
