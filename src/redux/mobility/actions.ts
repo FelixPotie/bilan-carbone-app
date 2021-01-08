@@ -1,4 +1,4 @@
-import { GET_MOBILITY_FAILURE, GET_MOBILITY_REQUEST, GET_MOBILITY_SUCCESS, ADD_MOBILITY_SUCCESS, ADD_MOBILITY_FAILURE , MobilityActionTypes } from "./types";
+import { GET_MOBILITY_FAILURE, GET_MOBILITY_REQUEST, GET_MOBILITY_SUCCESS, ADD_MOBILITY_SUCCESS, ADD_MOBILITY_FAILURE , DELETE_MOBILITY_SUCCESS, DELETE_MOBILITY_FAILURE, MobilityActionTypes } from "./types";
 import axios from 'axios'
 
 export function getMobilityRequest(userId: string) : MobilityActionTypes{
@@ -55,7 +55,6 @@ export const addMobility = (body: object) => {
         const headers = {
             'Content-Type': 'application/json', 
         }
-        console.log(body)
         axios.post('mobility/', body, {headers:headers})
             .then(response => {
                 dispatch(addMobilitySuccess())
@@ -63,6 +62,36 @@ export const addMobility = (body: object) => {
             .catch(error => {
                 const errorMsg = error.message
                 dispatch(addMobilityFailure(errorMsg))
+            })
+    }
+}
+
+export function deleteMobilitySuccess(id:number) : MobilityActionTypes{
+    return {
+        type: DELETE_MOBILITY_SUCCESS,
+        payload: id
+    }
+}
+
+export function deleteMobilityFailure(error:any) : MobilityActionTypes{
+    return {
+        type: DELETE_MOBILITY_FAILURE,
+        payload: error
+    }
+}
+
+export const deleteMobility = (id: number) => {
+    return(dispatch:any) => {
+        const headers = {
+            'Content-Type': 'application/json', 
+        }
+        axios.delete('mobility/'+id)
+            .then(response => {
+                dispatch(deleteMobilitySuccess(id))
+            })
+            .catch(error => {
+                const errorMsg = error.message
+                dispatch(deleteMobilityFailure(errorMsg))
             })
     }
 }

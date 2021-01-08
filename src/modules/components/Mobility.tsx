@@ -3,10 +3,12 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux';
-import { getMobilitiesByUser } from '../../redux/mobility/actions';
+import { deleteMobility, getMobilitiesByUser } from '../../redux/mobility/actions';
 import { loadUser } from '../../redux/user/actions';
 import Typography from './Typography';
 import UnauthorizedContainer from './Unauthorized';
+import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@material-ui/icons/Add';
 
 
 const mapState = (state: RootState) => {
@@ -19,6 +21,7 @@ const mapState = (state: RootState) => {
 const mapDispatch = (dispatch:any) => {
     return {
         getMobilitiesByUser: (username: string) => dispatch(getMobilitiesByUser(username)),
+        deleteMobility: (id: number) => dispatch(deleteMobility(id)),
         loadUser : () => dispatch(loadUser()),
     }
 }
@@ -111,6 +114,7 @@ function MobilitiesContainer(props: Props) {
                             <StyledTableCell align="center">{t("END_DATE")}</StyledTableCell>
                             <StyledTableCell align="center">{t("CARBON")}</StyledTableCell>
                             <StyledTableCell align="center">{t("ADD_TRAJECT")}</StyledTableCell>
+                            <StyledTableCell align="center">{t("DELETE_TRAJECT")}</StyledTableCell>
                         </TableRow>
                         </TableHead>
                         <TableBody>
@@ -127,7 +131,15 @@ function MobilitiesContainer(props: Props) {
                                     variant="contained"
                                     href="/"
                                 >
-                                    +
+                                    <AddIcon/>
+                                </Button>
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                                <Button
+                                    variant="contained"
+                                    onClick={() => props.deleteMobility(row.id)}
+                                >
+                                    <DeleteIcon />
                                 </Button>
                             </StyledTableCell>
                             </TableRow>

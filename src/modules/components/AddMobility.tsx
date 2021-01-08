@@ -37,9 +37,9 @@ type Props = PropsFromRedux
 
 const useStyles = makeStyles((theme) => ({
     title: {
-        marginTop: theme.spacing(4),
-        marginRight: '10%',
-        marginLeft: '10%',
+        marginRight: '-8%',
+        marginLeft: '-8%',
+        marginBottom: theme.spacing(2),
       },
   form: {
     marginRight: '5%',
@@ -122,6 +122,8 @@ function AddMobilityContainer(props: Props) {
         <React.Fragment>
             <Grid container justify="space-evenly" alignItems="center" >
                 <Grid item md={12}>
+                <AppForm>
+
                     <div className={classes.title}>
                         <React.Fragment>
                             <Typography variant="h3" gutterBottom marked="center" align="center">
@@ -129,7 +131,6 @@ function AddMobilityContainer(props: Props) {
                             </Typography>
                         </React.Fragment>
                     </div>
-                <AppForm>
 
                     <form onSubmit={e => onSubmit(e)}>
                         <FormControl className={classes.form} variant="outlined">
