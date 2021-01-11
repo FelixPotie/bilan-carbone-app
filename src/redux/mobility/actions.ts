@@ -82,9 +82,6 @@ export function deleteMobilityFailure(error:any) : MobilityActionTypes{
 
 export const deleteMobility = (id: number) => {
     return(dispatch:any) => {
-        const headers = {
-            'Content-Type': 'application/json', 
-        }
         axios.delete('mobility/'+id)
             .then(response => {
                 dispatch(deleteMobilitySuccess(id))

@@ -1,7 +1,9 @@
-import React, { PureComponent } from 'react';
+import { Container, makeStyles } from '@material-ui/core';
+import React from 'react';
 import {
-  PieChart, Pie, Sector, Cell, Legend,
+  PieChart, Pie, Cell, Legend,
 } from 'recharts';
+import Typography from '../Typography';
 
 const data = [
   { name: '3A', value: 400 },
@@ -24,29 +26,48 @@ const renderCustomizedLabel = (data : any) => {
   );
 };
 
+const useStyles = makeStyles((theme) => ({
+  title: {
+      marginBottom: theme.spacing(2),
+      marginTop: theme.spacing(4),
+      width: '90%',
+      margin: 'auto'
+  },
+  graph: {
+    margin: 'auto',
+  },
+}));
+
+
 function SchoolYearCharts() {
+  const classes = useStyles();
 
-    return (
-      <PieChart width={200} height={200}>
-        <Legend />
+  return (
+    <React.Fragment>
+      <Typography variant="h4" gutterBottom marked="center" align="center" className={classes.title}>
+          En quelle année émettons-nous le moins ?
+      </Typography>
+      <PieChart width={300} height={270} className={classes.graph}>
+      <Legend />
 
-        <Pie
-          data={data}
-          cx={100}
-          cy={100}
-          labelLine={false}
-          label={renderCustomizedLabel}
-          outerRadius={70}
-          fill="#8884d8"
-          dataKey="value"
-        >
+      <Pie
+        data={data}
+        labelLine={false}
+        label={renderCustomizedLabel}
+        outerRadius={115}
+        fill="#8884d8"
+        dataKey="value"
+      >
 
-          {
-            data.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
-          }
-        </Pie>
+        {
+          data.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
+        }
+      </Pie>
 
-      </PieChart>
-    );
+    </PieChart>
+    
+    </React.Fragment>
+
+  );
 }
 export default SchoolYearCharts;

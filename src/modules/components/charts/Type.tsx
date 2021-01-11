@@ -1,7 +1,9 @@
-import React, { PureComponent } from 'react';
+import { makeStyles } from '@material-ui/core';
+import React from 'react';
 import {
-  PieChart, Pie, Sector, Cell, Legend,
+  PieChart, Pie, Cell, Legend,
 } from 'recharts';
+import Typography from '../Typography';
 
 const data = [
   { name: 'Stage', value: 700 },
@@ -24,29 +26,47 @@ const renderCustomizedLabel = (data : any) => {
   );
 };
 
+const useStyles = makeStyles((theme) => ({
+  title: {
+      marginBottom: theme.spacing(2),
+      marginTop: theme.spacing(4),
+      width: '90%',
+      margin: 'auto'
+  },
+  graph: {
+    margin: 'auto',
+  },
+}));
+
+
 function TypeCharts() {
+  const classes = useStyles();
+  return (
+    <React.Fragment>
+      <Typography variant="h4" gutterBottom marked="center" align="center" className={classes.title}>
+          Quel type de mobilité émet le moins ?
+      </Typography>
+      <PieChart width={300} height={270} className={classes.graph}>
+      <Legend />
 
-    return (
-      <PieChart width={220} height={220}>
-        <Legend />
+      <Pie
+        data={data}
+        labelLine={false}
+        label={renderCustomizedLabel}
+        outerRadius={115}
+        fill="#8884d8"
+        dataKey="value"
+      >
 
-        <Pie
-          data={data}
-          cx={100}
-          cy={100}
-          labelLine={false}
-          label={renderCustomizedLabel}
-          outerRadius={70}
-          fill="#8884d8"
-          dataKey="value"
-        >
+        {
+          data.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
+        }
+      </Pie>
 
-          {
-            data.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
-          }
-        </Pie>
+    </PieChart>
+    
+    </React.Fragment>
 
-      </PieChart>
-    );
+  );
 }
 export default TypeCharts;

@@ -123,8 +123,8 @@ function MobilitiesContainer(props: Props) {
                             <StyledTableCell align="center">{row.type}</StyledTableCell>
                             <StyledTableCell align="center">{row.place}</StyledTableCell>
                             <StyledTableCell align="center">{row.year}A</StyledTableCell>
-                            <StyledTableCell align="center">{row.start_date.substring(0, 10)}</StyledTableCell>
-                            <StyledTableCell align="center">{row.end_date.substring(0, 10)}</StyledTableCell>
+                            <StyledTableCell align="center">{row.startDate.substring(0, 10)}</StyledTableCell>
+                            <StyledTableCell align="center">{row.endDate.substring(0, 10)}</StyledTableCell>
                             <StyledTableCell align="center">kg</StyledTableCell>
                             <StyledTableCell align="center">
                                 <Button
