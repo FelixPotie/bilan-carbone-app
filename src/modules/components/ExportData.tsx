@@ -1,9 +1,11 @@
 import { Box, Checkbox, Container, FormControlLabel, FormGroup, makeStyles } from '@material-ui/core';
 import React from 'react';
+import { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { RootState } from '../../redux';
 import { loadAdmin } from '../../redux/admin/actions';
+import { getAppSettings } from '../../redux/appSettings/actions';
 import Button from './Button';
 import Typography from './Typography';
 import UnauthorizedAdminContainer from './UnauthorizedAdmin';
@@ -26,12 +28,14 @@ const useStyles = makeStyles((theme) => ({
 
 const mapState = (state: RootState) => {
     return {
+        appSettingsData: state.appSettings,
         admin: state.admin
     }
 }
 
 const mapDispatch = (dispatch: any) => {
     return {
+        getAppSettings: () => dispatch(getAppSettings()),
         loadAdmin: () => dispatch(loadAdmin()) //REPLACE BY FONCTION WHICH EXPORT THE REEL DATA
     }
 }
@@ -42,6 +46,8 @@ type Props = PropsFromRedux
 
 function ExportDataContainer(props: Props) {
     const classes = useStyles();
+
+    useEffect(()=> {if( Object.keys(props.appSettingsData.appSettings).length == 0) props.getAppSettings()})
 
     const [stateDepartment, setStateDepartment] = React.useState({
         IG: true,
@@ -58,10 +64,12 @@ function ExportDataContainer(props: Props) {
     });
 
     const [stateSchlooYear, setStateSchoolYear] = React.useState({
-        trois: { checked : true, value: 3},
-        quatre: { checked : true, value: 4},
-        cinq: { checked : true, value: 5}
+        trois: true,
+        quatre: true,
+        cinq: true,
     })
+
+    const matchingSchoolYear = new Map([['trois', 3],['quatre',4], ['cinq',5]]);
 
     const [stateYear, setStateYear] = React.useState({
         vingt: { checked : true, value: 2020},
@@ -110,10 +118,11 @@ function ExportDataContainer(props: Props) {
     };
 
     const handleChangeSchoolYear = (event: React.ChangeEvent<HTMLInputElement>) => {
+        
         if (!event.target.checked) {
             setAllSelector({ ...allSelector, ["allSchoolYear"]: event.target.checked });
         }
-        setStateSchoolYear({ ...stateSchlooYear, [event.target.value]:  { checked: event.target.checked }}); //[event.target.value]: {checked : event.target.checked,  });
+        setStateSchoolYear({ ...stateSchlooYear, [event.target.value]:  event.target.checked}); //[event.target.value]: {checked : event.target.checked,  });
     };
 
     const handleChangeYear = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -126,7 +135,7 @@ function ExportDataContainer(props: Props) {
     const getCheckedState = (states: any) => {
         const checkedStates: any[] = [];
         Object.entries(states).forEach(state => {
-            if(!state[1]){
+            if(state[1]){
                 checkedStates.push(state[0]);
             }
         })
@@ -134,14 +143,15 @@ function ExportDataContainer(props: Props) {
     }
 
     const exportMobility = () => {
-       const test  = {
+        console.log(props.appSettingsData);
+       const test2  = {
         derpartmentTypeName : getCheckedState(stateDepartment), 
         departmentStatus : [], 
-        schoolYear : getCheckedState(stateSchlooYear),
+        schoolYear : getCheckedState(stateSchlooYear).map(key => matchingSchoolYear.get(key)),
         startYear : getCheckedState(stateYear), 
         mobilityType : []
-
        }
+       console.log(test2);
     }
 
     return !props.admin.isLoggedIn ? (
@@ -188,9 +198,9 @@ function ExportDataContainer(props: Props) {
                         </Typography>
                             <FormGroup row>
                                 <FormControlLabel control={<Checkbox onChange={selectAllSchoolYear} checked={allSchoolYear} name="allSchoolYear" />} label="Toutes les années" />
-                                <FormControlLabel control={<Checkbox onChange={handleChangeSchoolYear} checked={trois.checked} value={trois} />} label="3A" />
-                                <FormControlLabel control={<Checkbox onChange={handleChangeSchoolYear} checked={quatre.checked} value={quatre} />} label="4A" />
-                                <FormControlLabel control={<Checkbox onChange={handleChangeSchoolYear} checked={cinq.checked} value={cinq} />} label="5A" />
+                                <FormControlLabel control={<Checkbox onChange={handleChangeSchoolYear} checked={trois} name="trois" />} label="3A" />
+                                <FormControlLabel control={<Checkbox onChange={handleChangeSchoolYear} checked={quatre} name="quatre" />} label="4A" />
+                                <FormControlLabel control={<Checkbox onChange={handleChangeSchoolYear} checked={cinq} name="cinq" />} label="5A" />
                             </FormGroup>
                         </Container>
                         <Container className={classes.subtitle}>
