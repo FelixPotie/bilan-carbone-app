@@ -37,6 +37,7 @@
     "react-router-dom": "^5.2.0",
     "react-script-tag": "^1.1.2",
     "react-scripts": "4.0.1",
+    "recharts": "^1.8.5",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
@@ -72,6 +73,7 @@
     "@types/react-helmet": "^6.1.0",
     "@types/react-redux": "^7.1.12",
     "@types/react-router-dom": "^5.1.6",
+    "@types/recharts": "^1.8.18",
     "@types/redux-logger": "^3.0.8"
   }
 }

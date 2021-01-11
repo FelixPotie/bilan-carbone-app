@@ -5,6 +5,7 @@ import GraphSection from '../modules/views/GraphSection';
 import ShowStatSection from '../modules/views/ShowStatSection';
 import withRoot from '../modules/withRoot';
 
+
 function Index() {
 
   return (
