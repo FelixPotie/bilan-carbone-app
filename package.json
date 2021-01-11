@@ -24,6 +24,7 @@
     "i18next-xhr-backend": "^3.2.2",
     "jwt-decode": "^3.1.2",
     "markdown-to-jsx": "^7.1.0",
+    "p4ssw0rd": "^1.0.5",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-final-form": "^6.5.2",
