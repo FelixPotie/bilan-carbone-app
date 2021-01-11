@@ -96,14 +96,13 @@ function AddMobilityContainer(props: Props) {
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const body ={
-            "user_id": props.user.user.username,
-            "user_department": props.user.user.department,
-            "user_gender": "M", //AJOUTER LE GENRE
+            "userId": props.user.user.username,
+            "departmentTypeName": props.user.user.department,
             "type": type,
             "place": place,
-            "year": year,
-            "start_date": start_date?.toISOString().substring(0, 10),
-            "end_date": end_date?.toISOString().substring(0, 10)
+            "year": +year,
+            "startDate": start_date?.toISOString(),
+            "endDate": end_date?.toISOString()
         }
         console.log(body)
         props.addMobility(body);
@@ -147,9 +146,9 @@ function AddMobilityContainer(props: Props) {
                                 value={type}
                                 className={classes.field}
                             >
-                                <MenuItem value={'Semestre'}>Semestre</MenuItem>
-                                <MenuItem value={'Stage'}>Stage</MenuItem>
-                                <MenuItem value={'Double diplôme'}>Double diplôme</MenuItem>
+                                <MenuItem value={'SEMESTER'}>Semestre</MenuItem>
+                                <MenuItem value={'INTERNSHIP'}>Stage</MenuItem>
+                                <MenuItem value={'DOUBLE_DEGRE'}>Double diplôme</MenuItem>
                             </Select>
                         </FormControl>
                         <div className={classes.form}>
