@@ -5,6 +5,7 @@ import Mobilities from "../pages/Mobilities";
 import NotFound from "../pages/NotFound";
 import Privacy from "../pages/Privacy";
 import SignIn from "../pages/SignIn";
+import Simulation from "../pages/Simulation";
 import Terms from "../pages/Terms";
 
 const routes = [
@@ -31,7 +32,7 @@ const routes = [
     },
     {
         path: "/simulation",
-        component: Ecolab
+        component: Simulation
     },
     {
         path: "/mobilites",
