@@ -44,7 +44,6 @@ function ExportDataContainer(props: Props) {
     const classes = useStyles();
 
     const [stateDepartment, setStateDepartment] = React.useState({
-        allDepartment: false,
         ig: false,
         gba: false,
         mea: false,
@@ -59,36 +58,45 @@ function ExportDataContainer(props: Props) {
     });
 
     const [stateSchlooYear, setStateSchoolYear] = React.useState({
-        allSchoolYear: false,
         trois: false,
         quatre: false,
         cinq: false,
     })
 
     const [stateYear, setStateYear] = React.useState({
-        allYear: false,
         vingt: false,
     })
 
-    const {allDepartment, ig, gba, mea, mi, ste, mat, se, dop, msi, egc} = stateDepartment;
+    const [allSelector, setAllSelector] = React.useState({
+        allYear: false,
+        allDepartment: false,
+        allSchoolYear: false,
+    })
 
-    const {allSchoolYear, trois, quatre, cinq} = stateSchlooYear;
+    const {ig, gba, mea, mi, ste, mat, se, dop, msi, egc} = stateDepartment;
 
-    const {allYear, vingt} = stateYear;
+    const {trois, quatre, cinq} = stateSchlooYear;
+
+    const {vingt} = stateYear;
+
+    const {allYear, allSchoolYear, allDepartment} = allSelector;
 
     const selectAllDepartment = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setAllSelector({ ...allSelector, [event.target.name]: event.target.checked });
         for (const property in stateDepartment) {
             setStateDepartment((prevState) => ({ ...prevState, [property]: event.target.checked }));
         }
     };
 
     const selectAllSchoolYear = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setAllSelector({ ...allSelector, [event.target.name]: event.target.checked });
         for (const property in stateSchlooYear) {
             setStateSchoolYear((prevState) => ({ ...prevState, [property]: event.target.checked }));
         }
     };
 
     const selectAllYear = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setAllSelector({ ...allSelector, [event.target.name]: event.target.checked });
         for (const property in stateYear) {
             setStateYear((prevState) => ({ ...prevState, [property]: event.target.checked }));
         }
