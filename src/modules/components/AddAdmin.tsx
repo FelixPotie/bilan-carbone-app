@@ -14,6 +14,7 @@ import { Redirect } from 'react-router-dom';
 import UnauthorizedContainer from './Unauthorized';
 import { addAdmin } from '../../redux/admin/actions';
 import UnauthorizedAdminContainer from './UnauthorizedAdmin';
+import { encrypt } from '../encrypt';
 
 
 const mapState = (state: RootState) => {
@@ -79,7 +80,7 @@ function AddAdminContainer(props: Props) {
         e.preventDefault();
         const body ={
             "username": username,
-            "password": password
+            "password": encrypt(password)
         }
         props.addAdmin(body);
     }
