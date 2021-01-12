@@ -1,3 +1,4 @@
+import AddJourney from "../pages/AddJourney";
 import AddMobility from "../pages/AddMobility";
 import Ecolab from "../pages/Ecolab";
 import Home from "../pages/Home";
@@ -5,7 +6,7 @@ import Mobilities from "../pages/Mobilities";
 import NotFound from "../pages/NotFound";
 import Privacy from "../pages/Privacy";
 import SignIn from "../pages/SignIn";
-import Simulation from "../pages/Simulation";
+import SimulationPage from "../pages/SimulationPage";
 import Terms from "../pages/Terms";
 
 const routes = [
@@ -32,7 +33,7 @@ const routes = [
     },
     {
         path: "/simulation",
-        component: Simulation
+        component: SimulationPage
     },
     {
         path: "/mobilites",
@@ -41,6 +42,10 @@ const routes = [
     {
         path: "/add-mobility",
         component: AddMobility
+    },
+    {
+        path: "/:id/add-journey",
+        component: AddJourney
     },
     // NotFound
     {

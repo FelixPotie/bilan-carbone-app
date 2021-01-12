@@ -12,7 +12,10 @@
   "TYPE": "Type de mobilité *",
   "ADD": "Ajouter",
   "EDIT_TRAJECT": "Modifier",
-  "DELETE_TRAJECT": "Supprimer"
+  "DELETE_TRAJECT": "Supprimer",
+  "3RD": "3ème année",
+  "4TH": "4ème année",
+  "5TH": "5ème année"
 
   
 }

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux';
 import { deleteMobility, getMobilitiesByUser } from '../../redux/mobility/actions';
+import {getTravelsByMobility} from '../../redux/travel/actions';
 import { loadUser } from '../../redux/user/actions';
 import Typography from './Typography';
 import UnauthorizedContainer from './Unauthorized';
@@ -21,6 +22,7 @@ const mapState = (state: RootState) => {
 const mapDispatch = (dispatch:any) => {
     return {
         getMobilitiesByUser: (username: string) => dispatch(getMobilitiesByUser(username)),
+        getTravelsByMobility: (mobilityId: number) => dispatch(getTravelsByMobility(mobilityId)),
         deleteMobility: (id: number) => dispatch(deleteMobility(id)),
         loadUser : () => dispatch(loadUser()),
     }
@@ -129,8 +131,9 @@ function MobilitiesContainer(props: Props) {
                             <StyledTableCell align="center">
                                 <Button
                                     variant="contained"
-                                    href="/"
+                                    href= {`${row.id}/add-journey`}
                                 >
+                                    
                                     <AddIcon/>
                                 </Button>
                             </StyledTableCell>

@@ -1,12 +1,33 @@
 import { Box, Button, Container, Grid, makeStyles, TextField } from '@material-ui/core';
 import React, { useState } from 'react'
-import withRoot from '../modules/withRoot'
-import Typography from '../modules/components/Typography';
-import FormButton from '../modules/form/FormButton';
-import Step from '../modules/components/Step';
+import Typography from './Typography';
+import FormButton from '../form/FormButton';
+import Step from './Step';
 import { getDistance } from 'geolib'
 import { useTranslation } from 'react-i18next';
-import { calculateur } from '../modules/ademe/calcul'
+import { calculateur } from '../ademe/calcul'
+import { connect, ConnectedProps } from 'react-redux';
+import { RootState } from '../../redux';
+import { addTravel } from '../../redux/travel/actions';
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+
+const mapState = (state: RootState) => {
+    return {
+        user: state.user
+    }
+}
+
+const mapDispatch = (dispatch: any) => {
+    return {
+        addTravel: (body: object) => dispatch(addTravel(body))
+    }
+}
+
+const connector = connect(mapState, mapDispatch)
+type PropsFromRedux = ConnectedProps<typeof connector>
+type Props = PropsFromRedux
+
 
 
 interface place {
@@ -28,7 +49,6 @@ const defaultPlace: place = {
     country: "France",
     lat: 43.61093,
     lng: 3.87635
-
 }
 
 const defaultStep: stepInterface =
@@ -88,20 +108,23 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function Simulation() {
-    const { t } = useTranslation('simulationPage');
+function Simulation(props: Props) {
+    const { t, i18n } = useTranslation('simulationPage');
     const classes = useStyles();
-    const [listStepInfo, setListStepInfo] = useState(defaultListStep)
+    const [listStep, setlistStep] = useState(defaultListStep)
+    const [date, setDate] = useState<Date | null>(
+        null
+    )
 
 
     const removeStep = (event: any) => {
-        setListStepInfo(listStepInfo.slice(0, -1))
+        setlistStep(listStep.slice(0, -1))
         event.preventDefault();
     }
 
 
     const updateStep = (updatedStep: stepInterface, id: number) => {
-        const newList = listStepInfo.map((step: any, index: number) => {
+        const newList = listStep.map((step: any, index: number) => {
             if (index === id) {
                 return updatedStep;
             }
@@ -109,33 +132,64 @@ function Simulation() {
             return step;
         });
         console.log(newList)
-        setListStepInfo(newList);
+        setlistStep(newList);
     }
 
-    const listStep = listStepInfo.map((step, index: number) =>
+    const displayListStep = listStep.map((step, index: number) =>
         <Step key={index} id={index} step={defaultStep} updateStep={updateStep}></Step>)
 
 
     const addStep = (event: any) => {
-        setListStepInfo(listStepInfo.concat(defaultStep))
+        setlistStep(listStep.concat(defaultStep))
         event.preventDefault();
 
     }
 
-    const getDist = (step: stepInterface): number => {
-        return Math.round(getDistance({ latitude: step.from.lat, longitude: step.from.lng }, { latitude: step.to.lat, longitude: step.to.lng }) / 10)/100
+    const handleChangeDate = (date: Date | null) => {
+        setDate(date)
     }
-    const distance = listStepInfo.map((step, index) => (
+
+    const getDist = (step: stepInterface): number => {
+        return Math.round(getDistance({ latitude: step.from.lat, longitude: step.from.lng }, { latitude: step.to.lat, longitude: step.to.lng }) / 10) / 100
+    }
+    const distance = listStep.map((step, index) => (
         <li>
             <Typography variant="h5">
                 {t("STEP")} {index + 1} : {t("FROM")} {step.from.name} {t("TO")} {step.to.name} {getDist(step)} km {t("BY")} {t(`${step.by}`)}
             </Typography>
             <Typography variant="h5">
-                rejet : {Math.round(calculateur(getDist(step), step.by, step.nbPers) / 10)/100} kg
+                emissions : {Math.round(calculateur(getDist(step), step.by, step.nbPers) / 10) / 100} kg
             </Typography>
             <br></br>
         </li>
     ))
+
+    const saveTravel = () => {
+        if (!date) {
+            console.log("date non valide")
+        }
+        else {
+            let steps: Object[] = []
+            const body = {
+                date: date.toISOString(),
+                steps: steps
+            }
+            listStep.map((step, index: number) => {
+                steps.push({
+                    rank: index,
+                    departure: `${step.from.name}, ${step.from.country}`,
+                    arrival: `${step.to.name}, ${step.to.country}`,
+                    distance: Math.round(getDist(step)),
+                    meansOfTransport: step.by,
+                    carboneEmission: Math.round(calculateur(getDist(step), step.by, step.nbPers))
+                })
+                if (index === listStep.length - 1) {
+                    props.addTravel(body)
+                }
+            })
+
+        }
+    }
 
 
 
@@ -146,14 +200,15 @@ function Simulation() {
                 <Container className={classes.title}>
                     <Box display="flex">
                         <Box m="auto">
+                            <Button onClick={() => console.log(date)}>TEST</Button>
                             <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
-                                {t("SIMULATE_YOUR_JOURNEY")}
+                                {props.user.isLoggedIn ? t("ENTER_YOUR_JOURNEY") : t("SIMULATE_YOUR_JOURNEY")}
                             </Typography>
                         </Box>
                     </Box>
 
                     <Typography variant="h5" gutterBottom marked="center" align="center">
-                        {t("PAGE_DESCRIPTION")}
+                        {props.user.isLoggedIn ? t("JOURNEY_DESC") : t("PAGE_DESCRIPTION")}
                     </Typography>
                 </Container>
                 <Grid md={6} alignItems="center">
@@ -162,17 +217,35 @@ function Simulation() {
                             <Typography variant="h4" marked="center" align="center" color="inherit">
                                 {t("YOUR_JOURNEY")}
                             </Typography>
+                            {props.user.isLoggedIn &&
+                                <div>
+                                    <label><h4>{t("DATE")} :</h4></label>
 
-                            <label><h4>{t("DATE")} :</h4></label>
-                            <TextField type="date" />
-
+                                    <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                                        <KeyboardDatePicker
+                                            disableToolbar
+                                            required
+                                            inputVariant="outlined"
+                                            format="dd/MM/yyyy"
+                                            id="date"
+                                            label="date"
+                                            value={date}
+                                            onChange={handleChangeDate}
+                                            // className={classes.field}
+                                            KeyboardButtonProps={{
+                                                'aria-label': 'change date',
+                                            }}
+                                        />
+                                    </MuiPickersUtilsProvider>
+                                    {/* <TextField type="date" value={date} onChange={handleChangeDate} /> */}
+                                </div>}
                             <div>
                                 <label><h4>{t("STEPS")} :</h4></label>
-                                {listStep}
+                                {displayListStep}
                             </div>
 
                             <div className={classes.actionButton}>
-                                {listStep.length <= 1 ?
+                                {displayListStep.length <= 1 ?
                                     <Button onClick={addStep}>{t("ADD_STEP")}</Button>
                                     :
                                     <div>
@@ -201,7 +274,9 @@ function Simulation() {
                                 <ul>
                                     {distance}
                                 </ul>
-                                <FormButton >{t("SAVE")}</FormButton>
+
+                                {props.user.isLoggedIn &&
+                                    <Button onClick={saveTravel}>{t("SAVE")}</Button>}
                             </Box>
                         </Container>
                     </div>
@@ -211,4 +286,4 @@ function Simulation() {
     )
 }
 
-export default withRoot(Simulation);
+export default connector(Simulation);

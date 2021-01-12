@@ -23,5 +23,8 @@
     "EMISSION_DESCRIPTION":"il s'agit d'une estimation des émissions de CO2 pour chacune de vos étapes.",
     "SAVE":"Enregistrer",
     "PASSENGER":"passager",
-    "PASSENGERS":"passagers"
+    "PASSENGERS":"passagers",
+    "EN":"en",
+    "ENTER_YOUR_JOURNEY":"Enter your journey",
+    "JOURNEY_DESC":"Enter here all the info of your journey to calculate your CO2 emissions."
 }
