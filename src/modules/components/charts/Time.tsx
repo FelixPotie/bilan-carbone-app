@@ -1,5 +1,5 @@
 import { Grid, makeStyles } from '@material-ui/core';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -41,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
 
 const mapState = (state: RootState) => {
   return {
-      mobilityData: state.mobility
+      mobilityData: state.mobility,
+      settingsData: state.appSettings
   }
 }
 
@@ -52,6 +53,23 @@ type Props = PropsFromRedux
 
 function TimeCharts(props: Props){
   const classes = useStyles();
+
+  useEffect(()=> {
+    if(props.settingsData.success && props.mobilityData.success) colectData();
+  }, [props.settingsData.success, props.mobilityData.success])
+  
+  const [data, setData] = React.useState([{}]);
+
+  const colectData = () => {     
+    const years = props.settingsData.appSettings.allYear;
+    const infos :{name:string, carbone: number}[]=[]
+    years.forEach((year: number) => {
+      infos.push({name: year.toString(), carbone: calculCarbone(year)})
+    })
+    console.log(infos)
+    setData(infos);
+}
+
 
   function calculCarbone(year: number) : number{
     var sum = 0;
@@ -66,20 +84,6 @@ function TimeCharts(props: Props){
     });
     return sum;
   }
-  const data = [
-    {
-      name: '2018', carbon: calculCarbone(2018),
-    },
-    {
-      name: '2019', carbon: calculCarbone(2019),
-    },
-    {
-      name: '2020', carbon: calculCarbone(2020),
-    },
-    {
-      name: '2021', carbon: calculCarbone(2021),
-    }
-  ];
 
     return (
       <React.Fragment>
@@ -105,12 +109,11 @@ function TimeCharts(props: Props){
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip />
-                  <Area type="monotone" dataKey="carbon" stroke="#8884d8" fill="#8884d8" />
+                  <Area type="monotone" dataKey="carbone" stroke="#8884d8" fill="#8884d8" />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
           </Grid>
-          
         </Grid>
       </React.Fragment>
 

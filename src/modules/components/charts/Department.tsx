@@ -1,5 +1,5 @@
-import { Grid, makeStyles } from '@material-ui/core';
-import React from 'react'
+import { Checkbox, FormControlLabel, FormGroup, Grid, makeStyles } from '@material-ui/core';
+import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux';
 import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts';
 import { RootState } from '../../../redux';
@@ -42,7 +42,8 @@ const dataDemo = [
 
 const mapState = (state: RootState) => {
   return {
-      mobilityData: state.mobility
+      mobilityData: state.mobility,
+      settingsData: state.appSettings
   }
 }
 
@@ -61,11 +62,34 @@ const useStyles = makeStyles((theme) => ({
     margin: 'auto',
     marginTop :theme.spacing(2),
   },
+  form: {
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  checkBox: {
+    flex: 'auto',
+    margin: 'auto'
+  }
 }));
 
 
 function DepartmentCharts(props: Props) {
   const classes = useStyles();
+
+  useEffect(()=> {
+    if(props.settingsData.success && props.mobilityData.success) colectData();
+  }, [props.settingsData.success, props.mobilityData.success])
+  
+  const [data, setData] = React.useState([{}]);
+
+  const colectData = () => {     
+    const departments = props.settingsData.appSettings.department;
+    const infos :{name:string, carbone: number}[]=[]
+    departments.forEach((department: { [x: string]: string; }) => {
+      infos.push({name:department.name, carbone: calculCarbone(department.name)})
+    })
+    setData(infos);
+}
 
   function calculCarbone(department: string) : number{
     var sum = 0;
@@ -80,40 +104,8 @@ function DepartmentCharts(props: Props) {
     });
     return sum;
   }
-  const data : {name:string, carbone: number}[] = [
-    {
-      name: 'IG', carbone: calculCarbone('IG'),
-    },
-    {
-      name: 'GBA', carbone: calculCarbone('GBA'),
-    },
-    {
-      name: 'STE', carbone: calculCarbone('STE'),
-    },
-    {
-      name: 'MEA', carbone: calculCarbone('MEA'),
-    },
-    {
-      name: 'MAT', carbone: calculCarbone('MAT'),
-    },
-    {
-      name: 'MI', carbone: calculCarbone('MI'),
-    },
-    {
-      name: 'SE', carbone: calculCarbone('SE'),
-    },
-    {
-      name: 'EGC', carbone: calculCarbone('EGC'),
-    },
-    {
-      name: 'DO', carbone: calculCarbone('DO'),
-    },
-    {
-      name: 'MSI', carbone: calculCarbone('MSI'),
-    }
-  ]
-  
-  return (
+
+  return (props.settingsData.success && props.mobilityData.success)?(
     <React.Fragment>
         <Grid container spacing={3}>
           <Grid item md={6}>
@@ -123,6 +115,12 @@ function DepartmentCharts(props: Props) {
             <Typography variant="h5" gutterBottom marked="center" align="center" className={classes.title}>
               Lors de l'année en cours, quels sont les département ayant dégagés le moins d'émission de CO2 lors de leurs trajets lié aux mobilitées internationnales ?
             </Typography>
+            <FormGroup className={classes.form}>
+              {props.settingsData.appSettings.allYear.map((row:any) => (
+                  <FormControlLabel className={classes.checkBox} control={<Checkbox />} label={row} />
+              ))}
+            </FormGroup>
+
           </Grid>
 
           <Grid item md={6}>
@@ -145,6 +143,8 @@ function DepartmentCharts(props: Props) {
         
                 
     </React.Fragment>
+  ):(
+    <div>Loading</div>
   )
 }
 

@@ -2,6 +2,7 @@ import { Grid, makeStyles } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux';
+import { getAppSettings } from '../../redux/appSettings/actions';
 import { getMobilities } from '../../redux/mobility/actions';
 import DepartmentCharts from '../components/charts/Department';
 import SchoolYearCharts from '../components/charts/SchoolYear';
@@ -21,13 +22,15 @@ const useStyles = makeStyles((theme) => ({
 
 const mapState = (state: RootState) => {
   return {
-      mobilityData: state.mobility
+      mobilityData: state.mobility,
+      settingsData: state.appSettings
   }
 }
 
 const mapDispatch = (dispatch:any) => {
   return {
       getMobilities: () => dispatch(getMobilities()),
+      getAppSettings: () => dispatch(getAppSettings())
   }
 }
 
@@ -40,7 +43,8 @@ function StatisticsView(props : Props) {
 
   useEffect(()=> {
     props.getMobilities()
-}, [])
+    props.getAppSettings()
+  }, [])
 
   return (
     <React.Fragment>
