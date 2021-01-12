@@ -147,9 +147,6 @@ export function deleteAdminFailure(error:any) : AdminActionTypes{
 
 export const deleteAdmin = (id: number) => {
     return(dispatch:any) => {
-        const headers = {
-            'Content-Type': 'application/json', 
-        }
         axios.delete('admin/'+id)
             .then(response => {
                 dispatch(deleteAdminSuccess(id))

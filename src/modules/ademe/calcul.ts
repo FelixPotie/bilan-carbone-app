@@ -1,4 +1,3 @@
-import Terms from '../../pages/Terms';
 import { data } from './ges-transport'
 
 

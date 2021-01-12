@@ -1,7 +1,6 @@
 import { Box, Checkbox, Container, FormControlLabel, FormGroup, makeStyles } from '@material-ui/core';
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import { RootState } from '../../redux';
 import { loadAdmin } from '../../redux/admin/actions';
 import Button from './Button';
