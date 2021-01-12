@@ -104,7 +104,6 @@ function AddMobilityContainer(props: Props) {
             "startDate": start_date?.toISOString(),
             "endDate": end_date?.toISOString()
         }
-        console.log(body)
         props.addMobility(body);
     }
 

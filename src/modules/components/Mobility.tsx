@@ -68,6 +68,21 @@ const StyledTableCell = withStyles((theme: Theme) =>
 function MobilitiesContainer(props: Props) {
     const classes = useStyles();
     const  {t} = useTranslation('mobility');
+    function carbone(travels:any) : number {
+        var sum = 0;
+        travels.forEach( (travel:any) => {
+            travel.steps.forEach( (step:any) => {
+                sum=sum+step.carboneEmission;
+            })
+        });
+        return sum;
+    }
+    function type(type:string) : string {
+        if(type==="INTERNSHIP") return "Stage";
+        if(type==="SEMESTER") return "Semestre";
+        if(type==="DOUBLE_DEGREE") return "Double diplôme";
+        return "";
+    }
 
     useEffect(()=> {
         if(props.user.isLoggedIn) props.getMobilitiesByUser(props.user.user.username)
@@ -120,12 +135,12 @@ function MobilitiesContainer(props: Props) {
                         <TableBody>
                         {props.mobilityData.mobilites.map((row:any) => (
                             <TableRow key={row.id}>
-                            <StyledTableCell align="center">{row.type}</StyledTableCell>
+                            <StyledTableCell align="center">{type(row.type)}</StyledTableCell>
                             <StyledTableCell align="center">{row.place}</StyledTableCell>
                             <StyledTableCell align="center">{row.year}A</StyledTableCell>
                             <StyledTableCell align="center">{row.startDate.substring(0, 10)}</StyledTableCell>
                             <StyledTableCell align="center">{row.endDate.substring(0, 10)}</StyledTableCell>
-                            <StyledTableCell align="center">kg</StyledTableCell>
+                            <StyledTableCell align="center">{carbone(row.travels)} kg</StyledTableCell>
                             <StyledTableCell align="center">
                                 <Button
                                     variant="contained"
