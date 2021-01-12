@@ -68,29 +68,39 @@ function ExportDataContainer(props: Props) {
         }
     }, [props.appSettingsData.success]);
 
-    // useEffect(() => {
-    //     if (props.mobilityFiltered.success) {
-    //         console.log(props.mobilityFiltered.mobilites);
-    //         const options = { 
-    //             fieldSeparator: ',',
-    //             filename: 'carbonEmissionReport',
-    //             quoteStrings: '"',
-    //             decimalSeparator: '.',
-    //             showLabels: true, 
-    //             showTitle: true,
-    //             title: 'My Awesome CSV',
-    //             useTextFile: false,
-    //             useBom: true,
-    //             useKeysAsHeaders: true,
-    //             // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
-    //           };
-            
-    //         const csvExporter = new ExportToCsv(options);
- 
-    //         csvExporter.generateCsv(props.mobilityFiltered.mobilites);
+    useEffect(() => {
+        if (props.mobilityFiltered.success && props.mobilityFiltered.mobilites.length !=0 ) { //if else show error message no data to export 
+            console.log(props.mobilityFiltered.mobilites);
+            const options = {
+                fieldSeparator: ',',
+                filename: 'carbonEmissionReport',
+                quoteStrings: '"',
+                decimalSeparator: '.',
+                showLabels: true,
+                showTitle: true,
+                title: 'My Awesome CSV',
+                useTextFile: false,
+                useBom: true,
+                useKeysAsHeaders: true,
+                // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
+            };
 
-    //     }
-    // }, [props.mobilityFiltered.success]);
+
+            const data = props.mobilityFiltered.mobilites.map((mobility: { [x: string]: any; travels: any[]; }) => {
+                const carboneEmission = mobility.travels.reduce((acc: any, current: { steps: any[]; }) => {
+                    return acc + current.steps.reduce((acc2: number, current2: { carboneEmission: number; }) => {
+                        return acc2 + current2.carboneEmission / 1000;
+                    }, 0);
+                }, 0);
+                mobility['carboneEmissionKG'] = carboneEmission;
+                return mobility;
+            });
+            const csvExporter = new ExportToCsv(options);
+
+            csvExporter.generateCsv(props.mobilityFiltered.mobilites);
+
+        }
+    }, [props.mobilityFiltered.success, !props.mobilityFiltered.loading]);
 
 
     ////// SELECTOR LOGIC ///////////////////////////////////////////////////
@@ -205,7 +215,7 @@ function ExportDataContainer(props: Props) {
         return checkedStates;
     }
 
-    const exportMobility = () => {
+    const getMobility = () => {
         const body = {
             derpartmentTypeName: getCheckedState(stateDepartment),
             departmentStatus: ["FISA", "FISE"],
@@ -215,34 +225,10 @@ function ExportDataContainer(props: Props) {
             mobilityType: getCheckedState(stateMobilityType)
         }
         props.getMobilityFiltered(body);
-        while(props.mobilityFiltered.loading){}
-        
-        if (props.mobilityFiltered.success) {
-            console.log(props.mobilityFiltered.mobilites);
-            const options = { 
-                fieldSeparator: ',',
-                filename: 'carbonEmissionReport',
-                quoteStrings: '"',
-                decimalSeparator: '.',
-                showLabels: true, 
-                showTitle: true,
-                title: 'My Awesome CSV',
-                useTextFile: false,
-                useBom: true,
-                useKeysAsHeaders: true,
-                // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
-              };
-            
-            const csvExporter = new ExportToCsv(options);
- 
-            csvExporter.generateCsv(props.mobilityFiltered.mobilites);
-
-        }
-        
     }
 
 
-    
+
 
     return !props.admin.isLoggedIn ? (
         <UnauthorizedAdminContainer />
@@ -345,7 +331,7 @@ function ExportDataContainer(props: Props) {
                             <Button
                                 variant="contained"
                                 className={classes.button}
-                                onClick={exportMobility}
+                                onClick={getMobility}
                             // href="/"
                             >
                                 Exporter
