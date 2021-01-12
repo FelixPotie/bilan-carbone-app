@@ -1,4 +1,5 @@
 import { Box, Checkbox, Container, FormControlLabel, FormGroup, makeStyles } from '@material-ui/core';
+import { TurnedInNotSharp } from '@material-ui/icons';
 import React from 'react';
 import { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
@@ -47,21 +48,25 @@ type Props = PropsFromRedux
 function ExportDataContainer(props: Props) {
     const classes = useStyles();
 
-    useEffect(()=> {if( Object.keys(props.appSettingsData.appSettings).length == 0) props.getAppSettings()})
+    useEffect(() => {
+        props.getAppSettings();
+    }, []);
 
-    const [stateDepartment, setStateDepartment] = React.useState({
-        IG: true,
-        GBA: true,
-        MEA: true,
-        MI: true,
-        STE: true,
-        MAT: true,
-        SE: true,
-        DOP: true,
-        MSI: true,
-        EGC: true,
+    useEffect(() => {
+        if(props.appSettingsData.success){
+            createDepartmentSelector();
+        }
+    }, [props.appSettingsData.success]);
 
-    });
+    const [stateDepartment, setStateDepartment] = React.useState({});
+
+    const createDepartmentSelector = () => {     
+            const departments = props.appSettingsData.appSettings.department;
+            // const stateDepartmentAcc: { [x: string]: boolean; } = {};
+            departments.forEach((department: { [x: string]: string; }) => {      
+                setStateDepartment((prevState) => ({ ...prevState, [department.name]: true })); 
+            })
+    }
 
     const [stateSchlooYear, setStateSchoolYear] = React.useState({
         trois: true,
@@ -69,10 +74,10 @@ function ExportDataContainer(props: Props) {
         cinq: true,
     })
 
-    const matchingSchoolYear = new Map([['trois', 3],['quatre',4], ['cinq',5]]);
+    const matchingSchoolYear = new Map([['trois', 3], ['quatre', 4], ['cinq', 5]]);
 
     const [stateYear, setStateYear] = React.useState({
-        vingt: { checked : true, value: 2020},
+        vingt: { checked: true, value: 2020 },
     })
 
     const [allSelector, setAllSelector] = React.useState({
@@ -80,8 +85,6 @@ function ExportDataContainer(props: Props) {
         allDepartment: true,
         allSchoolYear: true,
     })
-
-    const { IG, GBA, MEA, MI, STE, MAT, SE, DOP, MSI, EGC } = stateDepartment;
 
     const { trois, quatre, cinq } = stateSchlooYear;
 
@@ -118,11 +121,11 @@ function ExportDataContainer(props: Props) {
     };
 
     const handleChangeSchoolYear = (event: React.ChangeEvent<HTMLInputElement>) => {
-        
+
         if (!event.target.checked) {
             setAllSelector({ ...allSelector, ["allSchoolYear"]: event.target.checked });
         }
-        setStateSchoolYear({ ...stateSchlooYear, [event.target.value]:  event.target.checked}); //[event.target.value]: {checked : event.target.checked,  });
+        setStateSchoolYear({ ...stateSchlooYear, [event.target.value]: event.target.checked });
     };
 
     const handleChangeYear = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -135,7 +138,7 @@ function ExportDataContainer(props: Props) {
     const getCheckedState = (states: any) => {
         const checkedStates: any[] = [];
         Object.entries(states).forEach(state => {
-            if(state[1]){
+            if (state[1]) {
                 checkedStates.push(state[0]);
             }
         })
@@ -144,19 +147,22 @@ function ExportDataContainer(props: Props) {
 
     const exportMobility = () => {
         console.log(props.appSettingsData);
-       const test2  = {
-        derpartmentTypeName : getCheckedState(stateDepartment), 
-        departmentStatus : [], 
-        schoolYear : getCheckedState(stateSchlooYear).map(key => matchingSchoolYear.get(key)),
-        startYear : getCheckedState(stateYear), 
-        mobilityType : []
-       }
-       console.log(test2);
+        const test2 = {
+            derpartmentTypeName: getCheckedState(stateDepartment),
+            departmentStatus: [],
+            schoolYear: getCheckedState(stateSchlooYear).map(key => matchingSchoolYear.get(key)),
+            startYear: getCheckedState(stateYear),
+            mobilityType: []
+        }
+        console.log(test2);
     }
 
     return !props.admin.isLoggedIn ? (
         <UnauthorizedAdminContainer />
-    ) : (
+    ) : 
+        !props.appSettingsData.success ? (
+            <UnauthorizedAdminContainer /> /// Replace with loading ! 
+        ) : (
             <React.Fragment>
                 <Container className={classes.title}>
                     <Box display="flex">
@@ -180,16 +186,11 @@ function ExportDataContainer(props: Props) {
                         </Typography>
                             <FormGroup row>
                                 <FormControlLabel control={<Checkbox onChange={selectAllDepartment} checked={allDepartment} name="allDepartment" />} label="Toutes les sections" />
-                                <FormControlLabel control={<Checkbox onChange={handleChangeDepartment} checked={IG} name="ig" />} label="IG" />
-                                <FormControlLabel control={<Checkbox onChange={handleChangeDepartment} checked={GBA} name="gba" />} label="GBA" />
-                                <FormControlLabel control={<Checkbox onChange={handleChangeDepartment} checked={MEA} name="mea" />} label="MEA" />
-                                <FormControlLabel control={<Checkbox onChange={handleChangeDepartment} checked={MI} name="mi" />} label="MI" />
-                                <FormControlLabel control={<Checkbox onChange={handleChangeDepartment} checked={STE} name="ste" />} label="STE" />
-                                <FormControlLabel control={<Checkbox onChange={handleChangeDepartment} checked={MAT} name="mat" />} label="MAT" />
-                                <FormControlLabel control={<Checkbox onChange={handleChangeDepartment} checked={SE} name="se" />} label="SE" />
-                                <FormControlLabel control={<Checkbox onChange={handleChangeDepartment} checked={DOP} name="dop" />} label="DO" />
-                                <FormControlLabel control={<Checkbox onChange={handleChangeDepartment} checked={MSI} name="msi" />} label="MSI" />
-                                <FormControlLabel control={<Checkbox onChange={handleChangeDepartment} checked={EGC} name="egc" />} label="EGC" />
+                                {
+                                    Object.entries<boolean>(stateDepartment).map((paire) => {
+                                        return <FormControlLabel control={<Checkbox onChange={handleChangeDepartment} checked={paire[1]} name={paire[0]} key={paire[0]}/>} label={paire[0]} />
+                                    })
+                                }
                             </FormGroup>
                         </Container>
                         <Container className={classes.subtitle}>
