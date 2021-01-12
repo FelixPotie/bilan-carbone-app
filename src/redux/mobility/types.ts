@@ -9,7 +9,6 @@ export const DELETE_MOBILITY_FAILURE  = 'DELETE_MOBILITY_FAILURE'
 
 interface getMobilityRequest {
     type: typeof GET_MOBILITY_REQUEST,
-    payload: string
 }
 
 interface getMobilitiesRequest {
