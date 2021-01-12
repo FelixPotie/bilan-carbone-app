@@ -1,11 +1,13 @@
 import { makeStyles } from '@material-ui/core';
 import React from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import {
   PieChart, Pie, Cell, Legend,
 } from 'recharts';
+import { RootState } from '../../../redux';
 import Typography from '../Typography';
 
-const data = [
+const dataDemo = [
   { name: 'Stage', value: 700 },
   { name: 'Semestre', value: 200 },
   { name: 'Double diplôme', value: 100 },
@@ -39,8 +41,41 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function TypeCharts() {
+
+const mapState = (state: RootState) => {
+  return {
+      mobilityData: state.mobility
+  }
+}
+
+const connector = connect(mapState)
+type PropsFromRedux = ConnectedProps<typeof connector>
+type Props = PropsFromRedux
+
+
+function TypeCharts(props : Props) {
   const classes = useStyles();
+
+
+  function calculCarbone(type: string) : number{
+    var sum = 0;
+    props.mobilityData.mobilites.forEach((mobility:any) => {
+      if(mobility.type===type){
+        mobility.travels.forEach((travel:any) => {
+          travel.steps.forEach( (step:any) => {
+            sum=sum+step.carboneEmission;
+          })
+        })
+      }
+    });
+    return sum;
+  }
+  const data = [
+    { name: 'Stage', value: calculCarbone('INTERNSHIP') },
+    { name: 'Semestre', value: calculCarbone('SEMESTER') },
+    { name: 'Double diplôme', value: calculCarbone('DOUBLE_DEGREE') },
+  ];
+
   return (
     <React.Fragment>
       <Typography variant="h4" gutterBottom marked="center" align="center" className={classes.title}>
@@ -69,4 +104,4 @@ function TypeCharts() {
 
   );
 }
-export default TypeCharts;
+export default connector(TypeCharts);

@@ -12,6 +12,10 @@ interface getMobilityRequest {
     payload: string
 }
 
+interface getMobilitiesRequest {
+    type: typeof GET_MOBILITY_REQUEST
+}
+
 interface getMobilitySuccess {
     type: typeof GET_MOBILITY_SUCCESS,
     payload: any
@@ -42,4 +46,4 @@ interface deleteMobilityFailure {
     payload: any
 }
 
-export type MobilityActionTypes = getMobilityRequest | getMobilitySuccess | getMobilityFailure | addMobilitySuccess | addMobilityFailure | deleteMobilitySuccess | deleteMobilityFailure
+export type MobilityActionTypes = getMobilityRequest | getMobilitySuccess | getMobilityFailure | addMobilitySuccess | addMobilityFailure | deleteMobilitySuccess | deleteMobilityFailure | getMobilitiesRequest

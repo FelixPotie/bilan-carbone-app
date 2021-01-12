@@ -1,11 +1,13 @@
-import { Container, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import React from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import {
   PieChart, Pie, Cell, Legend,
 } from 'recharts';
+import { RootState } from '../../../redux';
 import Typography from '../Typography';
 
-const data = [
+const dataDemo = [
   { name: '3A', value: 400 },
   { name: '4A', value: 300 },
   { name: '5A', value: 300 },
@@ -39,8 +41,39 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function SchoolYearCharts() {
+
+const mapState = (state: RootState) => {
+  return {
+      mobilityData: state.mobility
+  }
+}
+
+const connector = connect(mapState)
+type PropsFromRedux = ConnectedProps<typeof connector>
+type Props = PropsFromRedux
+
+
+function SchoolYearCharts(props: Props) {
   const classes = useStyles();
+
+  function calculCarbone(year: number) : number{
+    var sum = 0;
+    props.mobilityData.mobilites.forEach((mobility:any) => {
+      if(+mobility.year===year){
+        mobility.travels.forEach((travel:any) => {
+          travel.steps.forEach( (step:any) => {
+            sum=sum+step.carboneEmission;
+          })
+        })
+      }
+    });
+    return sum;
+  }
+  const data = [
+    { name: '3A', value: calculCarbone(3) },
+    { name: '4A', value: calculCarbone(4) },
+    { name: '5A', value: calculCarbone(5) },
+  ];
 
   return (
     <React.Fragment>
@@ -70,4 +103,4 @@ function SchoolYearCharts() {
 
   );
 }
-export default SchoolYearCharts;
+export default connector(SchoolYearCharts);

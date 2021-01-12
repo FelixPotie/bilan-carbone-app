@@ -8,6 +8,12 @@ export function getMobilityRequest(userId: string) : MobilityActionTypes{
     }
 }
 
+export function getMobilitiesRequest() : MobilityActionTypes{
+    return {
+        type: GET_MOBILITY_REQUEST,
+    }
+}
+
 export function getMobilitySuccess(mobilites:any) : MobilityActionTypes{
     return {
         type: GET_MOBILITY_SUCCESS,
@@ -26,6 +32,21 @@ export const getMobilitiesByUser = (username: string) => {
     return(dispatch:any) => {
         dispatch(getMobilityRequest(username))
         axios.get('mobility/user/'+username)
+            .then(response => {
+                const mobilities = response.data
+                dispatch(getMobilitySuccess(mobilities))
+            })
+            .catch(error => {
+                const errorMsg = error.message
+                dispatch(getMobilityFailure(errorMsg))
+            })
+    }
+}
+
+export const getMobilities = () => {
+    return(dispatch:any) => {
+        dispatch(getMobilitiesRequest())
+        axios.get('mobility/')
             .then(response => {
                 const mobilities = response.data
                 dispatch(getMobilitySuccess(mobilities))

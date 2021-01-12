@@ -140,7 +140,7 @@ function MobilitiesContainer(props: Props) {
                             <StyledTableCell align="center">{row.year}A</StyledTableCell>
                             <StyledTableCell align="center">{row.startDate.substring(0, 10)}</StyledTableCell>
                             <StyledTableCell align="center">{row.endDate.substring(0, 10)}</StyledTableCell>
-                            <StyledTableCell align="center">{carbone(row.travels)} kg</StyledTableCell>
+                            <StyledTableCell align="center">{carbone(row.travels)} g</StyledTableCell>
                             <StyledTableCell align="center">
                                 <Button
                                     variant="contained"

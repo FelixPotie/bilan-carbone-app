@@ -1,11 +1,13 @@
 import { Grid, makeStyles } from '@material-ui/core';
 import React from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts';
+import { RootState } from '../../../redux';
 import Typography from '../Typography';
 
-const data = [
+const dataDemo = [
   {
     name: '2018', carbon: 4000,
   },
@@ -29,16 +31,55 @@ const useStyles = makeStyles((theme) => ({
   },
   graph: {
     margin: 'auto',
-    marginTop :theme.spacing(2),
+    marginTop :theme.spacing(3),
     width: 550,
-    height: 300
+    height: 290
   },
 }));
 
 
-function TimeCharts(){
+
+const mapState = (state: RootState) => {
+  return {
+      mobilityData: state.mobility
+  }
+}
+
+const connector = connect(mapState)
+type PropsFromRedux = ConnectedProps<typeof connector>
+type Props = PropsFromRedux
+
+
+function TimeCharts(props: Props){
   const classes = useStyles();
 
+  function calculCarbone(year: number) : number{
+    var sum = 0;
+    props.mobilityData.mobilites.forEach((mobility:any) => {
+      if(+mobility.startDate.substring(0, 4)===year){
+        mobility.travels.forEach((travel:any) => {
+          travel.steps.forEach( (step:any) => {
+            sum=sum+step.carboneEmission/1000;
+          })
+        })
+      }
+    });
+    return sum;
+  }
+  const data = [
+    {
+      name: '2018', carbon: calculCarbone(2018),
+    },
+    {
+      name: '2019', carbon: calculCarbone(2019),
+    },
+    {
+      name: '2020', carbon: calculCarbone(2020),
+    },
+    {
+      name: '2021', carbon: calculCarbone(2021),
+    }
+  ];
 
     return (
       <React.Fragment>
@@ -57,7 +98,7 @@ function TimeCharts(){
                 <AreaChart
                   data={data}
                   margin={{
-                    top: 10, right: 30, left: 0, bottom: 0,
+                    top: 0, right: 30, left: 0, bottom: 0,
                   }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
@@ -75,4 +116,4 @@ function TimeCharts(){
 
     );
 }
-export default TimeCharts;
+export default connector(TimeCharts);
