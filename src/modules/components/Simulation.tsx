@@ -1,7 +1,6 @@
 import { Box, Button, Container, Grid, makeStyles, TextField } from '@material-ui/core';
 import React, { useState } from 'react'
 import Typography from './Typography';
-import FormButton from '../form/FormButton';
 import Step from './Step';
 import { getDistance } from 'geolib'
 import { useTranslation } from 'react-i18next';

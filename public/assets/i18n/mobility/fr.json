@@ -15,7 +15,10 @@
   "DELETE_TRAJECT": "Supprimer",
   "3RD": "3ème année",
   "4TH": "4ème année",
-  "5TH": "5ème année"
+  "5TH": "5ème année",
+  "DATE":"Date",
+  "STEPS":"Étape(s)",
+  "GO": "Aller",
+  "BACK": "Retour"
 
-  
 }

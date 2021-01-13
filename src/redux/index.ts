@@ -5,11 +5,13 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { userReducer } from "./user/reducer";
 import { mobilityReducer } from "./mobility/reducer";
 import { adminReducer } from "./admin/reducer";
+import { travelReducer } from "./travel/reducer";
 
 const rootReducer = combineReducers({
     user: userReducer,
     admin: adminReducer,
-    mobility: mobilityReducer
+    mobility: mobilityReducer,
+    travel: travelReducer 
 })
 
 export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger,thunk)))

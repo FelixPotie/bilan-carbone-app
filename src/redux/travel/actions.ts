@@ -1,45 +1,11 @@
 import axios from "axios"
-import { ADD_TRAVEL_SUCCESS, ADD_TRAVEL_FAILURE, DELETE_TRAVEL_FAILURE, DELETE_TRAVEL_SUCCESS, GET_TRAVEL_SUCCESS, GET_TRAVEL_FAILURE, GET_TRAVEL_REQUEST } from "./types"
+import { ADD_TRAVEL_SUCCESS, ADD_TRAVEL_FAILURE, DELETE_TRAVEL_FAILURE, DELETE_TRAVEL_SUCCESS, TravelActionTypes} from "./types"
 
-export function getTravelRequest(userId: number) : any{
-    return {
-        type: GET_TRAVEL_REQUEST,
-        payload: userId
-    }
-}
-export function getTravelSuccess(mobilites:any) : any{
-    return {
-        type: GET_TRAVEL_SUCCESS,
-        payload: mobilites
-    }
-}
-
-export function getTravelFailure(error:any) : any{
-    return {
-        type: GET_TRAVEL_FAILURE,
-        payload: error
-    }
-}
-
-export const getTravelsByMobility = (mobilityId: number) => {
-    return(dispatch:any) => {
-        dispatch(getTravelRequest(mobilityId))
-        axios.get('travel/mobility/'+mobilityId)
-            .then(response => {
-                const travels = response.data
-                dispatch(getTravelSuccess(travels))
-            })
-            .catch(error => {
-                const errorMsg = error.message
-                dispatch(getTravelFailure(errorMsg))
-            })
-    }
-}
 
 export const addTravel = (travel: any) => {
     const body = {
         date: travel.date,
-        travelId: 6,
+        mobilityId: 6,
         type: "GO"
     }
     return (dispatch: any) => {
@@ -79,14 +45,15 @@ export const addStep = (travelId: number, steps: any) => {
 
 }
 
-export const deleteTravel = (id: number) => {
+export const deleteTravel = (id: number, mobilityId: number) => {
     return(dispatch:any) => {
         const headers = {
             'Content-Type': 'application/json', 
         }
         axios.delete('travel/'+id)
             .then(response => {
-                dispatch(deleteTravelSuccess(id))
+                console.log("ok")
+                dispatch(deleteTravelSuccess(id, mobilityId))
             })
             .catch(error => {
                 const errorMsg = error.message
@@ -95,27 +62,27 @@ export const deleteTravel = (id: number) => {
     }
 }
 
-export function addTravelSuccess(): any {
+export function addTravelSuccess(): TravelActionTypes {
     return {
         type: ADD_TRAVEL_SUCCESS
     }
 }
 
-export function addTravelFailure(error: any): any {
+export function addTravelFailure(error: any): TravelActionTypes {
     return {
         type: ADD_TRAVEL_FAILURE,
         payload: error
     }
 }
 
-export function deleteTravelSuccess(id:number) : any{
+export function deleteTravelSuccess(id:number, mobilityId: number) : TravelActionTypes{
     return {
         type: DELETE_TRAVEL_SUCCESS,
-        payload: id
+        payload: {id: id, mobilityId: mobilityId}
     }
 }
 
-export function deleteTravelFailure(error:any) : any{
+export function deleteTravelFailure(error:any) : TravelActionTypes{
     return {
         type: DELETE_TRAVEL_FAILURE,
         payload: error
