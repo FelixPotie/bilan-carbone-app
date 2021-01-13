@@ -29,5 +29,6 @@
     "JOURNEY_DESC":"Enter here all the info of your journey to calculate your CO2 emissions.",
     "BACK":"Back",
     "GO":"Go",
-    "TYPE":"Type"
+    "TYPE":"Type",
+    "CO2_EQUIVALENT": "Équivalent CO2"
 }

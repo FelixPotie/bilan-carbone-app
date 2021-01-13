@@ -1,4 +1,4 @@
-import { Box, Button, Container, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select, TextField } from '@material-ui/core';
+import { Box, Button, Container, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select } from '@material-ui/core';
 import React, { useState } from 'react'
 import Typography from './Typography';
 import Step from './Step';
@@ -11,9 +11,8 @@ import { addTravel } from '../../redux/travel/actions';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { useParams } from 'react-router'
-import { isNull } from 'util';
 import { Redirect } from 'react-router-dom';
-import { id } from 'date-fns/locale';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 const mapState = (state: RootState) => {
     return {
@@ -172,10 +171,13 @@ function Simulation(props: Props) {
     const distance = listStep.map((step, index) => (
         <li>
             <Typography variant="h5">
-                {t("STEP")} {index + 1} : {t("FROM")} {step.from.name} {t("TO")} {step.to.name} {getDist(step)} km {t("BY")} {t(`${step.by}`)}
+                {t("STEP")} {index + 1} : {step.from.name} <ArrowForwardIcon /> {step.to.name}
             </Typography>
             <Typography variant="h5">
-                emissions : {Math.round(calculateur(getDist(step), step.by, step.nbPers) / 10) / 100} kg
+                {getDist(step)} km {t("BY")} {t(`${step.by}`)}
+            </Typography>
+            <Typography variant="h5">
+                {t("CO2_EQUIVALENT")} : {Math.round(calculateur(getDist(step), step.by, step.nbPers) / 10) / 100} kg
             </Typography>
             <br></br>
         </li>
@@ -214,110 +216,110 @@ function Simulation(props: Props) {
 
 
     return (
-        props.travel.success ? 
-            <Redirect to="/mobilites"/>
+        props.travel.success ?
+            <Redirect to="/mobilites" />
             :
-        <React.Fragment>
-            <Grid container justify="space-evenly" alignItems="flex-start" >
-                <Container className={classes.title}>
-                    <Box display="flex">
-                        <Box m="auto">
-                            <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
-                                {props.user.isLoggedIn ? t("ENTER_YOUR_JOURNEY") : t("SIMULATE_YOUR_JOURNEY")}
-                            </Typography>
+            <React.Fragment>
+                <Grid container justify="space-evenly" alignItems="flex-start" >
+                    <Container className={classes.title}>
+                        <Box display="flex">
+                            <Box m="auto">
+                                <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
+                                    {props.user.isLoggedIn ? t("ENTER_YOUR_JOURNEY") : t("SIMULATE_YOUR_JOURNEY")}
+                                </Typography>
+                            </Box>
                         </Box>
-                    </Box>
 
-                    <Typography variant="h5" gutterBottom marked="center" align="center">
-                        {props.user.isLoggedIn ? t("JOURNEY_DESC") : t("PAGE_DESCRIPTION")}
-                    </Typography>
-                </Container>
-                <Grid md={6} alignItems="center">
-                    <Container className={classes.journeyCard}>
-                        <Box>
-                            <Typography variant="h4" marked="center" align="center" color="inherit">
-                                {t("YOUR_JOURNEY")}
-                            </Typography>
-                            {(props.user.isLoggedIn && urlParams.id) &&
-                                <div>
-                                    <div className={classes.field}>
-                                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                            <KeyboardDatePicker
-                                                disableToolbar
-                                                inputVariant="outlined"
-                                                format="dd/MM/yyyy"
-                                                id="date"
-                                                label="date"
-                                                value={date}
-                                                onChange={handleChangeDate}
-                                                KeyboardButtonProps={{
-                                                    'aria-label': 'change date',
-                                                }}
-                                            />
-                                        </MuiPickersUtilsProvider>
-                                    </div>
-                                    <FormControl variant="outlined">
-                                        <InputLabel htmlFor="type">{t("TYPE")}</InputLabel>
-                                        <Select
-                                            variant="outlined"
-                                            fullWidth
-                                            id="type"
-                                            name="type"
-                                            label={t("TYPE")}
-                                            autoComplete="type"
-                                            onChange={handleChangeType}
-                                            value={type}
-                                            className={classes.field}
-                                        >
-                                            <MenuItem value={'GO'}>{t("GO")}</MenuItem>
-                                            <MenuItem value={'BACK'}>{t("BACK")}</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </div>}
-                            <div>
-                                <label><h4>{t("STEPS")} :</h4></label>
-                                {displayListStep}
-                            </div>
-
-                            <div className={classes.actionButton}>
-                                {displayListStep.length <= 1 ?
-                                    <Button onClick={addStep}>{t("ADD_STEP")}</Button>
-                                    :
-                                    <div>
-                                        <Button onClick={removeStep}>{t("REMOVE_STEP")}</Button>
-                                        <Button onClick={addStep}>{t("ADD_STEP")}</Button>
-                                    </div>
-                                }
-                            </div>
-                        </Box>
+                        <Typography variant="h5" gutterBottom marked="center" align="center">
+                            {props.user.isLoggedIn ? t("JOURNEY_DESC") : t("PAGE_DESCRIPTION")}
+                        </Typography>
                     </Container>
-                </Grid>
-
-                <Grid md={6} alignItems="center">
-                    <div className={classes.test}>
+                    <Grid md={6} alignItems="center">
                         <Container className={classes.journeyCard}>
                             <Box>
                                 <Typography variant="h4" marked="center" align="center" color="inherit">
-                                    {t("YOUR_EMISSIONS")}
+                                    {t("YOUR_JOURNEY")}
                                 </Typography>
-
-                                <br></br>
-
-                                <Typography variant="h5" marked="center" align="center" color="inherit">
-                                    {t("EMISSION_DESCRIPTION")}
-                                </Typography>
-                                <ul>
-                                    {distance}
-                                </ul>
-
                                 {(props.user.isLoggedIn && urlParams.id) &&
-                                    <Button onClick={saveTravel}>{t("SAVE")}</Button>}
+                                    <div>
+                                        <div className={classes.field}>
+                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                <KeyboardDatePicker
+                                                    disableToolbar
+                                                    inputVariant="outlined"
+                                                    format="dd/MM/yyyy"
+                                                    id="date"
+                                                    label="date"
+                                                    value={date}
+                                                    onChange={handleChangeDate}
+                                                    KeyboardButtonProps={{
+                                                        'aria-label': 'change date',
+                                                    }}
+                                                />
+                                            </MuiPickersUtilsProvider>
+                                        </div>
+                                        <FormControl variant="outlined">
+                                            <InputLabel htmlFor="type">{t("TYPE")}</InputLabel>
+                                            <Select
+                                                variant="outlined"
+                                                fullWidth
+                                                id="type"
+                                                name="type"
+                                                label={t("TYPE")}
+                                                autoComplete="type"
+                                                onChange={handleChangeType}
+                                                value={type}
+                                                className={classes.field}
+                                            >
+                                                <MenuItem value={'GO'}>{t("GO")}</MenuItem>
+                                                <MenuItem value={'BACK'}>{t("BACK")}</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                    </div>}
+                                <div>
+                                    <label><h4>{t("STEPS")} :</h4></label>
+                                    {displayListStep}
+                                </div>
+
+                                <div className={classes.actionButton}>
+                                    {displayListStep.length <= 1 ?
+                                        <Button onClick={addStep}>{t("ADD_STEP")}</Button>
+                                        :
+                                        <div>
+                                            <Button onClick={removeStep}>{t("REMOVE_STEP")}</Button>
+                                            <Button onClick={addStep}>{t("ADD_STEP")}</Button>
+                                        </div>
+                                    }
+                                </div>
                             </Box>
                         </Container>
-                    </div>
+                    </Grid>
+
+                    <Grid md={6} alignItems="center">
+                        <div className={classes.test}>
+                            <Container className={classes.journeyCard}>
+                                <Box>
+                                    <Typography variant="h4" marked="center" align="center" color="inherit">
+                                        {t("YOUR_EMISSIONS")}
+                                    </Typography>
+
+                                    <br></br>
+
+                                    <Typography variant="h5" marked="center" align="center" color="inherit">
+                                        {t("EMISSION_DESCRIPTION")}
+                                    </Typography>
+                                    <ul>
+                                        {distance}
+                                    </ul>
+
+                                    {(props.user.isLoggedIn && urlParams.id) &&
+                                        <Button onClick={saveTravel}>{t("SAVE")}</Button>}
+                                </Box>
+                            </Container>
+                        </div>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </React.Fragment>
+            </React.Fragment>
     )
 }
 
