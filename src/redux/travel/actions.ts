@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ADD_TRAVEL_SUCCESS, ADD_TRAVEL_FAILURE, DELETE_TRAVEL_FAILURE, DELETE_TRAVEL_SUCCESS, TravelActionTypes} from "./types"
+import { ADD_TRAVEL_SUCCESS, ADD_TRAVEL_FAILURE, TravelActionTypes} from "./types"
 
 
 export const addTravel = (travel: any) => {
@@ -46,22 +46,6 @@ export const addStep = (travelId: number, steps: any) => {
 
 }
 
-export const deleteTravel = (id: number, mobilityId: number) => {
-    return(dispatch:any) => {
-        const headers = {
-            'Content-Type': 'application/json', 
-        }
-        axios.delete('travel/'+id)
-            .then(response => {
-                console.log("ok")
-                dispatch(deleteTravelSuccess(id, mobilityId))
-            })
-            .catch(error => {
-                const errorMsg = error.message
-                dispatch(deleteTravelFailure(errorMsg))
-            })
-    }
-}
 
 export function addTravelSuccess(): TravelActionTypes {
     return {
@@ -72,20 +56,6 @@ export function addTravelSuccess(): TravelActionTypes {
 export function addTravelFailure(error: any): TravelActionTypes {
     return {
         type: ADD_TRAVEL_FAILURE,
-        payload: error
-    }
-}
-
-export function deleteTravelSuccess(id:number, mobilityId: number) : TravelActionTypes{
-    return {
-        type: DELETE_TRAVEL_SUCCESS,
-        payload: {id: id, mobilityId: mobilityId}
-    }
-}
-
-export function deleteTravelFailure(error:any) : TravelActionTypes{
-    return {
-        type: DELETE_TRAVEL_FAILURE,
         payload: error
     }
 }

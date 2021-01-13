@@ -3,14 +3,13 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux';
-import { deleteMobility, getMobilitiesByUser } from '../../redux/mobility/actions';
+import { deleteMobility, deleteTravel, getMobilitiesByUser } from '../../redux/mobility/actions';
 import { loadUser } from '../../redux/user/actions';
 import Typography from './Typography';
 import UnauthorizedContainer from './Unauthorized';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
-import { deleteTravel } from '../../redux/travel/actions';
 
 
 const mapState = (state: RootState) => {

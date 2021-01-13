@@ -1,7 +1,6 @@
 // import classes from '*.module.css'
-import { Button, Container, makeStyles, Select, Popover, FormControl, InputLabel } from '@material-ui/core'
+import {Container, makeStyles, Select, Popover, FormControl} from '@material-ui/core'
 import { TextField, MenuItem } from '@material-ui/core'
-import SearchIcon from '@material-ui/icons/Search';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { geonames } from './../../utils/geonames'
@@ -47,7 +46,7 @@ export default function Step(props: any) {
 
     const { t } = useTranslation('simulationPage');
 
-    const [popoverFrom, setPopoverFrom] = useState(true)
+    const [popoverFrom, setPopoverFrom] = useState(false)
 
 
     const onChangeFrom = (event: any) => {
@@ -96,36 +95,39 @@ export default function Step(props: any) {
     return (
         <React.Fragment>
             <Container className={classes.card}>
-                    <TextField 
-                                name="from"
-                                label={t("FROM")}
-                                variant="outlined"
-                                required
-                                id="from" value={from} type="text" placeholder="from" className={classes.field} onChange={onChangeFrom} onKeyDown={(event) => {
+                <TextField
+                    name="from"
+                    label={t("FROM")}
+                    variant="outlined"
+                    id="from"
+                    value={from}
+                    type="text"
+                    placeholder="from"
+                    className={classes.field}
+                    onChange={onChangeFrom}
+                    onKeyDown={(event) => {
                         if (event.key === 'Enter') {
-                            setPopoverFrom(false)
-                            find(event, to)
+                            setPopoverFrom(true)
+                            find(event, from)
                         }
                     }} />
-                    {/* <Button id="fromID" onClick={(e) => {
+                {/* <Button id="fromID" onClick={(e) => {
                         setPopoverFrom(true)
                         find(e, from)
                     }}><SearchIcon /></Button> */}
-                    <TextField 
-                                name="to"
-                                label={t("TO")}
-                                variant="outlined"
-                                required
-                                id="to" value={to} type="text" placeholder="to" className={classes.field} onChange={onChangeTo} onKeyDown={(event) => {
+                <TextField
+                    name="to"
+                    label={t("TO")}
+                    variant="outlined"
+                    id="to" value={to}
+                    type="text" placeholder="to"
+                    className={classes.field} onChange={onChangeTo}
+                    onKeyDown={(event) => {
                         if (event.key === 'Enter') {
                             setPopoverFrom(false)
                             find(event, to)
                         }
                     }} />
-                    {/* <Button onClick={(e) => {
-                        setPopoverFrom(false)
-                        find(e, to)
-                    }}><SearchIcon /></Button> */}
                 <div >
 
                     <FormControl variant="outlined">

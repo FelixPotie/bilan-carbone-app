@@ -1,4 +1,4 @@
-import { GET_MOBILITY_FAILURE, GET_MOBILITY_REQUEST, GET_MOBILITY_SUCCESS, ADD_MOBILITY_SUCCESS, ADD_MOBILITY_FAILURE , DELETE_MOBILITY_SUCCESS, DELETE_MOBILITY_FAILURE, MobilityActionTypes } from "./types";
+import { GET_MOBILITY_FAILURE, GET_MOBILITY_REQUEST, GET_MOBILITY_SUCCESS, ADD_MOBILITY_SUCCESS, ADD_MOBILITY_FAILURE , DELETE_MOBILITY_SUCCESS, DELETE_MOBILITY_FAILURE, MobilityActionTypes, DELETE_TRAVEL_SUCCESS, DELETE_TRAVEL_FAILURE } from "./types";
 import axios from 'axios'
 import { createNoSubstitutionTemplateLiteral } from "typescript";
 
@@ -129,5 +129,35 @@ export const deleteMobility = (id: number) => {
                 const errorMsg = error.message
                 dispatch(deleteMobilityFailure(errorMsg))
             })
+    }
+}
+
+export const deleteTravel = (id: number, mobilityId: number) => {
+    return(dispatch:any) => {
+        const headers = {
+            'Content-Type': 'application/json', 
+        }
+        axios.delete('travel/'+id)
+            .then(response => {
+                dispatch(deleteTravelSuccess(id, mobilityId))
+            })
+            .catch(error => {
+                const errorMsg = error.message
+                dispatch(deleteTravelFailure(errorMsg))
+            })
+    }
+}
+
+export function deleteTravelSuccess(id:number, mobilityId: number) : MobilityActionTypes{
+    return {
+        type: DELETE_TRAVEL_SUCCESS,
+        payload: {id: id, mobilityId: mobilityId}
+    }
+}
+
+export function deleteTravelFailure(error:any) : MobilityActionTypes{
+    return {
+        type: DELETE_TRAVEL_FAILURE,
+        payload: error
     }
 }

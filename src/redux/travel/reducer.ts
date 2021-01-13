@@ -1,4 +1,4 @@
-import { ADD_TRAVEL_SUCCESS, ADD_TRAVEL_FAILURE, DELETE_TRAVEL_SUCCESS, DELETE_TRAVEL_FAILURE, TravelActionTypes } from "./types"
+import { ADD_TRAVEL_SUCCESS, ADD_TRAVEL_FAILURE, TravelActionTypes } from "./types"
 
 const initialState = {
     loading: false,
@@ -16,17 +16,6 @@ export function travelReducer(state = initialState,action: TravelActionTypes) {
                 error: ''
             }
         case ADD_TRAVEL_FAILURE:
-            return {
-                ...state,
-                error: action.payload
-            }
-        case DELETE_TRAVEL_SUCCESS:
-            return {
-                ...state,
-                success: true,
-                error: ''
-            }
-        case DELETE_TRAVEL_FAILURE:
             return {
                 ...state,
                 error: action.payload
