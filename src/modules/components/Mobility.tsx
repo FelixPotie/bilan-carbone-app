@@ -1,5 +1,5 @@
-import { Box, Button, Container, createStyles, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Theme, withStyles } from '@material-ui/core';
-import React, { useEffect } from 'react'
+import { Box, Button, Collapse, Container, createStyles, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Theme, withStyles } from '@material-ui/core';
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux';
@@ -9,6 +9,8 @@ import Typography from './Typography';
 import UnauthorizedContainer from './Unauthorized';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
+import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
+import { deleteTravel } from '../../redux/travel/actions';
 
 
 const mapState = (state: RootState) => {
@@ -18,11 +20,12 @@ const mapState = (state: RootState) => {
     }
 }
 
-const mapDispatch = (dispatch:any) => {
+const mapDispatch = (dispatch: any) => {
     return {
         getMobilitiesByUser: (username: string) => dispatch(getMobilitiesByUser(username)),
         deleteMobility: (id: number) => dispatch(deleteMobility(id)),
-        loadUser : () => dispatch(loadUser()),
+        loadUser: () => dispatch(loadUser()),
+        deleteTravel: (id: number, mobilityId: number) => dispatch(deleteTravel(id, mobilityId))
     }
 }
 
@@ -41,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(4),
         justifyContent: 'center',
     },
-    tableContainer:{
+    tableContainer: {
         padingLeft: theme.spacing(4),
         padingRight: theme.spacing(4),
         marginBottom: theme.spacing(4)
@@ -49,122 +52,182 @@ const useStyles = makeStyles((theme) => ({
     table: {
         minWidth: 700,
     },
-   
+
 }));
 
 const StyledTableCell = withStyles((theme: Theme) =>
-  createStyles({
-    head: {
-      backgroundColor: '#96989B',
-      color: theme.palette.common.white,
-    },
-    body: {
-      fontSize: 14,
-    },
-  }),
+    createStyles({
+        head: {
+            backgroundColor: '#96989B',
+            color: theme.palette.common.white,
+        },
+        body: {
+            fontSize: 14,
+        },
+    }),
 )(TableCell);
 
-  
-function MobilitiesContainer(props: Props) {
-    const classes = useStyles();
-    const  {t} = useTranslation('mobility');
-    function carbone(travels:any) : number {
+function TravelRow(props: any) {
+    const { row, deleteMobility, deleteTravel } = props
+    const [open, setOpen] = useState(false)
+
+    
+    const { t } = useTranslation('mobility');
+
+    function carbone(travels: any): number {
         var sum = 0;
-        travels.forEach( (travel:any) => {
-            travel.steps.forEach( (step:any) => {
-                sum=sum+step.carboneEmission;
+        travels.forEach((travel: any) => {
+            travel.steps.forEach((step: any) => {
+                sum = sum + step.carboneEmission;
             })
         });
         return sum;
     }
-    function type(type:string) : string {
-        if(type==="INTERNSHIP") return "Stage";
-        if(type==="SEMESTER") return "Semestre";
-        if(type==="DOUBLE_DEGREE") return "Double diplôme";
+
+    function type(type: string): string {
+        if (type === "INTERNSHIP") return "Stage";
+        if (type === "SEMESTER") return "Semestre";
+        if (type === "DOUBLE_DEGREE") return "Double diplôme";
         return "";
     }
 
-    useEffect(()=> {
-        if(props.user.isLoggedIn) props.getMobilitiesByUser(props.user.user.username)
-    }, [props.user.isLoggedIn])
-    
-    return  !props.user.isLoggedIn ? (
-            <UnauthorizedContainer/>
-        ) : props.mobilityData.error ? (
-            <h2>{props.mobilityData.error}</h2>
-        ) : (
+
+    return (
         <React.Fragment>
-            <Container className={classes.title}>
-                <Box display="flex">
-                    <Box m="auto">
-                        <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
-                            {t("MY_MOBILITIES")}
-                        </Typography>
-                    </Box>
-                </Box>
-                <Typography variant="h5" gutterBottom marked="center" align="center">
-                    {t("INFO_MOBILITIES")}
-                </Typography>
-                <Box display="flex">
-                    <Box m="auto">
-                        <Button
-                            variant="contained"
-                            className={classes.button}
-                            href="/add-mobility"
-                        >
-                            {t("ADD_MOBILITY")}
-                        </Button>
-                    </Box>
-                </Box>
-            </Container>
-            <Container className={classes.tableContainer}>
-                <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label="customized table">
-                        <TableHead>
-                        <TableRow>
-                            <StyledTableCell align="center">Type</StyledTableCell>
-                            <StyledTableCell align="center">{t("CITY")}</StyledTableCell>
-                            <StyledTableCell align="center">{t("STUDY_YEAR")}</StyledTableCell>
-                            <StyledTableCell align="center">{t("START_DATE")}</StyledTableCell>
-                            <StyledTableCell align="center">{t("END_DATE")}</StyledTableCell>
-                            <StyledTableCell align="center">{t("CARBON")}</StyledTableCell>
-                            <StyledTableCell align="center">{t("ADD_TRAJECT")}</StyledTableCell>
-                            <StyledTableCell align="center">{t("DELETE_TRAJECT")}</StyledTableCell>
-                        </TableRow>
-                        </TableHead>
-                        <TableBody>
-                        {props.mobilityData.mobilites.map((row:any) => (
-                            <TableRow key={row.id}>
-                            <StyledTableCell align="center">{type(row.type)}</StyledTableCell>
-                            <StyledTableCell align="center">{row.place}</StyledTableCell>
-                            <StyledTableCell align="center">{row.year}A</StyledTableCell>
-                            <StyledTableCell align="center">{row.startDate.substring(0, 10)}</StyledTableCell>
-                            <StyledTableCell align="center">{row.endDate.substring(0, 10)}</StyledTableCell>
-                            <StyledTableCell align="center">{carbone(row.travels)} g</StyledTableCell>
-                            <StyledTableCell align="center">
-                                <Button
-                                    variant="contained"
-                                    href="/"
-                                >
-                                    <AddIcon/>
-                                </Button>
-                            </StyledTableCell>
-                            <StyledTableCell align="center">
-                                <Button
-                                    variant="contained"
-                                    onClick={() => props.deleteMobility(row.id)}
-                                >
-                                    <DeleteIcon />
-                                </Button>
-                            </StyledTableCell>
-                            </TableRow>
-                        ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </Container>
+
+            <TableRow key={row.id}>
+                <StyledTableCell align="center" onClick={() => {
+                    setOpen(!open)
+                }
+                }>{open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}</StyledTableCell>
+                <StyledTableCell align="center">{type(row.type)}</StyledTableCell>
+                <StyledTableCell align="center">{row.place}</StyledTableCell>
+                <StyledTableCell align="center">{row.year}A</StyledTableCell>
+                <StyledTableCell align="center">{row.startDate.substring(0, 10)}</StyledTableCell>
+                <StyledTableCell align="center">{row.endDate.substring(0, 10)}</StyledTableCell>
+                <StyledTableCell align="center">{carbone(row.travels)}</StyledTableCell>
+                <StyledTableCell align="center">
+                    <Button
+                        variant="contained"
+                        href={`${row.id}/add-journey`}
+                    >
+                        <AddIcon />
+                    </Button>
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                    <Button
+                        variant="contained"
+                        onClick={() => deleteMobility(row.id)}
+                    >
+                        <DeleteIcon />
+                    </Button>
+                </StyledTableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell align="center" style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                        <Box margin={1}>
+                            <Typography variant="h6" gutterBottom component="div">
+                            {t("TRAJECT")}
+                            </Typography>
+                            <Table size="small" aria-label="purchases">
+                                <TableHead>
+                                    <TableRow>
+                                        <StyledTableCell align="center">{t("DATE")}</StyledTableCell>
+                                        <StyledTableCell align="center">Type</StyledTableCell>
+                                        <StyledTableCell align="center">{t("STEPS")}</StyledTableCell>
+                                        <StyledTableCell align="center">{t("DELETE_TRAJECT")}</StyledTableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {row.travels.map((travel: any) => (
+                                        <TableRow>
+                                            <StyledTableCell component="th" scope="row">{travel.date.substring(0, 10)}</StyledTableCell>
+                                            <StyledTableCell>{travel.type}</StyledTableCell>
+                                            <StyledTableCell align="center">{travel.steps.map((step: any) => (<div>from {step.departure} to {step.arrival}</div>))}
+                                            </StyledTableCell>
+                                            <StyledTableCell><StyledTableCell align="center">
+                                                <Button
+                                                    variant="contained"
+                                                    onClick={() => deleteTravel(travel.id, row.id)}
+                                                >
+                                                    <DeleteIcon />
+                                                </Button>
+                                            </StyledTableCell></StyledTableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </Box>
+                    </Collapse>
+                </TableCell>
+            </TableRow>
         </React.Fragment>
     )
+}
+
+function MobilitiesContainer(props: Props) {
+    const classes = useStyles();
+    const { t } = useTranslation('mobility');
+
+    useEffect(() => {
+        if (props.user.isLoggedIn) props.getMobilitiesByUser(props.user.user.username)
+    }, [props.user.isLoggedIn])
+
+    return !props.user.isLoggedIn ? (
+        <UnauthorizedContainer />
+    ) : props.mobilityData.error ? (
+        <h2>{props.mobilityData.error}</h2>
+    ) : (
+                <React.Fragment>
+                    <Container className={classes.title}>
+                        <Box display="flex">
+                            <Box m="auto">
+                                <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
+                                    {t("MY_MOBILITIES")}
+                                </Typography>
+                            </Box>
+                        </Box>
+                        <Typography variant="h5" gutterBottom marked="center" align="center">
+                            {t("INFO_MOBILITIES")}
+                        </Typography>
+                        <Box display="flex">
+                            <Box m="auto">
+                                <Button
+                                    variant="contained"
+                                    className={classes.button}
+                                    href="/add-mobility"
+                                >
+                                    {t("ADD_MOBILITY")}
+                                </Button>
+                            </Box>
+                        </Box>
+                    </Container>
+                    <Container className={classes.tableContainer}>
+                        <TableContainer component={Paper}>
+                            <Table className={classes.table} aria-label="customized table">
+                                <TableHead>
+                                    <TableRow>
+                                        <StyledTableCell align="center" />
+                                        <StyledTableCell align="center">Type</StyledTableCell>
+                                        <StyledTableCell align="center">{t("CITY")}</StyledTableCell>
+                                        <StyledTableCell align="center">{t("STUDY_YEAR")}</StyledTableCell>
+                                        <StyledTableCell align="center">{t("START_DATE")}</StyledTableCell>
+                                        <StyledTableCell align="center">{t("END_DATE")}</StyledTableCell>
+                                        <StyledTableCell align="center">{t("CARBON")}</StyledTableCell>
+                                        <StyledTableCell align="center">{t("ADD_TRAJECT")}</StyledTableCell>
+                                        <StyledTableCell align="center">{t("DELETE_TRAJECT")}</StyledTableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {props.mobilityData.mobilites.map((row: any) => (<React.Fragment><TravelRow row={row} deleteMobility={props.deleteMobility} deleteTravel={props.deleteTravel}></TravelRow></React.Fragment>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Container>
+                </React.Fragment>
+            )
 }
 
 export default connector(MobilitiesContainer);
