@@ -1,22 +1,29 @@
+//Material UI
 import { Box, Checkbox, Container, FormControlLabel, FormGroup, makeStyles } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Grid from '@material-ui/core/Grid';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardDatePicker,
+} from '@material-ui/pickers';
+//React Redux
 import React from 'react';
 import { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux';
 import { loadAdmin } from '../../redux/admin/actions';
 import { getAppSettings } from '../../redux/appSettings/actions';
+import { getMobilitiesWithFilter } from '../../redux/mobility/actions';
+//component
 import Button from './Button';
 import Typography from './Typography';
 import UnauthorizedAdminContainer from './UnauthorizedAdmin';
-import 'date-fns';
-import Grid from '@material-ui/core/Grid';
+import Snackbar from './Snackbar'
+//Lib
 import DateFnsUtils from '@date-io/date-fns';
-import {
-    MuiPickersUtilsProvider,
-    KeyboardDatePicker,
-} from '@material-ui/pickers';
-import { getMobilitiesWithFilter } from '../../redux/mobility/actions';
+import 'date-fns';
 import { ExportToCsv } from 'export-to-csv';
+
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -29,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     button: {
         marginTop: theme.spacing(4),
         marginBottom: theme.spacing(4),
+    },
+    info: {
+        color: 'red',
     }
 
 }));
@@ -69,37 +79,43 @@ function ExportDataContainer(props: Props) {
     }, [props.appSettingsData.success]);
 
     useEffect(() => {
-        if (props.mobilityFiltered.success && props.mobilityFiltered.mobilites.length !=0 ) { //if else show error message no data to export 
-            console.log(props.mobilityFiltered.mobilites);
-            const options = {
-                fieldSeparator: ',',
-                filename: 'carbonEmissionReport',
-                quoteStrings: '"',
-                decimalSeparator: '.',
-                showLabels: true,
-                showTitle: true,
-                title: 'My Awesome CSV',
-                useTextFile: false,
-                useBom: true,
-                useKeysAsHeaders: true,
-                // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
-            };
+        if (props.mobilityFiltered.success) {
+            if (props.mobilityFiltered.mobilites.length != 0) { 
+                console.log(props.mobilityFiltered.mobilites);
+                const options = {
+                    fieldSeparator: ',',
+                    filename: 'rapportDemissionCarbone',
+                    quoteStrings: '"',
+                    decimalSeparator: '.',
+                    showLabels: true,
+                    showTitle: true,
+                    title: 'listeDesMobilitée',
+                    useTextFile: false,
+                    useBom: true,
+                    useKeysAsHeaders: true,
+                    // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
+                };
 
-
-            const data = props.mobilityFiltered.mobilites.map((mobility: { [x: string]: any; travels: any[]; }) => {
-                const carboneEmission = mobility.travels.reduce((acc: any, current: { steps: any[]; }) => {
-                    return acc + current.steps.reduce((acc2: number, current2: { carboneEmission: number; }) => {
-                        return acc2 + current2.carboneEmission / 1000;
+                //// SHOULD CHANGE 
+                const data = props.mobilityFiltered.mobilites.map((mobility: { [x: string]: any; travels: any[]; }) => {
+                    const carboneEmission = mobility.travels.reduce((acc: any, current: { steps: any[]; }) => {
+                        return acc + current.steps.reduce((acc2: number, current2: { carboneEmission: number; }) => {
+                            return acc2 + current2.carboneEmission / 1000;
+                        }, 0);
                     }, 0);
-                }, 0);
-                mobility['carboneEmissionKG'] = carboneEmission;
-                return mobility;
-            });
-            const csvExporter = new ExportToCsv(options);
+                    mobility['carboneEmissionKG'] = carboneEmission;
+                    return mobility;
+                });
 
-            csvExporter.generateCsv(props.mobilityFiltered.mobilites);
+                const csvExporter = new ExportToCsv(options);
+                csvExporter.generateCsv(props.mobilityFiltered.mobilites);
 
+            } else {
+                setMessagSnackBar("Aucune donnée ne correspond à votre recherche")
+                setOpenSnackBar(true);
+            }
         }
+
     }, [props.mobilityFiltered.success, !props.mobilityFiltered.loading]);
 
 
@@ -195,12 +211,39 @@ function ExportDataContainer(props: Props) {
         new Date(),
     );
 
+    const [startDateError, setSartDateError] = React.useState(false);
+
+    const [endDateError, setEndDateError] = React.useState(false);
+
     const handleStartDateChange = (date: Date | null) => {
-        setSartDate(date);
+        if (date === null || isNaN(date.getTime())) {
+            setSartDateError(true)
+        } else {
+            setSartDateError(false)
+            setSartDate(date);
+        }
+
     };
 
     const handleEndDateChange = (date: Date | null) => {
-        setEndDate(date);
+        if (date === null || isNaN(date.getTime())) {
+            setEndDateError(true)
+        } else {
+            setEndDateError(false)
+            setEndDate(date);
+        }
+    };
+
+
+    /////// SnackBar //////////////////////////////////////////
+
+    const [openSnackBar, setOpenSnackBar] = React.useState(false);
+
+    const [messageSnackBar, setMessagSnackBar] = React.useState("");
+
+
+    const handleClose = () => {
+        setOpenSnackBar(false);
     };
 
     /////// EXPORT LOGIC ///////////////////////////////////////////
@@ -216,25 +259,27 @@ function ExportDataContainer(props: Props) {
     }
 
     const getMobility = () => {
-        const body = {
-            derpartmentTypeName: getCheckedState(stateDepartment),
-            departmentStatus: ["FISA", "FISE"],
-            schoolYear: getCheckedState(stateSchlooYear).map(key => matchingSchoolYear.get(key)),
-            startDate: startDate,
-            endDate: endDate,
-            mobilityType: getCheckedState(stateMobilityType)
+        if (startDateError || endDateError) {
+            setMessagSnackBar("Veuillez selectionner des dates valides")
+            setOpenSnackBar(true);
+        } else {
+            const body = {
+                derpartmentTypeName: getCheckedState(stateDepartment),
+                departmentStatus: ["FISA", "FISE"],   //// SHOULD CHANGE
+                schoolYear: getCheckedState(stateSchlooYear).map(key => matchingSchoolYear.get(key)),
+                startDate: startDate,
+                endDate: endDate,
+                mobilityType: getCheckedState(stateMobilityType)
+            }
+            props.getMobilityFiltered(body);
         }
-        props.getMobilityFiltered(body);
     }
-
-
-
 
     return !props.admin.isLoggedIn ? (
         <UnauthorizedAdminContainer />
     ) :
         !props.appSettingsData.success ? (
-            <UnauthorizedAdminContainer /> /// Replace with loading ! 
+            <CircularProgress color="secondary" /> /// Replace with loading ! 
         ) : (
                 <React.Fragment>
                     <Container className={classes.title}>
@@ -299,6 +344,7 @@ function ExportDataContainer(props: Props) {
                                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                         <Grid container justify="space-around">
                                             <KeyboardDatePicker
+                                                error={startDateError}
                                                 margin="normal"
                                                 id="start-date-picker-dialog"
                                                 label="Date de début"
@@ -308,8 +354,10 @@ function ExportDataContainer(props: Props) {
                                                 KeyboardButtonProps={{
                                                     'aria-label': 'change date',
                                                 }}
+                                                helperText={startDateError ? "Date invalide" : "Date valide"}
                                             />
                                             <KeyboardDatePicker
+                                                error={endDateError}
                                                 margin="normal"
                                                 id="end-date-picker-dialog"
                                                 label="Date de fin"
@@ -319,6 +367,7 @@ function ExportDataContainer(props: Props) {
                                                 KeyboardButtonProps={{
                                                     'aria-label': 'change date',
                                                 }}
+                                                helperText={endDateError ? "Date invalide" : "Date valide"}
                                             />
                                         </Grid>
                                     </MuiPickersUtilsProvider>
@@ -335,9 +384,15 @@ function ExportDataContainer(props: Props) {
                             // href="/"
                             >
                                 Exporter
-                    </Button>
+                            </Button>
                         </Box>
                     </Box>
+                    <Snackbar
+                        open={openSnackBar}
+                        closeFunc={handleClose}
+                        message={messageSnackBar}
+                        classes={classes}
+                    />
                 </React.Fragment>
             )
 }
