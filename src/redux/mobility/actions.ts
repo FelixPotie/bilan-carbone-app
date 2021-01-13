@@ -1,6 +1,5 @@
 import { GET_MOBILITY_FAILURE, GET_MOBILITY_REQUEST, GET_MOBILITY_SUCCESS, ADD_MOBILITY_SUCCESS, ADD_MOBILITY_FAILURE , DELETE_MOBILITY_SUCCESS, DELETE_MOBILITY_FAILURE, MobilityActionTypes, DELETE_TRAVEL_SUCCESS, DELETE_TRAVEL_FAILURE } from "./types";
 import axios from 'axios'
-import { createNoSubstitutionTemplateLiteral } from "typescript";
 
 export function getMobilityRequest() : MobilityActionTypes{
     return {
@@ -134,9 +133,6 @@ export const deleteMobility = (id: number) => {
 
 export const deleteTravel = (id: number, mobilityId: number) => {
     return(dispatch:any) => {
-        const headers = {
-            'Content-Type': 'application/json', 
-        }
         axios.delete('travel/'+id)
             .then(response => {
                 dispatch(deleteTravelSuccess(id, mobilityId))
