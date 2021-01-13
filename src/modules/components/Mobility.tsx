@@ -87,7 +87,7 @@ function TravelRow(props: any) {
     function type(type: string): string {
         if (type === "INTERNSHIP") return "Stage";
         if (type === "SEMESTER") return "Semestre";
-        if (type === "DOUBLE_DEGREE") return "Double diplôme";
+        if (type === "DOUBLE_DEGRE") return "Double diplôme";
         return "";
     }
 

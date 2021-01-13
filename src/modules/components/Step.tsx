@@ -89,7 +89,12 @@ export default function Step(props: any) {
             <Container className={classes.card}>
                 <div>
                     <label>{t("FROM")} : </label>
-                    <TextField value={from} type="text" placeholder="from" className={classes.places} onChange={onChangeFrom} />
+                    <TextField value={from} type="text" placeholder="from" className={classes.places} onChange={onChangeFrom} onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                            setPopoverFrom(false)
+                            find(event, to)
+                        }
+                    }}/>
                     <Button id="fromID" onClick={(e) => {
                         setPopoverFrom(true)
                         find(e, from)
@@ -97,7 +102,12 @@ export default function Step(props: any) {
                 </div>
                 <div>
                     <label>{t("TO")} : </label>
-                    <TextField value={to} type="text" placeholder="to" className={classes.places} onChange={onChangeTo} />
+                    <TextField value={to} type="text" placeholder="to" className={classes.places} onChange={onChangeTo} onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                            setPopoverFrom(false)
+                            find(event, to)
+                        }
+                    }} />
                     <Button onClick={(e) => {
                         setPopoverFrom(false)
                         find(e, to)
