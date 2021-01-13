@@ -37,9 +37,10 @@ export const getAppSettings = () => {
     }
 }
 
-export function addAppSettingsSuccess() : AppSettingsActionTypes{
+export function addAppSettingsSuccess(body:any) : AppSettingsActionTypes{
     return {
-        type: ADD_APP_SETTINGS_SUCCESS
+        type: ADD_APP_SETTINGS_SUCCESS,
+        payload: body
     }
 }
 
@@ -55,9 +56,9 @@ export const addAppSettings = (body: object) => {
         const headers = {
             'Content-Type': 'application/json', 
         }
-        axios.post('mobility/', body, {headers:headers})
+        axios.post('app/setting', body, {headers:headers})
             .then(response => {
-                dispatch(addAppSettingsSuccess())
+                dispatch(addAppSettingsSuccess(body))
             })
             .catch(error => {
                 const errorMsg = error.message
@@ -66,7 +67,7 @@ export const addAppSettings = (body: object) => {
     }
 }
 
-export function deleteAppSettingsSuccess(id:number) : AppSettingsActionTypes{
+export function deleteAppSettingsSuccess(id:string) : AppSettingsActionTypes{
     return {
         type: DELETE_APP_SETTINGS_SUCCESS,
         payload: id
@@ -80,9 +81,9 @@ export function deleteAppSettingsFailure(error:any) : AppSettingsActionTypes{
     }
 }
 
-export const deleteAppSettings = (id: number) => {
+export const deleteAppSettings = (id: string) => {
     return(dispatch:any) => {
-        axios.delete('mobility/'+id)
+        axios.delete('app/setting/'+id)
             .then(response => {
                 dispatch(deleteAppSettingsSuccess(id))
             })

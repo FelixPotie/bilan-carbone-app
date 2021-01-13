@@ -24,6 +24,7 @@ interface getAppSettingsFailure {
 
 interface addAppSettingsSuccess {
     type: typeof ADD_APP_SETTINGS_SUCCESS,
+    payload: any
 }
 
 interface addAppSettingsFailure {
