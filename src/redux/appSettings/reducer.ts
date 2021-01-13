@@ -1,56 +1,54 @@
-import { GET_MOBILITY_FAILURE, GET_MOBILITY_REQUEST, GET_MOBILITY_SUCCESS, ADD_MOBILITY_SUCCESS, ADD_MOBILITY_FAILURE, DELETE_MOBILITY_SUCCESS, DELETE_MOBILITY_FAILURE, MobilityActionTypes } from "./types"
+import { GET_APP_SETTINGS_FAILURE, GET_APP_SETTINGS_REQUEST, GET_APP_SETTINGS_SUCCESS, ADD_APP_SETTINGS_SUCCESS, ADD_APP_SETTINGS_FAILURE, DELETE_APP_SETTINGS_SUCCESS, DELETE_APP_SETTINGS_FAILURE, AppSettingsActionTypes } from "./types"
 
 const initialState = {
     loading: false,
-    mobilites: [],
+    appSettings: [],
     error: '',
     success: false
 }
 
-export function mobilityReducer(state = initialState,action: MobilityActionTypes) {
+export function appSettingsReducer(state = initialState,action: AppSettingsActionTypes) {
     switch (action.type){
-        case GET_MOBILITY_REQUEST:
+        case GET_APP_SETTINGS_REQUEST:
             return {
                 ...state,
-                success: false,
-                error: '',
                 loading: true
             }
-        case GET_MOBILITY_SUCCESS:
+        case GET_APP_SETTINGS_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                mobilites: action.payload,
+                appSettings: action.payload,
                 success: true,
                 error: ''
             }
-        case GET_MOBILITY_FAILURE:
+        case GET_APP_SETTINGS_FAILURE:
             return {
                 ...state,
                 loading: false,
-                mobilites: [],
+                appSettings: [],
                 error: action.payload
             }
-        case ADD_MOBILITY_SUCCESS:
+        case ADD_APP_SETTINGS_SUCCESS:
             return {
                 ...state,
                 success: true,
                 error: ''
             }
-        case ADD_MOBILITY_FAILURE:
+        case ADD_APP_SETTINGS_FAILURE:
             return {
                 ...state,
-                mobilites: [],
+                appSettings: [],
                 error: action.payload
             }
-        case DELETE_MOBILITY_SUCCESS:
+        case DELETE_APP_SETTINGS_SUCCESS:
             return {
                 ...state,
                 success: true,
                 error: '',
-                mobilites: state.mobilites.filter((raw: any) => (raw.id !== action.payload))
+                appSettings: state.appSettings.filter((raw: any) => (raw.id !== action.payload))
             }
-        case DELETE_MOBILITY_FAILURE:
+        case DELETE_APP_SETTINGS_FAILURE:
             return {
                 ...state,
                 error: action.payload

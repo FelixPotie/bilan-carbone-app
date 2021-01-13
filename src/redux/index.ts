@@ -6,12 +6,14 @@ import { userReducer } from "./user/reducer";
 import { mobilityReducer } from "./mobility/reducer";
 import { adminReducer } from "./admin/reducer";
 import { travelReducer } from "./travel/reducer";
+import { appSettingsReducer } from "./appSettings/reducer";
 
 const rootReducer = combineReducers({
     user: userReducer,
     admin: adminReducer,
     mobility: mobilityReducer,
-    travel: travelReducer 
+    travel: travelReducer, 
+    appSettings: appSettingsReducer
 })
 
 export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger,thunk)))

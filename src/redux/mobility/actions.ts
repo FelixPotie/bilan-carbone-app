@@ -2,10 +2,15 @@ import { GET_MOBILITY_FAILURE, GET_MOBILITY_REQUEST, GET_MOBILITY_SUCCESS, ADD_M
 import axios from 'axios'
 import { createNoSubstitutionTemplateLiteral } from "typescript";
 
-export function getMobilityRequest(userId: string) : MobilityActionTypes{
+export function getMobilityRequest() : MobilityActionTypes{
     return {
         type: GET_MOBILITY_REQUEST,
-        payload: userId
+    }
+}
+
+export function getMobilitiesRequest() : MobilityActionTypes{
+    return {
+        type: GET_MOBILITY_REQUEST,
     }
 }
 
@@ -25,8 +30,40 @@ export function getMobilityFailure(error:any) : MobilityActionTypes{
 
 export const getMobilitiesByUser = (username: string) => {
     return(dispatch:any) => {
-        dispatch(getMobilityRequest(username))
+        dispatch(getMobilityRequest())
         axios.get('mobility/user/'+username)
+            .then(response => {
+                const mobilities = response.data
+                dispatch(getMobilitySuccess(mobilities))
+            })
+            .catch(error => {
+                const errorMsg = error.message
+                dispatch(getMobilityFailure(errorMsg))
+            })
+    }
+}
+
+export const getMobilities = () => {
+    return(dispatch:any) => {
+        dispatch(getMobilitiesRequest())
+        axios.get('mobility/').then(response => {
+            const mobilities = response.data
+            dispatch(getMobilitySuccess(mobilities))
+        })
+        .catch(error => {
+            const errorMsg = error.message
+            dispatch(getMobilityFailure(errorMsg))
+        })
+    }
+}
+
+export const getMobilitiesWithFilter = (body: object) => {
+    return(dispatch:any) => {
+        dispatch(getMobilityRequest())
+        const headers = {
+            'Content-Type': 'application/json', 
+        }
+        axios.post('mobility/export', body, {headers:headers})
             .then(response => {
                 const mobilities = response.data
                 dispatch(getMobilitySuccess(mobilities))

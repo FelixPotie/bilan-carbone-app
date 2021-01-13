@@ -9,7 +9,10 @@ export const DELETE_MOBILITY_FAILURE  = 'DELETE_MOBILITY_FAILURE'
 
 interface getMobilityRequest {
     type: typeof GET_MOBILITY_REQUEST,
-    payload: string
+}
+
+interface getMobilitiesRequest {
+    type: typeof GET_MOBILITY_REQUEST
 }
 
 interface getMobilitySuccess {
@@ -42,4 +45,4 @@ interface deleteMobilityFailure {
     payload: any
 }
 
-export type MobilityActionTypes = getMobilityRequest | getMobilitySuccess | getMobilityFailure | addMobilitySuccess | addMobilityFailure | deleteMobilitySuccess | deleteMobilityFailure
+export type MobilityActionTypes = getMobilityRequest | getMobilitySuccess | getMobilityFailure | addMobilitySuccess | addMobilityFailure | deleteMobilitySuccess | deleteMobilityFailure | getMobilitiesRequest

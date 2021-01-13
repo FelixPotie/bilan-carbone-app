@@ -1,15 +1,11 @@
-import { makeStyles } from '@material-ui/core';
-import React from 'react';
+import { Checkbox, FormControlLabel, FormGroup, makeStyles } from '@material-ui/core';
+import React, { useEffect } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import {
   PieChart, Pie, Cell, Legend,
 } from 'recharts';
+import { RootState } from '../../../redux';
 import Typography from '../Typography';
-
-const data = [
-  { name: 'Stage', value: 700 },
-  { name: 'Semestre', value: 200 },
-  { name: 'Double diplôme', value: 100 },
-];
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
 
@@ -36,12 +32,95 @@ const useStyles = makeStyles((theme) => ({
   graph: {
     margin: 'auto',
   },
+  form: {
+    display: 'flex',
+    width: '90%',
+    flexDirection: 'row',
+    margin: 'auto'
+  },
+  checkBox: {
+    margin: 'auto'
+  }
 }));
 
 
-function TypeCharts() {
+
+const mapState = (state: RootState) => {
+  return {
+      mobilityData: state.mobility,
+      settingsData: state.appSettings
+  }
+}
+
+const connector = connect(mapState)
+type PropsFromRedux = ConnectedProps<typeof connector>
+type Props = PropsFromRedux
+
+
+function TypeCharts(props : Props) {
   const classes = useStyles();
-  return (
+
+
+  const [data, setData] = React.useState([{}]);
+
+  interface Years {
+    [unit: string]: boolean
+  }
+  const [years , setYears] = React.useState<Years>({})
+  const getKeyValue = <T extends object, U extends keyof T>(obj: T) => (key: U) => obj[key];
+
+  useEffect(()=> {
+    if(props.settingsData.success && props.mobilityData.success) {
+      colectYears();
+    }
+  }, [props.settingsData.success, props.mobilityData.success])
+
+  useEffect(()=> {
+    if(props.settingsData.success && props.mobilityData.success) {
+      if(Object.keys(years).length>0){
+        collectData();
+      }
+    }
+  }, [props.settingsData.success, props.mobilityData.success, years])
+
+
+  const collectData = () => {
+    const data = [
+      { name: 'Stage', value: calculCarbone('INTERNSHIP') },
+      { name: 'Semestre', value: calculCarbone('SEMESTER') },
+      { name: 'Double diplôme', value: calculCarbone('DOUBLE_DEGREE') },
+    ];
+    setData(data);
+  }
+
+  const colectYears = () => {     
+    const years = props.settingsData.appSettings.allYear;
+    years.forEach((year: number) => {
+      setYears((prevState)=> ({...prevState, [year.toString()]: true}))
+    })
+  }
+
+
+  function calculCarbone(type: string) : number{
+    var sum = 0;
+    props.mobilityData.mobilites.forEach((mobility:any) => {
+      if(mobility.type===type && getKeyValue(years)(mobility.startDate.substring(0, 4))){
+        mobility.travels.forEach((travel:any) => {
+          travel.steps.forEach( (step:any) => {
+            sum=sum+step.carboneEmission;
+          })
+        })
+      }
+    });
+    return sum;
+  }
+
+  const handleYear = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setYears((prevState) => ({...prevState, [event.target.name]: event.target.checked }));
+  };
+  
+
+  return (props.settingsData.success && props.mobilityData.success)?(
     <React.Fragment>
       <Typography variant="h4" gutterBottom marked="center" align="center" className={classes.title}>
           Quel type de mobilité émet le moins ?
@@ -64,9 +143,17 @@ function TypeCharts() {
       </Pie>
 
     </PieChart>
+
+    <FormGroup className={classes.form}>
+      {Object.keys(years).map((row:any) => (
+          <FormControlLabel className={classes.checkBox} control={<Checkbox  onChange={e => handleYear(e)} checked={getKeyValue(years)(row)?true:false} name={row}/>} label={row} />
+      ))}
+    </FormGroup>
     
     </React.Fragment>
 
-  );
+  ):(
+    <div>Loading</div>
+  )
 }
-export default TypeCharts;
+export default connector(TypeCharts);
