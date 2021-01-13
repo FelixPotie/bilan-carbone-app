@@ -26,5 +26,8 @@
     "PASSENGERS":"passengers",
     "EN": "in",
     "ENTER_YOUR_JOURNEY":"Enter your journey",
-    "JOURNEY_DESC":"Enter here all the info of your journey to calculate your CO2 emissions."
+    "JOURNEY_DESC":"Enter here all the info of your journey to calculate your CO2 emissions.",
+    "BACK":"Retour",
+    "GO":"Aller",
+    "TYPE":"Type"
 }

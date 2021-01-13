@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, makeStyles, MenuItem, Select, TextField } from '@material-ui/core';
+import { Box, Button, Container, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select, TextField } from '@material-ui/core';
 import React, { useState } from 'react'
 import Typography from './Typography';
 import Step from './Step';
@@ -10,11 +10,15 @@ import { RootState } from '../../redux';
 import { addTravel } from '../../redux/travel/actions';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import {useParams} from 'react-router'
+import { useParams } from 'react-router'
+import { isNull } from 'util';
+import { Redirect } from 'react-router-dom';
+import { id } from 'date-fns/locale';
 
 const mapState = (state: RootState) => {
     return {
-        user: state.user
+        user: state.user,
+        travel: state.travel
     }
 }
 
@@ -100,6 +104,12 @@ const useStyles = makeStyles((theme) => ({
 
     actionButton: {
         textAlign: "right"
+    },
+    field: {
+        marginTop: "15px",
+        marginBottom: "15px",
+        marginLeft: "10px",
+        minWidth: "100px"
     }
 
 
@@ -115,7 +125,7 @@ function Simulation(props: Props) {
     const [date, setDate] = useState<Date | null>(
         null
     )
-    const [type, setType] = useState("GO")
+    const [type, setType] = useState(null)
 
     const urlParams: any = useParams()
 
@@ -204,6 +214,9 @@ function Simulation(props: Props) {
 
 
     return (
+        props.travel.success ? 
+            <Redirect to="/mobilites"/>
+            :
         <React.Fragment>
             <Grid container justify="space-evenly" alignItems="flex-start" >
                 <Container className={classes.title}>
@@ -225,36 +238,41 @@ function Simulation(props: Props) {
                             <Typography variant="h4" marked="center" align="center" color="inherit">
                                 {t("YOUR_JOURNEY")}
                             </Typography>
-                            {props.user.isLoggedIn &&
+                            {(props.user.isLoggedIn && urlParams.id) &&
                                 <div>
-
-                                    <label><h4>{t("DATE")} :</h4></label>
-
-                                    <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                                        <KeyboardDatePicker
-                                            disableToolbar
-                                            required
-                                            inputVariant="outlined"
-                                            format="dd/MM/yyyy"
-                                            id="date"
-                                            label="date"
-                                            value={date}
-                                            onChange={handleChangeDate}
-                                            KeyboardButtonProps={{
-                                                'aria-label': 'change date',
-                                            }}
-                                        />
-                                    </MuiPickersUtilsProvider>
-                                    <label>{t("TYPE")} : </label>
-
-
-                                    <Select value={type} onChange={handleChangeType}>
-                                        <MenuItem value="GO">{t("GO")}</MenuItem>
-                                        <MenuItem value="BACK">{t("BACK")}</MenuItem>
-                                    </Select>
-
-
-
+                                    <div className={classes.field}>
+                                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                            <KeyboardDatePicker
+                                                disableToolbar
+                                                inputVariant="outlined"
+                                                format="dd/MM/yyyy"
+                                                id="date"
+                                                label="date"
+                                                value={date}
+                                                onChange={handleChangeDate}
+                                                KeyboardButtonProps={{
+                                                    'aria-label': 'change date',
+                                                }}
+                                            />
+                                        </MuiPickersUtilsProvider>
+                                    </div>
+                                    <FormControl variant="outlined">
+                                        <InputLabel htmlFor="type">{t("TYPE")}</InputLabel>
+                                        <Select
+                                            variant="outlined"
+                                            fullWidth
+                                            id="type"
+                                            name="type"
+                                            label={t("TYPE")}
+                                            autoComplete="type"
+                                            onChange={handleChangeType}
+                                            value={type}
+                                            className={classes.field}
+                                        >
+                                            <MenuItem value={'GO'}>{t("GO")}</MenuItem>
+                                            <MenuItem value={'BACK'}>{t("BACK")}</MenuItem>
+                                        </Select>
+                                    </FormControl>
                                 </div>}
                             <div>
                                 <label><h4>{t("STEPS")} :</h4></label>
@@ -292,7 +310,7 @@ function Simulation(props: Props) {
                                     {distance}
                                 </ul>
 
-                                {props.user.isLoggedIn &&
+                                {(props.user.isLoggedIn && urlParams.id) &&
                                     <Button onClick={saveTravel}>{t("SAVE")}</Button>}
                             </Box>
                         </Container>
