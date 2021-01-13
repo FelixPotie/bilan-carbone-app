@@ -12,6 +12,8 @@ export function mobilityReducer(state = initialState,action: MobilityActionTypes
         case GET_MOBILITY_REQUEST:
             return {
                 ...state,
+                success: false,
+                error: '',
                 loading: true
             }
         case GET_MOBILITY_SUCCESS:
