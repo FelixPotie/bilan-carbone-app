@@ -7,14 +7,15 @@ import { getMobilities } from '../../redux/mobility/actions';
 import DepartmentCharts from '../components/charts/Department';
 import SchoolYearCharts from '../components/charts/SchoolYear';
 import TimeCharts from '../components/charts/Time';
+import TotalCharts from '../components/charts/Total';
 import TypeCharts from '../components/charts/Type';
 import Typography from '../components/Typography';
 
 const useStyles = makeStyles((theme) => ({
   title: {
-      marginBottom: theme.spacing(4),
+      marginBottom: theme.spacing(6),
       marginTop: theme.spacing(4),
-      width: '90%',
+      width: '50%',
       margin: 'auto'
   },
  
@@ -51,6 +52,7 @@ function StatisticsView(props : Props) {
       <Typography variant="h2" gutterBottom marked="center" align="center" className={classes.title}>
           Statistiques
        </Typography>
+      <TotalCharts/>
       <DepartmentCharts />
       <Grid container spacing={3}>
         <Grid item md={6}>

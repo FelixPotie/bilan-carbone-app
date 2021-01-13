@@ -88,7 +88,7 @@ function TypeCharts(props : Props) {
     const data = [
       { name: 'Stage', value: calculCarbone('INTERNSHIP') },
       { name: 'Semestre', value: calculCarbone('SEMESTER') },
-      { name: 'Double diplôme', value: calculCarbone('DOUBLE_DEGREE') },
+      { name: 'Double diplôme', value: calculCarbone('DOUBLE_DEGRE') },
     ];
     setData(data);
   }
