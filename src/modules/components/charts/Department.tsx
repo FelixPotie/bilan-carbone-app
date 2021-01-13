@@ -5,40 +5,6 @@ import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'rec
 import { RootState } from '../../../redux';
 import Typography from '../Typography';
 
-const dataDemo = [
-  {
-    name: 'IG', carbon: 4000,
-  },
-  {
-    name: 'GBA', carbon: 3000,
-  },
-  {
-    name: 'STE', carbon: 2000,
-  },
-  {
-    name: 'MEA', carbon: 2780,
-  },
-  {
-    name: 'MAT', carbon: 1890,
-  },
-  {
-    name: 'MI', carbon: 2390,
-  },
-  {
-    name: 'SE', carbon: 3490,
-  },
-  {
-    name: 'EGC', carbon: 2490,
-  },
-  {
-    name: 'DO', carbon: 1490,
-  },
-  {
-    name: 'MSI', carbon: 3090,
-  },
-]
-
-
 
 const mapState = (state: RootState) => {
   return {
@@ -64,10 +30,11 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     display: 'flex',
-    flexDirection: 'row'
+    width: '90%',
+    flexDirection: 'row',
+    margin: 'auto'
   },
   checkBox: {
-    flex: 'auto',
     margin: 'auto'
   }
 }));
@@ -76,25 +43,41 @@ const useStyles = makeStyles((theme) => ({
 function DepartmentCharts(props: Props) {
   const classes = useStyles();
 
+  const [data, setData] = React.useState([{}]);
+  interface Years {
+    [unit: string]: boolean
+  }
+  const [years , setYears] = React.useState<Years>({})
+
   useEffect(()=> {
-    if(props.settingsData.success && props.mobilityData.success) colectData();
+    if(props.settingsData.success && props.mobilityData.success) {
+      collectYears();
+    }
   }, [props.settingsData.success, props.mobilityData.success])
   
-  const [data, setData] = React.useState([{}]);
+  useEffect(()=> {
+    if(props.settingsData.success && props.mobilityData.success) {
+      if(Object.keys(years).length>0){
+        collectData();
+      }
+    }
+  }, [props.settingsData.success, props.mobilityData.success, years])
 
-  const colectData = () => {     
+
+  const collectData = () => {     
     const departments = props.settingsData.appSettings.department;
     const infos :{name:string, carbone: number}[]=[]
     departments.forEach((department: { [x: string]: string; }) => {
       infos.push({name:department.name, carbone: calculCarbone(department.name)})
     })
     setData(infos);
-}
+  }
 
+  
   function calculCarbone(department: string) : number{
     var sum = 0;
     props.mobilityData.mobilites.forEach((mobility:any) => {
-      if(mobility.departmentTypeName===department){
+      if(mobility.departmentTypeName===department && getKeyValue(years)(mobility.startDate.substring(0, 4)) ){
         mobility.travels.forEach((travel:any) => {
           travel.steps.forEach( (step:any) => {
             sum=sum+step.carboneEmission/1000;
@@ -104,6 +87,18 @@ function DepartmentCharts(props: Props) {
     });
     return sum;
   }
+  
+  const collectYears = () => {     
+    const years = props.settingsData.appSettings.allYear;
+    years.forEach((year: number) => {
+      setYears((prevState)=> ({...prevState, [year.toString()]: true}))
+    })
+  }
+  const getKeyValue = <T extends object, U extends keyof T>(obj: T) => (key: U) => obj[key];
+ 
+  const handleYear = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setYears((prevState) => ({...prevState, [event.target.name]: event.target.checked }));
+  };
 
   return (props.settingsData.success && props.mobilityData.success)?(
     <React.Fragment>
@@ -116,11 +111,10 @@ function DepartmentCharts(props: Props) {
               Lors de l'année en cours, quels sont les département ayant dégagés le moins d'émission de CO2 lors de leurs trajets lié aux mobilitées internationnales ?
             </Typography>
             <FormGroup className={classes.form}>
-              {props.settingsData.appSettings.allYear.map((row:any) => (
-                  <FormControlLabel className={classes.checkBox} control={<Checkbox />} label={row} />
+              {Object.keys(years).map((row:any) => (
+                  <FormControlLabel className={classes.checkBox} control={<Checkbox  onChange={e => handleYear(e)} checked={getKeyValue(years)(row)?true:false} name={row}/>} label={row} />
               ))}
             </FormGroup>
-
           </Grid>
 
           <Grid item md={6}>
@@ -138,10 +132,7 @@ function DepartmentCharts(props: Props) {
               <Bar dataKey="carbone" barSize={20} fill="#8884d8" />
             </BarChart>
           </Grid>
-
         </Grid>
-        
-                
     </React.Fragment>
   ):(
     <div>Loading</div>
