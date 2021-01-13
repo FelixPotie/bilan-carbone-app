@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, makeStyles, TextField } from '@material-ui/core';
+import { Box, Button, Container, Grid, makeStyles, MenuItem, Select, TextField } from '@material-ui/core';
 import React, { useState } from 'react'
 import Typography from './Typography';
 import Step from './Step';
@@ -10,6 +10,7 @@ import { RootState } from '../../redux';
 import { addTravel } from '../../redux/travel/actions';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import {useParams} from 'react-router'
 
 const mapState = (state: RootState) => {
     return {
@@ -114,6 +115,9 @@ function Simulation(props: Props) {
     const [date, setDate] = useState<Date | null>(
         null
     )
+    const [type, setType] = useState("GO")
+
+    const urlParams: any = useParams()
 
 
     const removeStep = (event: any) => {
@@ -148,6 +152,10 @@ function Simulation(props: Props) {
         setDate(date)
     }
 
+    const handleChangeType = (event: any) => {
+        setType(event.target.value)
+    }
+
     const getDist = (step: stepInterface): number => {
         return Math.round(getDistance({ latitude: step.from.lat, longitude: step.from.lng }, { latitude: step.to.lat, longitude: step.to.lng }) / 10) / 100
     }
@@ -170,6 +178,8 @@ function Simulation(props: Props) {
         else {
             let steps: Object[] = []
             const body = {
+                mobilityId: urlParams.id,
+                type: type,
                 date: date.toISOString(),
                 steps: steps
             }
@@ -199,7 +209,6 @@ function Simulation(props: Props) {
                 <Container className={classes.title}>
                     <Box display="flex">
                         <Box m="auto">
-                            <Button onClick={() => console.log(date)}>TEST</Button>
                             <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
                                 {props.user.isLoggedIn ? t("ENTER_YOUR_JOURNEY") : t("SIMULATE_YOUR_JOURNEY")}
                             </Typography>
@@ -218,6 +227,7 @@ function Simulation(props: Props) {
                             </Typography>
                             {props.user.isLoggedIn &&
                                 <div>
+
                                     <label><h4>{t("DATE")} :</h4></label>
 
                                     <MuiPickersUtilsProvider utils={DateFnsUtils} >
@@ -230,13 +240,21 @@ function Simulation(props: Props) {
                                             label="date"
                                             value={date}
                                             onChange={handleChangeDate}
-                                            // className={classes.field}
                                             KeyboardButtonProps={{
                                                 'aria-label': 'change date',
                                             }}
                                         />
                                     </MuiPickersUtilsProvider>
-                                    {/* <TextField type="date" value={date} onChange={handleChangeDate} /> */}
+                                    <label>{t("TYPE")} : </label>
+
+
+                                    <Select value={type} onChange={handleChangeType}>
+                                        <MenuItem value="GO">{t("GO")}</MenuItem>
+                                        <MenuItem value="BACK">{t("BACK")}</MenuItem>
+                                    </Select>
+
+
+
                                 </div>}
                             <div>
                                 <label><h4>{t("STEPS")} :</h4></label>

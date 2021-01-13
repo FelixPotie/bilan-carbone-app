@@ -5,9 +5,10 @@ import { ADD_TRAVEL_SUCCESS, ADD_TRAVEL_FAILURE, DELETE_TRAVEL_FAILURE, DELETE_T
 export const addTravel = (travel: any) => {
     const body = {
         date: travel.date,
-        mobilityId: 6,
-        type: "GO"
+        mobilityId: Number(travel.mobilityId),
+        type: travel.type
     }
+    console.log("travel: ", travel, "body : ", body)
     return (dispatch: any) => {
         const headers = {
             'Content-Type': 'application/json',
