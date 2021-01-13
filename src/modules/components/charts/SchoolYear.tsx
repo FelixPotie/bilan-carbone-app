@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel, FormGroup, makeStyles } from '@material-ui/core';
+import { Checkbox, CircularProgress, FormControlLabel, FormGroup, makeStyles } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import {
@@ -150,7 +150,7 @@ function SchoolYearCharts(props: Props) {
     </React.Fragment>
 
   ):(
-    <div>Loading</div>
+    <CircularProgress disableShrink />
   )
 }
 export default connector(SchoolYearCharts);

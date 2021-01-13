@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel, FormGroup, Grid, makeStyles } from '@material-ui/core';
+import { Checkbox, CircularProgress, FormControlLabel, FormGroup, Grid, makeStyles } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import {
@@ -29,6 +29,10 @@ const useStyles = makeStyles((theme) => ({
   },
   checkBox: {
     margin: 'auto'
+  },
+  total: {
+    marginBottom: theme.spacing(3),
+    marginTop: theme.spacing(3),
   }
 }));
 
@@ -109,7 +113,7 @@ function TimeCharts(props: Props){
 
     return (props.settingsData.success && props.mobilityData.success)?(
       <React.Fragment>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} className={classes.total}>
         <Grid item md={6}>
             <Typography variant="h4" gutterBottom marked="center" align="center" className={classes.title}>
               Evolution des émissions carbones au fil du temps
@@ -134,7 +138,7 @@ function TimeCharts(props: Props){
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
-                  <YAxis />
+                  <YAxis label={{ value: 'kg', angle: -90, position: 'insideLeft' }} />
                   <Tooltip />
                   <Area type="monotone" dataKey="carbone" stroke="#8884d8" fill="#8884d8" />
                 </AreaChart>
@@ -145,7 +149,7 @@ function TimeCharts(props: Props){
       </React.Fragment>
 
     ):(
-      <div>Loading</div>
+      <CircularProgress disableShrink />
     )
 }
 export default connector(TimeCharts);

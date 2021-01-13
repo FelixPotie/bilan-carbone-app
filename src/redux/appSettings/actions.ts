@@ -82,9 +82,6 @@ export function deleteAppSettingsFailure(error:any) : AppSettingsActionTypes{
 
 export const deleteAppSettings = (id: number) => {
     return(dispatch:any) => {
-        const headers = {
-            'Content-Type': 'application/json', 
-        }
         axios.delete('mobility/'+id)
             .then(response => {
                 dispatch(deleteAppSettingsSuccess(id))

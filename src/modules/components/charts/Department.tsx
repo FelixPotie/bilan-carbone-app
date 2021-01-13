@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel, FormGroup, Grid, makeStyles } from '@material-ui/core';
+import { Checkbox, CircularProgress, FormControlLabel, FormGroup, Grid, makeStyles } from '@material-ui/core';
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux';
 import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts';
@@ -36,6 +36,10 @@ const useStyles = makeStyles((theme) => ({
   },
   checkBox: {
     margin: 'auto'
+  },
+  total: {
+    marginBottom: theme.spacing(3),
+    marginTop: theme.spacing(2),
   }
 }));
 
@@ -102,7 +106,7 @@ function DepartmentCharts(props: Props) {
 
   return (props.settingsData.success && props.mobilityData.success)?(
     <React.Fragment>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} className={classes.total}>
           <Grid item md={6}>
             <Typography variant="h4" gutterBottom marked="center" align="center" className={classes.title}>
               Quel départments émettent le moins ?
@@ -126,7 +130,7 @@ function DepartmentCharts(props: Props) {
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
-              <YAxis />
+              <YAxis label={{ value: 'kg', angle: -90, position: 'insideLeft' }}/>
               <Tooltip />
               <Legend />
               <Bar dataKey="carbone" barSize={20} fill="#8884d8" />
@@ -135,7 +139,7 @@ function DepartmentCharts(props: Props) {
         </Grid>
     </React.Fragment>
   ):(
-    <div>Loading</div>
+    <CircularProgress disableShrink />
   )
 }
 
