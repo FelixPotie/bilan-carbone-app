@@ -1,7 +1,8 @@
 import { Checkbox, CircularProgress, FormControlLabel, FormGroup, Grid, makeStyles } from '@material-ui/core';
 import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next';
 import { connect, ConnectedProps } from 'react-redux';
-import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { RootState } from '../../../redux';
 import Typography from '../Typography';
 
@@ -26,7 +27,9 @@ const useStyles = makeStyles((theme) => ({
   },
   graph: {
     margin: 'auto',
-    marginTop :theme.spacing(2),
+    marginTop :theme.spacing(3),
+    width: '100%',
+    height: 290
   },
   form: {
     display: 'flex',
@@ -40,12 +43,16 @@ const useStyles = makeStyles((theme) => ({
   total: {
     marginBottom: theme.spacing(3),
     marginTop: theme.spacing(2),
+  },
+  chart: {
+    marginLeft: '2.5%'
   }
 }));
 
 
 function DepartmentCharts(props: Props) {
   const classes = useStyles();
+  const  {t} = useTranslation('statistics');
 
   const [data, setData] = React.useState([{}]);
   interface Years {
@@ -104,42 +111,59 @@ function DepartmentCharts(props: Props) {
     setYears((prevState) => ({...prevState, [event.target.name]: event.target.checked }));
   };
 
-  return (props.settingsData.success && props.mobilityData.success)?(
+  const displayYears = () => {
+    if(props.settingsData.success){
+      return (
+        <FormGroup className={classes.form}>
+          {Object.keys(years).map((row:any) => (
+              <FormControlLabel className={classes.checkBox} control={<Checkbox  onChange={e => handleYear(e)} checked={getKeyValue(years)(row)?true:false} name={row}/>} label={row} />
+          ))}
+        </FormGroup>
+      )
+    }
+  }
+  const displayData = () => {
+    if(props.settingsData.success && props.mobilityData.success){
+      return (
+        <ResponsiveContainer width="90%" height={290}>
+          <BarChart
+            data={data}
+            className={classes.chart}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis label={{ value: 'kg', angle: -90, position: 'insideLeft' }}/>
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="carbone" barSize={20} fill="#8884d8" />
+          </BarChart>
+        </ResponsiveContainer>
+
+      )
+    }else{
+      return(
+        <CircularProgress disableShrink />
+      )
+    }
+  }
+
+  return(
     <React.Fragment>
         <Grid container spacing={3} className={classes.total}>
           <Grid item md={6}>
             <Typography variant="h4" gutterBottom marked="center" align="center" className={classes.title}>
-              Quel départments émettent le moins ?
+              {t("WHICH_DEPARTMENT")} ?
             </Typography>
             <Typography variant="h5" gutterBottom marked="center" align="center" className={classes.title}>
-              Lors de l'année en cours, quels sont les département ayant dégagés le moins d'émission de CO2 lors de leurs trajets lié aux mobilitées internationnales ?
+              {t("TEXT_DEPARTMENT")} ?
             </Typography>
-            <FormGroup className={classes.form}>
-              {Object.keys(years).map((row:any) => (
-                  <FormControlLabel className={classes.checkBox} control={<Checkbox  onChange={e => handleYear(e)} checked={getKeyValue(years)(row)?true:false} name={row}/>} label={row} />
-              ))}
-            </FormGroup>
+            {displayYears()}
           </Grid>
-
-          <Grid item md={6}>
-            <BarChart
-              width={550}
-              height={290}
-              data={data}
-              className={classes.graph}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis label={{ value: 'kg', angle: -90, position: 'insideLeft' }}/>
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="carbone" barSize={20} fill="#8884d8" />
-            </BarChart>
+          <Grid item md={6} className={classes.graph}>
+            {displayData()}
           </Grid>
         </Grid>
     </React.Fragment>
-  ):(
-    <CircularProgress disableShrink />
   )
 }
 

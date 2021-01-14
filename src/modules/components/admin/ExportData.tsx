@@ -10,15 +10,15 @@ import {
 import React from 'react';
 import { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { RootState } from '../../redux';
-import { loadAdmin } from '../../redux/admin/actions';
-import { getAppSettings } from '../../redux/appSettings/actions';
-import { getMobilitiesWithFilter } from '../../redux/mobility/actions';
+import { RootState } from '../../../redux';
+import { loadAdmin } from '../../../redux/admin/actions';
+import { getAppSettings } from '../../../redux/appSettings/actions';
+import { getMobilitiesWithFilter } from '../../../redux/mobility/actions';
 //component
-import Button from './Button';
-import Typography from './Typography';
+import Button from '../Button';
+import Typography from '../Typography';
 import UnauthorizedAdminContainer from './UnauthorizedAdmin';
-import Snackbar from './Snackbar'
+import Snackbar from '../Snackbar'
 //Lib
 import DateFnsUtils from '@date-io/date-fns';
 import 'date-fns';

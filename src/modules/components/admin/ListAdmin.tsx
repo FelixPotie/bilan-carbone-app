@@ -1,10 +1,10 @@
 import { Box, Button, Container, createStyles, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Theme, withStyles } from '@material-ui/core';
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux';
-import { RootState } from '../../redux';
-import Typography from './Typography';
+import { RootState } from '../../../redux';
+import Typography from '../Typography';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { deleteAdmin, getAdmins } from '../../redux/admin/actions';
+import { deleteAdmin, getAdmins } from '../../../redux/admin/actions';
 import UnauthorizedAdminContainer from './UnauthorizedAdmin';
 
 

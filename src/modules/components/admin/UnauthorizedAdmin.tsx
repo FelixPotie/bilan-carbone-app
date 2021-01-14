@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
-import Typography from "./Typography";
+import Typography from "../Typography";
 
 const useStyles = makeStyles((theme) => ({
     title: {
