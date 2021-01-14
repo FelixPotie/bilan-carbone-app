@@ -96,7 +96,7 @@ function ListAdminContainer(props: Props) {
             </Container>
             <Container className={classes.tableContainer}>
                 <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label="customized table">
+                    <Table className={classes.table} size="small">
                         <TableHead>
                         <TableRow>
                             <StyledTableCell align="center">Identifiant</StyledTableCell>
