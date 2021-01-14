@@ -30,5 +30,8 @@
     "BACK":"Retour",
     "GO":"Aller",
     "TYPE":"Type",
-    "CO2_EQUIVALENT": "CO2 equivalent"
+    "CO2_EQUIVALENT": "CO2 equivalent",
+    "DOUBLE_DEGRE":"double degree",
+    "INTERNSHIP": "internship",
+    "SEMESTER": "semester"
 }

@@ -1,5 +1,5 @@
 import { Box, Button, Container, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select } from '@material-ui/core';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Typography from './Typography';
 import Step from './Step';
 import { getDistance } from 'geolib'
@@ -13,17 +13,21 @@ import DateFnsUtils from '@date-io/date-fns';
 import { useParams } from 'react-router'
 import { Redirect } from 'react-router-dom';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import { getMobilitiesByUser } from '../../redux/mobility/actions';
+import Comparator from './Comparator';
 
 const mapState = (state: RootState) => {
     return {
         user: state.user,
-        travel: state.travel
+        travel: state.travel,
+        mobilityData: state.mobility,
     }
 }
 
 const mapDispatch = (dispatch: any) => {
     return {
-        addTravel: (body: object) => dispatch(addTravel(body))
+        addTravel: (body: object) => dispatch(addTravel(body)),
+        getMobilitiesByUser: (username: string) => dispatch(getMobilitiesByUser(username)),
     }
 }
 
@@ -126,6 +130,10 @@ function Simulation(props: Props) {
     )
     const [type, setType] = useState(null)
 
+    useEffect(() => {
+        if (props.user.isLoggedIn) props.getMobilitiesByUser(props.user.user.username)
+    }, [props.user.isLoggedIn])
+
     const urlParams: any = useParams()
 
 
@@ -168,6 +176,7 @@ function Simulation(props: Props) {
     const getDist = (step: stepInterface): number => {
         return Math.round(getDistance({ latitude: step.from.lat, longitude: step.from.lng }, { latitude: step.to.lat, longitude: step.to.lng }) / 10) / 100
     }
+
     const distance = listStep.map((step, index) => (
         <li>
             <Typography variant="h5">
@@ -177,9 +186,9 @@ function Simulation(props: Props) {
                 {getDist(step)} km {t("BY")} {t(`${step.by}`)}
             </Typography>
             <Typography variant="h5">
-                {t("CO2_EQUIVALENT")} : {Math.round(calculateur(getDist(step), step.by, step.nbPers) / 10) / 100} kg
+                CO<sub>2</sub> equivalent : {Math.round(calculateur(getDist(step), step.by, step.nbPers) / 10) / 100} kg
             </Typography>
-            <br></br>
+            <Comparator meansOfTransport={step.by} distance={getDist(step)} nbPers={step.nbPers} emissions={calculateur(getDist(step), step.by, step.nbPers)} ></Comparator>
         </li>
     ))
 
@@ -221,19 +230,37 @@ function Simulation(props: Props) {
             :
             <React.Fragment>
                 <Grid container justify="space-evenly" alignItems="flex-start" >
-                    <Container className={classes.title}>
-                        <Box display="flex">
-                            <Box m="auto">
-                                <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
-                                    {props.user.isLoggedIn ? t("ENTER_YOUR_JOURNEY") : t("SIMULATE_YOUR_JOURNEY")}
-                                </Typography>
+                    {(props.user.isLoggedIn && urlParams.id) ?
+                        <Container className={classes.title}>
+                            <Box display="flex">
+                                <Box m="auto">
+                                    <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
+                                        {t("ENTER_YOUR_JOURNEY")}
+                                    </Typography>
+                                </Box>
                             </Box>
-                        </Box>
 
-                        <Typography variant="h5" gutterBottom marked="center" align="center">
-                            {props.user.isLoggedIn ? t("JOURNEY_DESC") : t("PAGE_DESCRIPTION")}
-                        </Typography>
-                    </Container>
+                            <Typography variant="h5" gutterBottom marked="center" align="center">
+                                {props.mobilityData.mobilites.map((mobility: any) => mobility.id === Number(urlParams.id) &&
+                                <div>Enter here your journey for your {t(mobility.type)} in {mobility.place}.</div>)}
+                            </Typography>
+                        </Container>
+                        :
+                        <Container className={classes.title}>
+                            <Box display="flex">
+                                <Box m="auto">
+                                    <Button onClick={() => console.log(props.mobilityData)}>test</Button>
+                                    <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
+                                        {t("SIMULATE_YOUR_JOURNEY")}
+                                    </Typography>
+                                </Box>
+                            </Box>
+
+                            <Typography variant="h5" gutterBottom marked="center" align="center">
+                                {t("PAGE_DESCRIPTION")}
+                            </Typography>
+                        </Container>
+                    }
                     <Grid md={6} alignItems="center">
                         <Container className={classes.journeyCard}>
                             <Box>
@@ -311,7 +338,6 @@ function Simulation(props: Props) {
                                     <ul>
                                         {distance}
                                     </ul>
-
                                     {(props.user.isLoggedIn && urlParams.id) &&
                                         <Button onClick={saveTravel}>{t("SAVE")}</Button>}
                                 </Box>

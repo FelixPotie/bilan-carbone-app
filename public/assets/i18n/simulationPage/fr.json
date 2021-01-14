@@ -30,5 +30,8 @@
     "BACK":"Back",
     "GO":"Go",
     "TYPE":"Type",
-    "CO2_EQUIVALENT": "Équivalent CO2"
+    "CO2_EQUIVALENT": "Équivalent CO2",
+    "DOUBLE_DEGRE":"double diplôme",
+    "INTERNSHIP": "stage",
+    "SEMESTER": "semestre"
 }
