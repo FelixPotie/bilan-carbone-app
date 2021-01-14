@@ -50,7 +50,7 @@ function HomeHeader(props: WithStyles<typeof styles>) {
         size="large"
         className={classes.button}
         component="a"
-        href="/premium-themes/onepirate/sign-up/"
+        href="/simulation"
       >
         {t("LAUNCH_SIMULATION")}
       </Button>

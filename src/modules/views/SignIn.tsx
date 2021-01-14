@@ -4,6 +4,7 @@ import Typography from '../components/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Box, Grid } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 import AppForm from './AppForm';
 import { RootState } from '../../redux';
 import { connect, ConnectedProps } from 'react-redux';
@@ -62,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
 
 function SignInContainer(props: Props) {
   const classes = useStyles();
+  const  {t} = useTranslation('signIn');
 
   const [stateLogin, setStateLogin] = React.useState({
     username: "",
@@ -169,7 +171,7 @@ function SignInContainer(props: Props) {
                 <AppForm >
                   <React.Fragment >
                     <Typography variant="h3" gutterBottom marked="center" align="left">
-                      Connexion
+                      {t("CONNECTION")}
                         </Typography>
                     <Typography variant="h5">
                       {props.user.failure}
@@ -183,7 +185,7 @@ function SignInContainer(props: Props) {
                       required
                       fullWidth
                       id="username"
-                      label="Identifiant Polytech"
+                      label={t("ID")}
                       name="username"
                       autoComplete="username"
                       onChange={handleChange}
@@ -196,7 +198,7 @@ function SignInContainer(props: Props) {
                       required
                       fullWidth
                       name="password"
-                      label="Mot de passe"
+                      label={t("PASSWORD")}
                       type="password"
                       id="password"
                       autoComplete="current-password"
@@ -209,7 +211,7 @@ function SignInContainer(props: Props) {
                       variant="contained"
                       color="primary"
                     >
-                      Connexion
+                      {t("CONNECTION")}
                         </Button>
                   </form>
                 </AppForm>

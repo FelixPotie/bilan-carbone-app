@@ -1,5 +1,6 @@
 import { Checkbox, FormControlLabel, FormGroup, makeStyles } from '@material-ui/core';
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { connect, ConnectedProps } from 'react-redux';
 import {
   PieChart, Pie, Cell, Legend,
@@ -59,6 +60,7 @@ type Props = PropsFromRedux
 
 function TypeCharts(props : Props) {
   const classes = useStyles();
+  const  {t} = useTranslation('statistics');
 
 
   const [data, setData] = React.useState([{}]);
@@ -123,7 +125,7 @@ function TypeCharts(props : Props) {
   return (props.settingsData.success && props.mobilityData.success)?(
     <React.Fragment>
       <Typography variant="h4" gutterBottom marked="center" align="center" className={classes.title}>
-          Quel type de mobilité émet le moins ?
+          {t("TYPE")} ?
       </Typography>
       <PieChart width={300} height={270} className={classes.graph}>
       <Legend />

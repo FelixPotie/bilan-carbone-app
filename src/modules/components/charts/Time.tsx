@@ -1,5 +1,6 @@
 import { Checkbox, CircularProgress, FormControlLabel, FormGroup, Grid, makeStyles } from '@material-ui/core';
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { connect, ConnectedProps } from 'react-redux';
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -52,6 +53,7 @@ type Props = PropsFromRedux
 
 function TimeCharts(props: Props){
   const classes = useStyles();
+  const  {t} = useTranslation('statistics');
 
   const [data, setData] = React.useState([{}]);
   interface Departments {
@@ -116,10 +118,10 @@ function TimeCharts(props: Props){
         <Grid container spacing={3} className={classes.total}>
         <Grid item md={6}>
             <Typography variant="h4" gutterBottom marked="center" align="center" className={classes.title}>
-              Evolution des émissions carbones au fil du temps
+              {t("TIME_TITLE")}
             </Typography>
             <Typography variant="h5" gutterBottom marked="center" align="center" className={classes.title}>
-              Au fur et à mesure des années, les émissions carbones de Polytech Montpellier liées aux mobilités internationnales ont elles tendances à diminuer ?
+              {t("TIME_TEXT")}
             </Typography>
             <FormGroup className={classes.form}>
               {Object.keys(departments).map((row:any) => (

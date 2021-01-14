@@ -1,5 +1,6 @@
-import { Grid, makeStyles } from '@material-ui/core';
+import { Box, Grid, makeStyles } from '@material-ui/core';
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux';
 import { getAppSettings } from '../../redux/appSettings/actions';
@@ -15,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
   title: {
       marginBottom: theme.spacing(6),
       marginTop: theme.spacing(4),
-      width: '50%',
       margin: 'auto'
   },
  
@@ -41,6 +41,8 @@ type Props = PropsFromRedux
 
 function StatisticsView(props : Props) {
   const classes = useStyles();
+  const  {t} = useTranslation('statistics');
+
 
   useEffect(()=> {
     props.getMobilities()
@@ -49,9 +51,14 @@ function StatisticsView(props : Props) {
 
   return (
     <React.Fragment>
-      <Typography variant="h2" gutterBottom marked="center" align="center" className={classes.title}>
-          Statistiques
-       </Typography>
+      <Box display="flex">
+        <Box m="auto">
+          <Typography variant="h2" gutterBottom marked="center" align="center" className={classes.title}>
+            {t("STATISTICS")}
+        </Typography>
+        </Box>
+      </Box>
+      
       <TotalCharts/>
       <DepartmentCharts />
       <Grid container spacing={3}>

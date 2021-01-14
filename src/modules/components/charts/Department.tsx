@@ -1,5 +1,6 @@
 import { Checkbox, CircularProgress, FormControlLabel, FormGroup, Grid, makeStyles } from '@material-ui/core';
 import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next';
 import { connect, ConnectedProps } from 'react-redux';
 import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts';
 import { RootState } from '../../../redux';
@@ -46,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
 function DepartmentCharts(props: Props) {
   const classes = useStyles();
+  const  {t} = useTranslation('statistics');
 
   const [data, setData] = React.useState([{}]);
   interface Years {
@@ -109,10 +111,10 @@ function DepartmentCharts(props: Props) {
         <Grid container spacing={3} className={classes.total}>
           <Grid item md={6}>
             <Typography variant="h4" gutterBottom marked="center" align="center" className={classes.title}>
-              Quel départments émettent le moins ?
+              {t("WHICH_DEPARTMENT")} ?
             </Typography>
             <Typography variant="h5" gutterBottom marked="center" align="center" className={classes.title}>
-              Lors de l'année en cours, quels sont les département ayant dégagés le moins d'émission de CO2 lors de leurs trajets lié aux mobilitées internationnales ?
+              {t("TEXT_DEPARTMENT")} ?
             </Typography>
             <FormGroup className={classes.form}>
               {Object.keys(years).map((row:any) => (

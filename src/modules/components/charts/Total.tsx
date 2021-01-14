@@ -1,5 +1,6 @@
 import { CardContent, Checkbox, Card, FormControlLabel, FormGroup, Grid, makeStyles, CircularProgress } from '@material-ui/core';
 import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../../redux';
 import Typography from '../Typography';
@@ -47,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 function TotalCharts(props: Props) {
   const classes = useStyles();
+  const  {t} = useTranslation('statistics');
 
   const [data, setData] = React.useState(0);
   interface Years {
@@ -101,10 +103,10 @@ function TotalCharts(props: Props) {
         <Card className={classes.total}>
             <CardContent>
                 <Typography variant="h5" gutterBottom marked="center" align="center" className={classes.title}>
-                    Total des émissions carbones :
+                    {t("TOTAL")} :
                 </Typography>
                 <Typography variant="h5" gutterBottom marked="center" align="center" className={classes.subtitle}>
-                    {(data/1000).toFixed(2)} kg de CO<sub>2</sub>
+                    {(data/1000).toFixed(2)} kg {t("OF")} CO<sub>2</sub>
                 </Typography>
                 <FormGroup className={classes.form}>
                     {Object.keys(years).map((row:any) => (
