@@ -7,8 +7,8 @@ import {
 } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
 import Grid from '@material-ui/core/Grid';
-import Button from '../components/Button';
-import Typography from '../components/Typography';
+import Button from '../../components/Button';
+import Typography from '../../components/Typography';
 
 const styles = (theme: Theme) =>
   createStyles({

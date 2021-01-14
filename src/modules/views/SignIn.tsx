@@ -111,7 +111,7 @@ function SignInContainer(props: Props) {
                 required
                 fullWidth
                 id="username"
-                label="Identifiant Polytech"
+                label="Identifiant"
                 name="username"
                 autoComplete="username"
                 onChange={handleChange}

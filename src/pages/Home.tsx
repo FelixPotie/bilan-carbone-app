@@ -1,8 +1,8 @@
 import React from 'react';
-import ColabSection from '../modules/views/ColabSection';
-import HomeHeader from '../modules/views/HomeHeader';
-import GraphSection from '../modules/views/GraphSection';
-import ShowStatSection from '../modules/views/ShowStatSection';
+import ColabSection from '../modules/views/homePage/ColabSection';
+import HomeHeader from '../modules/views/homePage/HomeHeader';
+import GraphSection from '../modules/views/homePage/GraphSection';
+import ShowStatSection from '../modules/views/homePage/ShowStatSection';
 import withRoot from '../modules/withRoot';
 
 

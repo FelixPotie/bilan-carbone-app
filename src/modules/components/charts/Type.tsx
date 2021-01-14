@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel, FormGroup, makeStyles } from '@material-ui/core';
+import { Checkbox, CircularProgress, FormControlLabel, FormGroup, makeStyles } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect, ConnectedProps } from 'react-redux';
@@ -121,41 +121,52 @@ function TypeCharts(props : Props) {
     setYears((prevState) => ({...prevState, [event.target.name]: event.target.checked }));
   };
   
+  const displayData = () => {
+    if(props.settingsData.success && props.mobilityData.success){
+      return (
+        <div>
+          <PieChart width={300} height={270} className={classes.graph}>
+            <Legend />
 
-  return (props.settingsData.success && props.mobilityData.success)?(
+            <Pie
+              data={data}
+              labelLine={false}
+              label={renderCustomizedLabel}
+              outerRadius={115}
+              fill="#8884d8"
+              dataKey="value"
+            >
+
+              {
+                data.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
+              }
+            </Pie>
+
+          </PieChart>
+
+          <FormGroup className={classes.form}>
+            {Object.keys(years).map((row:any) => (
+                <FormControlLabel className={classes.checkBox} control={<Checkbox  onChange={e => handleYear(e)} checked={getKeyValue(years)(row)?true:false} name={row}/>} label={row} />
+            ))}
+          </FormGroup>
+        </div>
+        
+    
+      )
+    }else{
+      return(
+        <CircularProgress disableShrink />
+      )
+    }
+  }
+
+  return (
     <React.Fragment>
       <Typography variant="h4" gutterBottom marked="center" align="center" className={classes.title}>
           {t("TYPE")} ?
       </Typography>
-      <PieChart width={300} height={270} className={classes.graph}>
-      <Legend />
-
-      <Pie
-        data={data}
-        labelLine={false}
-        label={renderCustomizedLabel}
-        outerRadius={115}
-        fill="#8884d8"
-        dataKey="value"
-      >
-
-        {
-          data.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
-        }
-      </Pie>
-
-    </PieChart>
-
-    <FormGroup className={classes.form}>
-      {Object.keys(years).map((row:any) => (
-          <FormControlLabel className={classes.checkBox} control={<Checkbox  onChange={e => handleYear(e)} checked={getKeyValue(years)(row)?true:false} name={row}/>} label={row} />
-      ))}
-    </FormGroup>
-    
+      {displayData()}
     </React.Fragment>
-
-  ):(
-    <div>Loading</div>
   )
 }
 export default connector(TypeCharts);

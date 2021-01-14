@@ -1,4 +1,4 @@
-import { CardContent, Checkbox, Card, FormControlLabel, FormGroup, Grid, makeStyles, CircularProgress } from '@material-ui/core';
+import { CardContent, Checkbox, Card, FormControlLabel, FormGroup, Grid, makeStyles, CircularProgress, Box } from '@material-ui/core';
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import { connect, ConnectedProps } from 'react-redux';
@@ -39,8 +39,6 @@ const useStyles = makeStyles((theme) => ({
     margin: 'auto'
   },
   total: {
-    margin: 'auto',
-    width: '500px',
     backgroundColor: '#ccebff'
   }
 }));
@@ -97,27 +95,43 @@ function TotalCharts(props: Props) {
   const handleYear = (event: React.ChangeEvent<HTMLInputElement>) => {
     setYears((prevState) => ({...prevState, [event.target.name]: event.target.checked }));
   };
+  
+  const displayData = () => {
+    if(props.settingsData.success && props.mobilityData.success){
+      return (
+        <div>
+          <Typography variant="h5" gutterBottom marked="center" align="center" className={classes.subtitle}>
+            {(data/1000).toFixed(2)} kg {t("OF")} CO<sub>2</sub>
+          </Typography>
+          <FormGroup className={classes.form}>
+            {Object.keys(years).map((row:any) => (
+              <FormControlLabel className={classes.checkBox} control={<Checkbox  onChange={e => handleYear(e)} checked={getKeyValue(years)(row)?true:false} name={row}/>} label={row} />
+            ))}
+          </FormGroup>
+        </div>
+      )
+    } else {
+      return (
+        <CircularProgress disableShrink/>
+      )
+    }
+  }
 
-  return (props.settingsData.success && props.mobilityData.success)?(
+  return (
     <React.Fragment>
+      <Box display="flex">
+        <Box m="auto">
         <Card className={classes.total}>
             <CardContent>
                 <Typography variant="h5" gutterBottom marked="center" align="center" className={classes.title}>
                     {t("TOTAL")} :
                 </Typography>
-                <Typography variant="h5" gutterBottom marked="center" align="center" className={classes.subtitle}>
-                    {(data/1000).toFixed(2)} kg {t("OF")} CO<sub>2</sub>
-                </Typography>
-                <FormGroup className={classes.form}>
-                    {Object.keys(years).map((row:any) => (
-                        <FormControlLabel className={classes.checkBox} control={<Checkbox  onChange={e => handleYear(e)} checked={getKeyValue(years)(row)?true:false} name={row}/>} label={row} />
-                    ))}
-            </FormGroup>
+                {displayData()}
             </CardContent>
         </Card>
+        </Box>
+      </Box>
     </React.Fragment>
-  ):(
-    <CircularProgress disableShrink />
   )
 }
 

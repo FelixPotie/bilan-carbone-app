@@ -4,8 +4,8 @@ import {
   WithStyles,
   createStyles,
 } from '@material-ui/core/styles';
-import Button from '../components/Button';
-import Typography from '../components/Typography';
+import Button from '../../components/Button';
+import Typography from '../../components/Typography';
 import HomeHeaderLayout from './HomeHeaderLayout';
 import { useTranslation} from 'react-i18next'
 

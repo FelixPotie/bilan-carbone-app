@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   graph: {
     margin: 'auto',
     marginTop :theme.spacing(3),
-    width: 550,
+    width: '100%',
     height: 290
   },
   form: {
@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
   total: {
     marginBottom: theme.spacing(3),
     marginTop: theme.spacing(3),
+  },
+  chart: {
+    marginLeft: '2.5%'
   }
 }));
 
@@ -113,7 +116,44 @@ function TimeCharts(props: Props){
     setDepartments((prevState) => ({...prevState, [event.target.name]: event.target.checked }));
   };
 
-    return (props.settingsData.success && props.mobilityData.success)?(
+  const displayYears = () => {
+    if(props.settingsData.success){
+      return(
+        <FormGroup className={classes.form}>
+          {Object.keys(departments).map((row:any) => (
+              <FormControlLabel className={classes.checkBox} control={<Checkbox  onChange={e => handleDepartment(e)} checked={getKeyValue(departments)(row)?true:false} name={row}/>} label={row} />
+          ))}
+        </FormGroup>
+      )
+    }
+  }
+  
+  const displayData = () => {
+    if(props.settingsData.success && props.mobilityData.success){
+      return (
+        // <div className={classes.graph}>
+          <ResponsiveContainer width="90%" height={250}>
+            <AreaChart
+              data={data}
+              className={classes.chart}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis label={{ value: 'kg', angle: -90, position: 'insideLeft' }} />
+              <Tooltip />
+              <Area type="monotone" dataKey="carbone" stroke="#8884d8" fill="#8884d8" />
+            </AreaChart>
+          </ResponsiveContainer>
+        // </div>
+      )
+    }else{
+      return(
+        <CircularProgress disableShrink />
+      )
+    }
+  }
+
+    return (
       <React.Fragment>
         <Grid container spacing={3} className={classes.total}>
         <Grid item md={6}>
@@ -123,35 +163,13 @@ function TimeCharts(props: Props){
             <Typography variant="h5" gutterBottom marked="center" align="center" className={classes.title}>
               {t("TIME_TEXT")}
             </Typography>
-            <FormGroup className={classes.form}>
-              {Object.keys(departments).map((row:any) => (
-                  <FormControlLabel className={classes.checkBox} control={<Checkbox  onChange={e => handleDepartment(e)} checked={getKeyValue(departments)(row)?true:false} name={row}/>} label={row} />
-              ))}
-            </FormGroup>
+            {displayYears()}
           </Grid>
-          <Grid item md={6}>
-            <div className={classes.graph}>
-              <ResponsiveContainer>
-                <AreaChart
-                  data={data}
-                  margin={{
-                    top: 0, right: 30, left: 0, bottom: 0,
-                  }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis label={{ value: 'kg', angle: -90, position: 'insideLeft' }} />
-                  <Tooltip />
-                  <Area type="monotone" dataKey="carbone" stroke="#8884d8" fill="#8884d8" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
+          <Grid item md={6} className={classes.graph}>
+            {displayData()}
           </Grid>
         </Grid>
       </React.Fragment>
-
-    ):(
-      <CircularProgress disableShrink />
     )
 }
 export default connector(TimeCharts);

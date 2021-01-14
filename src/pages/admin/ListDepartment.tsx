@@ -1,6 +1,6 @@
 import React from 'react'
 import withRoot from '../../modules/withRoot'
-import ListDepartmentContainer from '../../modules/components/ListDepartment';
+import ListDepartmentContainer from '../../modules/components/admin/ListDepartment';
 
 
 
