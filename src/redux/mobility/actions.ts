@@ -1,10 +1,15 @@
-import { GET_MOBILITY_FAILURE, GET_MOBILITY_REQUEST, GET_MOBILITY_SUCCESS, ADD_MOBILITY_SUCCESS, ADD_MOBILITY_FAILURE , DELETE_MOBILITY_SUCCESS, DELETE_MOBILITY_FAILURE, MobilityActionTypes } from "./types";
+import { GET_MOBILITY_FAILURE, GET_MOBILITY_REQUEST, GET_MOBILITY_SUCCESS, ADD_MOBILITY_SUCCESS, ADD_MOBILITY_FAILURE , DELETE_MOBILITY_SUCCESS, DELETE_MOBILITY_FAILURE, MobilityActionTypes, DELETE_TRAVEL_SUCCESS, DELETE_TRAVEL_FAILURE } from "./types";
 import axios from 'axios'
 
-export function getMobilityRequest(userId: string) : MobilityActionTypes{
+export function getMobilityRequest() : MobilityActionTypes{
     return {
         type: GET_MOBILITY_REQUEST,
-        payload: userId
+    }
+}
+
+export function getMobilitiesRequest() : MobilityActionTypes{
+    return {
+        type: GET_MOBILITY_REQUEST,
     }
 }
 
@@ -24,8 +29,40 @@ export function getMobilityFailure(error:any) : MobilityActionTypes{
 
 export const getMobilitiesByUser = (username: string) => {
     return(dispatch:any) => {
-        dispatch(getMobilityRequest(username))
+        dispatch(getMobilityRequest())
         axios.get('mobility/user/'+username)
+            .then(response => {
+                const mobilities = response.data
+                dispatch(getMobilitySuccess(mobilities))
+            })
+            .catch(error => {
+                const errorMsg = error.message
+                dispatch(getMobilityFailure(errorMsg))
+            })
+    }
+}
+
+export const getMobilities = () => {
+    return(dispatch:any) => {
+        dispatch(getMobilitiesRequest())
+        axios.get('mobility/').then(response => {
+            const mobilities = response.data
+            dispatch(getMobilitySuccess(mobilities))
+        })
+        .catch(error => {
+            const errorMsg = error.message
+            dispatch(getMobilityFailure(errorMsg))
+        })
+    }
+}
+
+export const getMobilitiesWithFilter = (body: object) => {
+    return(dispatch:any) => {
+        dispatch(getMobilityRequest())
+        const headers = {
+            'Content-Type': 'application/json', 
+        }
+        axios.post('mobility/export', body, {headers:headers})
             .then(response => {
                 const mobilities = response.data
                 dispatch(getMobilitySuccess(mobilities))
@@ -81,6 +118,7 @@ export function deleteMobilityFailure(error:any) : MobilityActionTypes{
 }
 
 export const deleteMobility = (id: number) => {
+    console.log("id: ",id)
     return(dispatch:any) => {
         axios.delete('mobility/'+id)
             .then(response => {
@@ -90,5 +128,32 @@ export const deleteMobility = (id: number) => {
                 const errorMsg = error.message
                 dispatch(deleteMobilityFailure(errorMsg))
             })
+    }
+}
+
+export const deleteTravel = (id: number, mobilityId: number) => {
+    return(dispatch:any) => {
+        axios.delete('travel/'+id)
+            .then(response => {
+                dispatch(deleteTravelSuccess(id, mobilityId))
+            })
+            .catch(error => {
+                const errorMsg = error.message
+                dispatch(deleteTravelFailure(errorMsg))
+            })
+    }
+}
+
+export function deleteTravelSuccess(id:number, mobilityId: number) : MobilityActionTypes{
+    return {
+        type: DELETE_TRAVEL_SUCCESS,
+        payload: {id: id, mobilityId: mobilityId}
+    }
+}
+
+export function deleteTravelFailure(error:any) : MobilityActionTypes{
+    return {
+        type: DELETE_TRAVEL_FAILURE,
+        payload: error
     }
 }

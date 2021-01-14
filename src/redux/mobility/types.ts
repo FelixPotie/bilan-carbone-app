@@ -5,11 +5,16 @@ export const ADD_MOBILITY_SUCCESS  = 'ADD_MOBILITY_SUCCESS'
 export const ADD_MOBILITY_FAILURE  = 'ADD_MOBILITY_FAILURE'
 export const DELETE_MOBILITY_SUCCESS  = 'DELETE_MOBILITY_SUCCESS'
 export const DELETE_MOBILITY_FAILURE  = 'DELETE_MOBILITY_FAILURE'
+export const DELETE_TRAVEL_SUCCESS = 'DELETE_TRAVEL_SUCCESS'
+export const DELETE_TRAVEL_FAILURE = 'DELETE_TRAVEL_FAILURE'
 
 
 interface getMobilityRequest {
     type: typeof GET_MOBILITY_REQUEST,
-    payload: string
+}
+
+interface getMobilitiesRequest {
+    type: typeof GET_MOBILITY_REQUEST
 }
 
 interface getMobilitySuccess {
@@ -42,4 +47,15 @@ interface deleteMobilityFailure {
     payload: any
 }
 
-export type MobilityActionTypes = getMobilityRequest | getMobilitySuccess | getMobilityFailure | addMobilitySuccess | addMobilityFailure | deleteMobilitySuccess | deleteMobilityFailure
+interface deleteTravelSuccess {
+    type: typeof DELETE_TRAVEL_SUCCESS,
+    payload: any
+}
+
+interface deleteTravelFailure {
+    type: typeof DELETE_TRAVEL_FAILURE,
+    payload: any
+}
+
+
+export type MobilityActionTypes = getMobilityRequest | getMobilitySuccess | getMobilityFailure | addMobilitySuccess | addMobilityFailure | deleteMobilitySuccess | deleteMobilityFailure | getMobilitiesRequest | deleteTravelSuccess | deleteTravelFailure

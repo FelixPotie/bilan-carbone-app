@@ -1,5 +1,5 @@
 // import classes from '*.module.css'
-import { Button, Container, makeStyles, Select, Popover } from '@material-ui/core'
+import {Container, makeStyles, Select, Popover, FormControl} from '@material-ui/core'
 import { TextField, MenuItem } from '@material-ui/core'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
@@ -24,6 +24,14 @@ const useStyles = makeStyles((theme) => ({
     },
     places: {
         borderStyle: "solid"
+    },
+    field: {
+        marginTop: "15px",
+        marginBottom: "15px",
+        marginLeft: "10px"
+    },
+    search: {
+        verticalAlign: "middle"
     }
 }));
 
@@ -38,7 +46,7 @@ export default function Step(props: any) {
 
     const { t } = useTranslation('simulationPage');
 
-    const [popoverFrom, setPopoverFrom] = useState(true)
+    const [popoverFrom, setPopoverFrom] = useState(false)
 
 
     const onChangeFrom = (event: any) => {
@@ -87,43 +95,84 @@ export default function Step(props: any) {
     return (
         <React.Fragment>
             <Container className={classes.card}>
-                <div>
-                    <label>{t("FROM")} : </label>
-                    <TextField value={from} type="text" placeholder="from" className={classes.places} onChange={onChangeFrom} />
-                    <Button id="fromID" onClick={(e) => {
+                <TextField
+                    name="from"
+                    label={t("FROM")}
+                    variant="outlined"
+                    id="from"
+                    value={from}
+                    type="text"
+                    placeholder="from"
+                    className={classes.field}
+                    onChange={onChangeFrom}
+                    onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                            setPopoverFrom(true)
+                            find(event, from)
+                        }
+                    }} />
+                {/* <Button id="fromID" onClick={(e) => {
                         setPopoverFrom(true)
                         find(e, from)
-                    }}>{t("FIND")}</Button>
-                </div>
-                <div>
-                    <label>{t("TO")} : </label>
-                    <TextField value={to} type="text" placeholder="to" className={classes.places} onChange={onChangeTo} />
-                    <Button onClick={(e) => {
-                        setPopoverFrom(false)
-                        find(e, to)
-                    }}>{t("FIND")}</Button>
-                </div>
+                    }}><SearchIcon /></Button> */}
+                <TextField
+                    name="to"
+                    label={t("TO")}
+                    variant="outlined"
+                    id="to" value={to}
+                    type="text" placeholder="to"
+                    className={classes.field} onChange={onChangeTo}
+                    onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                            setPopoverFrom(false)
+                            find(event, to)
+                        }
+                    }} />
                 <div >
-                    <Select value={step.by} label="transport" className={classes.transport} onChange={handleChangeTransport}>
-                        <MenuItem value={"TGV"} >{t("TGV")}</MenuItem>
-                        <MenuItem value={"PLANE"}>{t("PLANE")}</MenuItem>
-                        <MenuItem value={"CAR"}>{t("CAR")}</MenuItem>
-                        <MenuItem value={"ELECTRIC_CAR"}>{t("ELECTRIC_CAR")}</MenuItem>
-                        <MenuItem value={"TER"}>{t("TER")}</MenuItem>
-                        <MenuItem value={"MOTO"}>{t("MOTO")}</MenuItem>
-                        <MenuItem value={"BUS"}>{t("BUS")}</MenuItem>
 
-                    </Select>
-                    {
-                        (step.by === "CAR" || step.by === "ELECTRIC_CAR") && <Select value={step.nbPers} className={classes.transport} onChange={ChangeNumber}>
-                            <MenuItem value={1}>1 {t("PASSENGER")}</MenuItem>
-                            <MenuItem value={2}>2 {t("PASSENGERS")}</MenuItem>
-                            <MenuItem value={3}>3 {t("PASSENGERS")}</MenuItem>
-                            <MenuItem value={4}>4 {t("PASSENGERS")}</MenuItem>
-                            <MenuItem value={5}>5 {t("PASSENGERS")}</MenuItem>
-                            <MenuItem value={6}>6 {t("PASSENGERS")}</MenuItem>
-                            <MenuItem value={7}>7 {t("PASSENGERS")}</MenuItem>
+                    <FormControl variant="outlined">
+                        <Select
+                            variant="outlined"
+                            fullWidth
+                            id="by"
+                            name="by"
+                            autoComplete="type"
+                            onChange={handleChangeTransport}
+                            value={step.by}
+                            className={classes.field}
+                        >
+                            <MenuItem value={"TGV"} >{t("TGV")}</MenuItem>
+                            <MenuItem value={"PLANE"}>{t("PLANE")}</MenuItem>
+                            <MenuItem value={"CAR"}>{t("CAR")}</MenuItem>
+                            <MenuItem value={"ELECTRIC_CAR"}>{t("ELECTRIC_CAR")}</MenuItem>
+                            <MenuItem value={"TER"}>{t("TER")}</MenuItem>
+                            <MenuItem value={"MOTO"}>{t("MOTO")}</MenuItem>
+                            <MenuItem value={"BUS"}>{t("BUS")}</MenuItem>
                         </Select>
+                    </FormControl>
+                    {
+                        (step.by === "CAR" || step.by === "ELECTRIC_CAR") &&
+                        <FormControl variant="outlined">
+                            <Select
+                                variant="outlined"
+                                fullWidth
+                                id="nbPers"
+                                name="nbPers"
+                                onChange={ChangeNumber}
+                                value={step.nbPers}
+                                className={classes.field}
+                            >
+                                <MenuItem value={1}>1 {t("PASSENGER")}</MenuItem>
+                                <MenuItem value={2}>2 {t("PASSENGERS")}</MenuItem>
+                                <MenuItem value={3}>3 {t("PASSENGERS")}</MenuItem>
+                                <MenuItem value={4}>4 {t("PASSENGERS")}</MenuItem>
+                                <MenuItem value={5}>5 {t("PASSENGERS")}</MenuItem>
+                                <MenuItem value={6}>6 {t("PASSENGERS")}</MenuItem>
+                                <MenuItem value={7}>7 {t("PASSENGERS")}</MenuItem>
+                            </Select>
+                        </FormControl>
+
+
                     }
                 </div>
             </Container>

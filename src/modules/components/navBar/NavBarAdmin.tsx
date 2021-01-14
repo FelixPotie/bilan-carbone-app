@@ -81,6 +81,15 @@ function NavBarAdmin(props: WithStyles<typeof styles> & AppBarProps) {
             >
               Gestion des admins
             </Link>
+            <Link
+                color="inherit"
+                variant="h6"
+                underline="none"
+                className={classes.rightLink}
+                href="/admin/departments"
+            >
+              Gestion des sections
+            </Link>
             <div className={classes.right}>
               <SignInOutButton className={classes.rightLink} classes={classes} label="admin"/>
             </div>

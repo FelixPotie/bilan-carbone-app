@@ -104,7 +104,6 @@ function AddMobilityContainer(props: Props) {
             "startDate": start_date?.toISOString(),
             "endDate": end_date?.toISOString()
         }
-        console.log(body)
         props.addMobility(body);
     }
 
@@ -179,9 +178,9 @@ function AddMobilityContainer(props: Props) {
                                 value={year}
                                 className={classes.field}
                             >
-                                <MenuItem value={'3'}>3e année</MenuItem>
-                                <MenuItem value={'4'}>4e année</MenuItem>
-                                <MenuItem value={'5'}>5e année</MenuItem>
+                                <MenuItem value={'3'}>{t("3RD")}</MenuItem>
+                                <MenuItem value={'4'}>{t("4TH")}</MenuItem>
+                                <MenuItem value={'5'}>{t("5TH")}</MenuItem>
                             </Select>
                         </FormControl>
                         <div className={classes.form}>
