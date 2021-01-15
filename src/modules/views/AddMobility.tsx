@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from './Typography';
+import Typography from '../components/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Grid, Select, MenuItem, InputLabel, FormControl, Box } from '@material-ui/core';
@@ -9,7 +9,7 @@ import { RootState } from '../../redux';
 import { connect, ConnectedProps } from 'react-redux';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import AppForm from '../views/AppForm';
+import AppForm from './AppForm';
 import { addMobility } from '../../redux/mobility/actions';
 import { Redirect } from 'react-router-dom';
 import UnauthorizedContainer from './Unauthorized';

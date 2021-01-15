@@ -10,7 +10,7 @@ import AppForm from '../../views/AppForm';
 import { Redirect } from 'react-router-dom';
 import { addAdmin } from '../../../redux/admin/actions';
 import UnauthorizedAdminContainer from './UnauthorizedAdmin';
-import { encrypt } from '../../encrypt';
+import { encrypt } from '../../../utils/encrypt';
 
 
 const mapState = (state: RootState) => {

@@ -4,9 +4,9 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { Redirect } from 'react-router-dom';
-import Typography from './Typography';
-import Step from './Step';
-import Comparator from './Comparator';
+import Typography from '../components/Typography';
+import Step from '../components/Step';
+import Comparator from '../components/Comparator';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux';
 import { addTravel } from '../../redux/travel/actions';
@@ -15,6 +15,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { getDistance } from 'geolib'
 import { calculateur } from '../ademe/calcul'
 import { useTranslation } from 'react-i18next';
+import UnauthorizedContainer from './Unauthorized';
 
 const mapState = (state: RootState) => {
     return {
@@ -128,7 +129,9 @@ function Simulation(props: Props) {
     const [type, setType] = useState(null)
 
     useEffect(() => {
-        if (props.user.isLoggedIn) props.getMobilitiesByUser(props.user.user.username)
+        if (props.user.isLoggedIn) {
+            props.getMobilitiesByUser(props.user.user.username)
+        }
     }, [props.user.isLoggedIn])
 
     const urlParams: any = useParams()
@@ -167,6 +170,10 @@ function Simulation(props: Props) {
 
     const getDist = (step: stepInterface): number => {
         return Math.round(getDistance({ latitude: step.from.lat, longitude: step.from.lng }, { latitude: step.to.lat, longitude: step.to.lng }) / 10) / 100
+    }
+
+    const checkMobilityId = () =>{
+        return props.mobilityData.mobilites.find((mobility:any)=> (mobility.id===+urlParams.id))
     }
 
     const saveTravel = () => {
@@ -216,11 +223,15 @@ function Simulation(props: Props) {
         </li>
     ))
 
-
-    return (
-        props.travel.success ?
+    return (!props.user.isLoggedIn && urlParams.id) || (!checkMobilityId()) ? (
+        <UnauthorizedContainer/>
+        ) : props.travel.error ?(
+            <Typography variant="h3" gutterBottom marked="center" align="center">
+                {props.travel.error} : Veuillez réessayer
+            </Typography>
+        ) : props.travel.success ?(
             <Redirect to="/mobilites" />
-            :
+        ):(
             <React.Fragment>
                 <Grid container justify="space-evenly" alignItems="flex-start" >
                     {(props.user.isLoggedIn && urlParams.id) ?

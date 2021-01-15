@@ -5,7 +5,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux';
 import { deleteMobility, deleteTravel, getMobilitiesByUser } from '../../redux/mobility/actions';
 import { loadUser } from '../../redux/user/actions';
-import Typography from './Typography';
+import Typography from '../components/Typography';
 import UnauthorizedContainer from './Unauthorized';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';

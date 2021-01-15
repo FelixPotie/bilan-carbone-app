@@ -1,6 +1,6 @@
 import { Box, Button, Container, makeStyles } from '@material-ui/core';
 import React from 'react'
-import Typography from './Typography';
+import Typography from '../components/Typography';
 
 const useStyles = makeStyles((theme) => ({
     title: {

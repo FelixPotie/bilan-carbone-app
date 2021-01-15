@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux';
 import { loadAdmin } from '../../redux/admin/actions';
 import { loadUser } from '../../redux/user/actions';
-import setAuthToken from '../setAuthToken';
+import setAuthToken from '../../utils/setAuthToken';
 
 
 const mapState = (state: RootState, ownProps: any) => {
