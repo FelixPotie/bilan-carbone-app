@@ -1,6 +1,6 @@
 {
-    "SIMULATE_YOUR_TRAJECT": "Simuler votre trajet",
-    "PAGE_DESCRIPTION":"Vous pouvez simuler ici les émissions de CO2 des trajets réalisés dans le cadre de vos mobilités internationales",
+    "SIMULATE_YOUR_JOURNEY": "Simuler votre trajet",
+    "PAGE_DESCRIPTION":"Vous pouvez simuler ici les émissions de CO2 des trajets réalisés dans le cadre de vos mobilités internationales.",
     "YOUR_JOURNEY":"Votre trajet",
     "DATE":"Date",
     "STEP":"Étape",
@@ -19,12 +19,12 @@
     "TER":"TER",
     "TGV":"TGV",
     "ELECTRIC_CAR":"Voiture électrique",
-    "YOUR_EMISSIONS":"Vos émissions",
+    "YOUR_EMISSIONS":"vos émissions",
     "EMISSION_DESCRIPTION":"il s'agit d'une estimation des émissions de CO2 pour chacune de vos étapes.",
     "SAVE":"Enregistrer",
     "PASSENGER":"passager",
     "PASSENGERS":"passagers",
-    "EN":"en",
+    "IN":"En",
     "ENTER_YOUR_JOURNEY":"Enter your journey",
     "JOURNEY_DESC":"Enter here all the info of your journey to calculate your CO2 emissions.",
     "BACK":"Back",
@@ -33,5 +33,8 @@
     "CO2_EQUIVALENT": "Équivalent CO2",
     "DOUBLE_DEGRE":"double diplôme",
     "INTERNSHIP": "stage",
-    "SEMESTER": "semestre"
+    "SEMESTER": "semestre",
+    "ALTERNATIVE": "Alternative(s) possible(s)",
+    "REDUCE_BY": "vous réduisez de",
+    "CARPOOLING": "Pensez au covoiturage pour vos trajets en voiture."
 }

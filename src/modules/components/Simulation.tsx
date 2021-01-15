@@ -1,20 +1,20 @@
 import { Box, Button, Container, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select } from '@material-ui/core';
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router'
+import { Redirect } from 'react-router-dom';
 import Typography from './Typography';
 import Step from './Step';
-import { getDistance } from 'geolib'
-import { useTranslation } from 'react-i18next';
-import { calculateur } from '../ademe/calcul'
+import Comparator from './Comparator';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux';
 import { addTravel } from '../../redux/travel/actions';
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
-import { useParams } from 'react-router'
-import { Redirect } from 'react-router-dom';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import { getMobilitiesByUser } from '../../redux/mobility/actions';
-import Comparator from './Comparator';
+import DateFnsUtils from '@date-io/date-fns';
+import { getDistance } from 'geolib'
+import { calculateur } from '../ademe/calcul'
+import { useTranslation } from 'react-i18next';
 
 const mapState = (state: RootState) => {
     return {
@@ -86,9 +86,6 @@ const useStyles = makeStyles((theme) => ({
     table: {
         minWidth: 700,
     },
-    test: {
-        height: "100%"
-    },
     journeyCard: {
         maxWidth: "600px",
         marginLeft: "auto",
@@ -122,7 +119,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 function Simulation(props: Props) {
-    const { t, i18n } = useTranslation('simulationPage');
+    const { t } = useTranslation('simulationPage');
     const classes = useStyles();
     const [listStep, setlistStep] = useState(defaultListStep)
     const [date, setDate] = useState<Date | null>(
@@ -144,20 +141,15 @@ function Simulation(props: Props) {
 
 
     const updateStep = (updatedStep: stepInterface, id: number) => {
-        const newList = listStep.map((step: any, index: number) => {
+        const newList = listStep.map((step: stepInterface, index: number) => {
             if (index === id) {
                 return updatedStep;
             }
 
             return step;
         });
-        console.log(newList)
         setlistStep(newList);
     }
-
-    const displayListStep = listStep.map((step, index: number) =>
-        <Step key={index} id={index} step={defaultStep} updateStep={updateStep}></Step>)
-
 
     const addStep = (event: any) => {
         setlistStep(listStep.concat(defaultStep))
@@ -176,21 +168,6 @@ function Simulation(props: Props) {
     const getDist = (step: stepInterface): number => {
         return Math.round(getDistance({ latitude: step.from.lat, longitude: step.from.lng }, { latitude: step.to.lat, longitude: step.to.lng }) / 10) / 100
     }
-
-    const distance = listStep.map((step, index) => (
-        <li>
-            <Typography variant="h5">
-                {t("STEP")} {index + 1} : {step.from.name} <ArrowForwardIcon /> {step.to.name}
-            </Typography>
-            <Typography variant="h5">
-                {getDist(step)} km {t("BY")} {t(`${step.by}`)}
-            </Typography>
-            <Typography variant="h5">
-                CO<sub>2</sub> equivalent : {Math.round(calculateur(getDist(step), step.by, step.nbPers) / 10) / 100} kg
-            </Typography>
-            <Comparator meansOfTransport={step.by} distance={getDist(step)} nbPers={step.nbPers} emissions={calculateur(getDist(step), step.by, step.nbPers)} ></Comparator>
-        </li>
-    ))
 
     const saveTravel = () => {
         if (!date) {
@@ -221,7 +198,23 @@ function Simulation(props: Props) {
         }
     }
 
+    const displayListStep = listStep.map((step, index: number) =>
+        <Step key={index} id={index} step={defaultStep} updateStep={updateStep}></Step>)
 
+    const recap = listStep.map((step, index) => (
+        <li>
+            <Typography variant="h5">
+                {t("STEP")} {index + 1} : {step.from.name} <ArrowForwardIcon /> {step.to.name}
+            </Typography>
+            <Typography variant="h5">
+                {getDist(step)} km {t("BY")} {t(`${step.by}`)}
+            </Typography>
+            <Typography variant="h5">
+                CO<sub>2</sub> equivalent : {Math.round(calculateur(getDist(step), step.by, step.nbPers) / 10) / 100} kg
+            </Typography>
+            <Comparator meansOfTransport={step.by} distance={getDist(step)} nbPers={step.nbPers} emissions={calculateur(getDist(step), step.by, step.nbPers)} ></Comparator>
+        </li>
+    ))
 
 
     return (
@@ -242,14 +235,13 @@ function Simulation(props: Props) {
 
                             <Typography variant="h5" gutterBottom marked="center" align="center">
                                 {props.mobilityData.mobilites.map((mobility: any) => mobility.id === Number(urlParams.id) &&
-                                <div>Enter here your journey for your {t(mobility.type)} in {mobility.place}.</div>)}
+                                    <div>Enter here your journey for your {t(mobility.type)} in {mobility.place}.</div>)}
                             </Typography>
                         </Container>
                         :
                         <Container className={classes.title}>
                             <Box display="flex">
                                 <Box m="auto">
-                                    <Button onClick={() => console.log(props.mobilityData)}>test</Button>
                                     <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
                                         {t("SIMULATE_YOUR_JOURNEY")}
                                     </Typography>
@@ -271,33 +263,12 @@ function Simulation(props: Props) {
                                     <div>
                                         <div className={classes.field}>
                                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                                <KeyboardDatePicker
-                                                    disableToolbar
-                                                    inputVariant="outlined"
-                                                    format="dd/MM/yyyy"
-                                                    id="date"
-                                                    label="date"
-                                                    value={date}
-                                                    onChange={handleChangeDate}
-                                                    KeyboardButtonProps={{
-                                                        'aria-label': 'change date',
-                                                    }}
-                                                />
+                                                <KeyboardDatePicker disableToolbar inputVariant="outlined" format="dd/MM/yyyy" id="date" label="date" value={date} onChange={handleChangeDate} KeyboardButtonProps={{ 'aria-label': 'change date', }} />
                                             </MuiPickersUtilsProvider>
                                         </div>
                                         <FormControl variant="outlined">
                                             <InputLabel htmlFor="type">{t("TYPE")}</InputLabel>
-                                            <Select
-                                                variant="outlined"
-                                                fullWidth
-                                                id="type"
-                                                name="type"
-                                                label={t("TYPE")}
-                                                autoComplete="type"
-                                                onChange={handleChangeType}
-                                                value={type}
-                                                className={classes.field}
-                                            >
+                                            <Select variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} className={classes.field}>
                                                 <MenuItem value={'GO'}>{t("GO")}</MenuItem>
                                                 <MenuItem value={'BACK'}>{t("BACK")}</MenuItem>
                                             </Select>
@@ -323,26 +294,24 @@ function Simulation(props: Props) {
                     </Grid>
 
                     <Grid md={6} alignItems="center">
-                        <div className={classes.test}>
-                            <Container className={classes.journeyCard}>
-                                <Box>
-                                    <Typography variant="h4" marked="center" align="center" color="inherit">
-                                        {t("YOUR_EMISSIONS")}
-                                    </Typography>
+                        <Container className={classes.journeyCard}>
+                            <Box>
+                                <Typography variant="h4" marked="center" align="center" color="inherit">
+                                    {t("YOUR_EMISSIONS")}
+                                </Typography>
 
-                                    <br></br>
+                                <br></br>
 
-                                    <Typography variant="h5" marked="center" align="center" color="inherit">
-                                        {t("EMISSION_DESCRIPTION")}
-                                    </Typography>
-                                    <ul>
-                                        {distance}
-                                    </ul>
-                                    {(props.user.isLoggedIn && urlParams.id) &&
-                                        <Button onClick={saveTravel}>{t("SAVE")}</Button>}
-                                </Box>
-                            </Container>
-                        </div>
+                                <Typography variant="h5" marked="center" align="center" color="inherit">
+                                    {t("EMISSION_DESCRIPTION")}
+                                </Typography>
+                                <ul>
+                                    {recap}
+                                </ul>
+                                {(props.user.isLoggedIn && urlParams.id) &&
+                                    <Button onClick={saveTravel}>{t("SAVE")}</Button>}
+                            </Box>
+                        </Container>
                     </Grid>
                 </Grid>
             </React.Fragment>

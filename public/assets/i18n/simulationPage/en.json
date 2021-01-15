@@ -19,12 +19,12 @@
     "TER":"TER",
     "TGV":"TGV",
     "ELECTRIC_CAR":"Electric car",
-    "YOUR_EMISSIONS":"Your emissions",
+    "YOUR_EMISSIONS":"your emissions",
     "EMISSION_DESCRIPTION":"This is an estimation of CO2 emissions for each each of your steps.",
     "SAVE":"Save",
     "PASSENGER":"passenger",
     "PASSENGERS":"passengers",
-    "EN": "in",
+    "IN": "In",
     "ENTER_YOUR_JOURNEY":"Enter your journey",
     "JOURNEY_DESC":"Enter here all the info of your journey to calculate your CO2 emissions.",
     "BACK":"Retour",
@@ -33,5 +33,8 @@
     "CO2_EQUIVALENT": "CO2 equivalent",
     "DOUBLE_DEGRE":"double degree",
     "INTERNSHIP": "internship",
-    "SEMESTER": "semester"
+    "SEMESTER": "semester",
+    "ALTERNATIVE": "Alternative",
+    "REDUCE_BY": "you reduce by",
+    "CARPOOLING": "Think about carpooling for your journey by car."
 }

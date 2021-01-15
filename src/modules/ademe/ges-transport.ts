@@ -33,7 +33,7 @@ export const data: meanOfTransport[] =[
 	},
 	{
 		name: "MOTO",
-        bornes: [0,500],
+        bornes: [0,300],
         parPersonne: 168
 	},
 	{
@@ -43,7 +43,7 @@ export const data: meanOfTransport[] =[
 	},
 	{
 		name: "TGV",
-        bornes: [200,1000],
+        bornes: [0,1000],
         parPersonne: 1.73
     },
 ]
