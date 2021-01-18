@@ -227,6 +227,34 @@ function Simulation(props: Props) {
         })
        }
 
+    const chooseType = () => {
+        const mob = props.mobilityData.mobilites.find((m:any)=>m.id===+urlParams.id);
+        if(mob.travels.find((go:any)=>go.type==="GO") && mob.travels.find((back:any)=>back.type==="BACK")){
+            return(
+                <Select required variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} >
+                </Select>
+            )
+        }else if(mob.travels.find((go:any)=>go.type==="GO")){
+            return(
+                <Select required variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} >
+                    <MenuItem value={'BACK'}>{t("BACK")}</MenuItem>
+                </Select>
+            )
+        }else if(mob.travels.find((back:any)=>back.type==="BACK")){
+            return(
+                <Select required variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} >
+                    <MenuItem value={'GO'}>{t("GO")}</MenuItem>
+                </Select>
+            )
+        }else{
+            return(
+                <Select required variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} >
+                    <MenuItem value={'GO'}>{t("GO")}</MenuItem>
+                    <MenuItem value={'BACK'}>{t("BACK")}</MenuItem>
+                </Select>
+            )
+        }
+    }
     const displayListStep = listStep.map((step, index: number) =>
         <Step key={index} id={index} step={defaultStep} updateStep={updateStep}></Step>)
 
@@ -315,10 +343,7 @@ function Simulation(props: Props) {
                                     </MuiPickersUtilsProvider>
                                     <FormControl variant="outlined" className={classes.form}>
                                         <InputLabel htmlFor="type">{t("TYPE")}</InputLabel>
-                                        <Select required variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} >
-                                            <MenuItem value={'GO'}>{t("GO")}</MenuItem>
-                                            <MenuItem value={'BACK'}>{t("BACK")}</MenuItem>
-                                        </Select>
+                                        {chooseType()}
                                     </FormControl>
                                 </div>
                             }
