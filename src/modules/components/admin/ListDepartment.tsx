@@ -1,11 +1,11 @@
 import { Box, Button, CircularProgress, Container, createStyles, FormControl, Grid, InputLabel, makeStyles, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Theme, withStyles } from '@material-ui/core';
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux';
-import { RootState } from '../../redux';
-import Typography from './Typography';
+import { RootState } from '../../../redux';
+import Typography from '../Typography';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UnauthorizedAdminContainer from './UnauthorizedAdmin';
-import { addAppSettings, deleteAppSettings, getAppSettings } from '../../redux/appSettings/actions';
+import { addAppSettings, deleteAppSettings, getAppSettings } from '../../../redux/appSettings/actions';
 
 
 

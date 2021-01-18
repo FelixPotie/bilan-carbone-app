@@ -6,7 +6,7 @@ import {
   createStyles,
 } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Typography from '../components/Typography';
+import Typography from '../../components/Typography';
 import { Grid } from '@material-ui/core';
 
 const styles = (theme: Theme) =>

@@ -5,7 +5,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux';
 import { deleteMobility, deleteTravel, getMobilitiesByUser } from '../../redux/mobility/actions';
 import { loadUser } from '../../redux/user/actions';
-import Typography from './Typography';
+import Typography from '../components/Typography';
 import UnauthorizedContainer from './Unauthorized';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
@@ -123,7 +123,7 @@ function TravelRow(props: any) {
                 </StyledTableCell>
             </TableRow>
             <TableRow>
-                <TableCell align="center" style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                <TableCell align="center" style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box margin={1}>
                             <Typography variant="h6" gutterBottom component="div">

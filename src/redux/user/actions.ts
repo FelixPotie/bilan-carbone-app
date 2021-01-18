@@ -1,6 +1,6 @@
 import { LOGIN_USER_FAILURE, LOGIN_USER_SUCCESS, LOGOUT_USER, UserActionTypes, LOAD_USER } from "./types";
 import axios from 'axios'
-import setAuthToken from "../../modules/setAuthToken";
+import setAuthToken from "../../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 
 export function loginUserSucess(user: any) : UserActionTypes{

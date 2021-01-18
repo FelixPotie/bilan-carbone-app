@@ -35,6 +35,7 @@ export const addStep = (travelId: number, steps: any) => {
             travelId: travelId
         }
         console.log(newStep)
+        if(step.distance !== 0)
         axios.post('step/', newStep, { headers: headers })
         .then(response => {
             console.log("success step : ", response)

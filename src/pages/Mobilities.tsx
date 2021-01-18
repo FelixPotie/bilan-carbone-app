@@ -1,6 +1,6 @@
 import React from 'react'
 import withRoot from '../modules/withRoot'
-import MobilitiesContainer from '../modules/components/Mobility';
+import MobilitiesContainer from '../modules/views/Mobility';
 
 
 function Mobilities() {

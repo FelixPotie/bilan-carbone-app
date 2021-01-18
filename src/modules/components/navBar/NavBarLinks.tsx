@@ -41,7 +41,7 @@ function NavBarLinks(props: AppBarProps & NavBarLinksProps) {
                 variant="h6"
                 underline="none"
                 className={classesLinks}
-                href="statistics"
+                href="/statistics"
             >
                 {t("STATISTICS")}
             </Link>

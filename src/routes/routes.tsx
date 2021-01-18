@@ -1,5 +1,6 @@
 import AddJourney from "../pages/AddJourney";
 import AddMobility from "../pages/AddMobility";
+import Ecolab from "../pages/Ecolab";
 import Home from "../pages/Home";
 import Mobilities from "../pages/Mobilities";
 import NotFound from "../pages/NotFound";
@@ -50,6 +51,10 @@ const routes = [
     {
         path: "/statistics",
         component: Statistics
+    },
+    {
+        path: "/ecolab",
+        component: Ecolab
     },
     // NotFound
     {

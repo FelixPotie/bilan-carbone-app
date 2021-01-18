@@ -9,20 +9,24 @@ const dansIntervalle = (distance: number, inter: string) => {
 
 }
 
+
+const findData = (meansOfTransport: String) => data.findIndex((element:any) => element.name === meansOfTransport)
+
 export const calculateur = (distance : number, moyen: string, voyageurs :number = 1) : number => {
+	let index= findData(moyen)
 	switch(moyen){
 		case "PLANE": {
-			const intervalle = Object.keys(data[moyen].parPersonne).find(inter => dansIntervalle(distance,inter))
+			const intervalle = Object.keys(data[index].parPersonne).find(inter => dansIntervalle(distance, inter))
 			if(intervalle){
-				return data[moyen].parPersonne[intervalle]*distance;
+				return data[index].parPersonne[intervalle]*distance
 			}
 			return -1;
 		}
 		case "CAR" : case "ELECTRIC_CAR": {
-			return (data[moyen].parVehicule*distance)/voyageurs;
+			return data[index].parVehicule!*distance/voyageurs;
 		}
 		case "TER" : case "MOTO" : case "TGV" : case "BUS" : {
-			return (data[moyen].parPersonne*distance);
+			return data[index].parPersonne*distance;
 		}
 
 		default:{

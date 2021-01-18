@@ -1,16 +1,16 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from './Typography';
+import Typography from '../Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Grid } from '@material-ui/core';
-import { RootState } from '../../redux';
+import { RootState } from '../../../redux';
 import { connect, ConnectedProps } from 'react-redux';
-import AppForm from '../views/AppForm';
+import AppForm from '../../views/AppForm';
 import { Redirect } from 'react-router-dom';
-import { addAdmin } from '../../redux/admin/actions';
+import { addAdmin } from '../../../redux/admin/actions';
 import UnauthorizedAdminContainer from './UnauthorizedAdmin';
-import { encrypt } from '../encrypt';
+import { encrypt } from '../../../utils/encrypt';
 
 
 const mapState = (state: RootState) => {

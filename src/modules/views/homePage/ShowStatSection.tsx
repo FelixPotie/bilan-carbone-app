@@ -5,9 +5,10 @@ import {
   createStyles,
   WithStyles,
 } from '@material-ui/core/styles';
+import { useTranslation } from 'react-i18next';
 import Grid from '@material-ui/core/Grid';
-import Button from '../components/Button';
-import Typography from '../components/Typography';
+import Button from '../../components/Button';
+import Typography from '../../components/Typography';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -31,6 +32,8 @@ const styles = (theme: Theme) =>
 
 function HowItWorks(props: WithStyles<typeof styles>) {
   const { classes } = props;
+  const  {t} = useTranslation('homePage');
+
   return (
     <section className={classes.root}>
       <Grid container justify="center" spacing={2} alignItems="center"  className={classes.container}>
@@ -41,7 +44,7 @@ function HowItWorks(props: WithStyles<typeof styles>) {
             className={classes.title}
             component="h2"
           >
-            Decouvrez les statistiques de l'école
+            {t("STAT_TEXT")}
         </Typography>
         </Grid>
         <Grid item xs={12} md={3} >
@@ -51,9 +54,9 @@ function HowItWorks(props: WithStyles<typeof styles>) {
             variant="contained"
             className={classes.button}
             component="a"
-            href="/premium-themes/onepirate/sign-up/"
+            href="/statistics"
           >
-            Statistiques
+            {t("STAT")}
         </Button>
         </Grid>
       </Grid>

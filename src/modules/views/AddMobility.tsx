@@ -1,15 +1,15 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from './Typography';
+import Typography from '../components/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { Grid, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
+import { Grid, Select, MenuItem, InputLabel, FormControl, Box } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { RootState } from '../../redux';
 import { connect, ConnectedProps } from 'react-redux';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import AppForm from '../views/AppForm';
+import AppForm from './AppForm';
 import { addMobility } from '../../redux/mobility/actions';
 import { Redirect } from 'react-router-dom';
 import UnauthorizedContainer from './Unauthorized';
@@ -37,8 +37,6 @@ type Props = PropsFromRedux
 
 const useStyles = makeStyles((theme) => ({
     title: {
-        marginRight: '-8%',
-        marginLeft: '-8%',
         marginBottom: theme.spacing(2),
       },
   form: {
@@ -121,15 +119,13 @@ function AddMobilityContainer(props: Props) {
             <Grid container justify="space-evenly" alignItems="center" >
                 <Grid item md={12}>
                 <AppForm>
-
-                    <div className={classes.title}>
-                        <React.Fragment>
+                    <Box display="flex" className={classes.title}>
+                        <Box m="auto">
                             <Typography variant="h3" gutterBottom marked="center" align="center">
                                 {t("ADD_MOBILITY")}
                             </Typography>
-                        </React.Fragment>
-                    </div>
-
+                        </Box>
+                    </Box>
                     <form onSubmit={e => onSubmit(e)}>
                         <FormControl className={classes.form} variant="outlined">
                             <InputLabel htmlFor="type">{t("TYPE")}</InputLabel>

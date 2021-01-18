@@ -1,6 +1,6 @@
 import React from 'react'
 import withRoot from '../../modules/withRoot'
-import ListAdminContainer from '../../modules/components/ListAdmin';
+import ListAdminContainer from '../../modules/components/admin/ListAdmin';
 
 
 

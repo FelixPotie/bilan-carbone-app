@@ -1,6 +1,6 @@
 import { LOGIN_ADMIN_SUCCESS, LOGIN_ADMIN_FAILURE, LOGOUT_ADMIN, AdminActionTypes, LOAD_ADMIN, GET_ADMINS_SUCCESS, GET_ADMINS_FAILURE, ADD_ADMIN_SUCCESS, ADD_ADMIN_FAILURE, DELETE_ADMIN_SUCCESS, DELETE_ADMIN_FAILURE } from "./types";
 import axios from 'axios'
-import setAuthToken from "../../modules/setAuthToken";
+import setAuthToken from "../../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 
 export function loginAdminSucess(admin: any) : AdminActionTypes{
