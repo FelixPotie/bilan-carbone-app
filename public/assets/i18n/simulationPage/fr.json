@@ -25,6 +25,7 @@
     "PASSENGER":"passager",
     "PASSENGERS":"passagers",
     "IN":"à",
+    "EN": "En",
     "ENTER_YOUR_JOURNEY":"Ajouter votre trajet",
     "JOURNEY_DESC":"Enter here all the info of your journey to calculate your CO2 emissions.",
     "BACK":"Retour",
@@ -36,6 +37,6 @@
     "SEMESTER": "semestre",
     "ALTERNATIVE": "Alternative(s) possible(s)",
     "REDUCE_BY": "vous réduisez de",
-    "CARPOOLING": "Pensez au covoiturage pour vos trajets en voiture.",
+    "CARPOOLING": "Pensez au covoiturage pour vos trajets en voiture",
     "SUBTITLE": "Entrez ici les informations concernant votre voyage pour votre "
 }

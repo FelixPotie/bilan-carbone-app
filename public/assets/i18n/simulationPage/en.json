@@ -25,6 +25,7 @@
     "PASSENGER":"passenger",
     "PASSENGERS":"passengers",
     "IN": "in",
+    "EN": "By",
     "ENTER_YOUR_JOURNEY":"Enter your journey",
     "JOURNEY_DESC":"Enter here all the info of your journey to calculate your CO2 emissions.",
     "BACK":"Retour",
@@ -36,6 +37,6 @@
     "SEMESTER": "semester",
     "ALTERNATIVE": "Alternative",
     "REDUCE_BY": "you reduce by",
-    "CARPOOLING": "Think about carpooling for your journey by car.",
+    "CARPOOLING": "Think about carpooling for your journey by car",
     "SUBTITLE":"Enter here your journey for your "
 }

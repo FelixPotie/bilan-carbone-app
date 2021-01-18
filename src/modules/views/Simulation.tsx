@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActions, CardContent, Container, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select } from '@material-ui/core';
+import { Box, Button, Card, CardActions, CardContent, Container, FormControl, Grid, InputLabel, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Select } from '@material-ui/core';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import React, { useEffect, useState } from 'react'
@@ -15,7 +15,10 @@ import DateFnsUtils from '@date-io/date-fns';
 import { getDistance } from 'geolib'
 import { calculateur } from '../ademe/calcul'
 import { useTranslation } from 'react-i18next';
+import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import UnauthorizedContainer from './Unauthorized';
+import DriveEtaRoundedIcon from '@material-ui/icons/DriveEtaRounded';
+import GrainIcon from '@material-ui/icons/Grain';
 
 const mapState = (state: RootState) => {
     return {
@@ -91,9 +94,6 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: "650px",
         margin:"auto",
         width: "92%",
-        // padding: "10px",
-        // borderStyle: "solid",
-        // border: "2px",
         borderRadius: "10px",
         backgroundColor: '#eeeeff',
         display: "block",
@@ -108,6 +108,7 @@ const useStyles = makeStyles((theme) => ({
     },
     etape: {
         marginLeft: "2%",
+        marginBottom:theme.spacing(1)
     },
     form: {
         width: "60%",
@@ -123,9 +124,20 @@ const useStyles = makeStyles((theme) => ({
     steps:{
         width:"90%",
         margin: "auto"
+    },
+    recap: {
+        padding: "10px",
+        marginTop:theme.spacing(1),
+        width:"90%",
+        marginLeft: "5%",
+        marginRight: "5%",
+        borderRadius: "10px",
+        display: "inline-block",
+        backgroundColor: '#e3e3ff',
+    },
+    arrow: {
+        marginBottom: "-5px"
     }
-
-
 }));
 
 
@@ -221,18 +233,30 @@ function Simulation(props: Props) {
         <Step key={index} id={index} step={defaultStep} updateStep={updateStep}></Step>)
 
     const recap = listStep.map((step, index) => (
-        <li>
+        <Card className={classes.recap} variant="outlined">
             <Typography variant="h5">
-                {t("STEP")} {index + 1} : {step.from.name} <ArrowForwardIcon /> {step.to.name}
+                {t("STEP")} {index + 1} : {step.from.name} <ArrowRightAltIcon className={classes.arrow}/> {step.to.name}
             </Typography>
-            <Typography variant="h5">
-                {getDist(step)} km {t("BY")} {t(`${step.by}`)}
-            </Typography>
-            <Typography variant="h5">
-                CO<sub>2</sub> equivalent : {Math.round(calculateur(getDist(step), step.by, step.nbPers) / 10) / 100} kg
-            </Typography>
+            <List>
+                <ListItem>
+                    <ListItemIcon>
+                        <DriveEtaRoundedIcon />
+                    </ListItemIcon>
+                    <ListItemText>
+                        {getDist(step)} km {t("BY")} {t(`${step.by}`)}
+                    </ListItemText>
+                </ListItem>
+                <ListItem>
+                    <ListItemIcon>
+                        <GrainIcon />
+                    </ListItemIcon>
+                    <ListItemText>
+                        CO<sub>2</sub> equivalent : {Math.round(calculateur(getDist(step), step.by, step.nbPers) / 10) / 100} kg
+                    </ListItemText>
+                </ListItem>
+            </List>
             <Comparator meansOfTransport={step.by} distance={getDist(step)} nbPers={step.nbPers} emissions={calculateur(getDist(step), step.by, step.nbPers)} ></Comparator>
-        </li>
+        </Card>
     ))
 
     return (!props.user.isLoggedIn && urlParams.id) || (urlParams.id && !checkMobilityId()) ? (
@@ -317,28 +341,28 @@ function Simulation(props: Props) {
                         </Card>
                     </Grid>
                     <Grid md={6} alignItems="center">
-                    <Card className={classes.journeyCard} variant="outlined">
-                        <CardContent>
-                            <Box display="flex" >
-                                <Box m="auto">
-                                    <Typography className={classes.cardTitle} variant="h4" marked="center" align="center" color="inherit">
-                                        {t("YOUR_EMISSIONS")}
-                                    </Typography>
+                        <Card className={classes.journeyCard} variant="outlined">
+                            <CardContent>
+                                <Box display="flex" >
+                                    <Box m="auto">
+                                        <Typography className={classes.cardTitle} variant="h4" marked="center" align="center" color="inherit">
+                                            {t("YOUR_EMISSIONS")}
+                                        </Typography>
+                                    </Box>
                                 </Box>
-                            </Box>
-                            <Typography className={classes.etape} variant="h5" color="inherit">
-                                {t("EMISSION_DESCRIPTION")}
-                            </Typography>
-                            <ul>
-                                {recap}
-                            </ul>
+                                <Typography className={classes.etape} variant="h5" color="inherit">
+                                    {t("EMISSION_DESCRIPTION")}
+                                </Typography>
+                                <div className={classes.steps}>
+                                    {recap}
+                                </div>
                             </CardContent>
 
-                            {(props.user.isLoggedIn && urlParams.id) &&
-                                <CardActions className={classes.actionButton}>
-                                    <Button onClick={saveTravel}>{t("SAVE")}</Button>
-                                </CardActions>
-                            }
+                                {(props.user.isLoggedIn && urlParams.id) &&
+                                    <CardActions className={classes.actionButton}>
+                                        <Button onClick={saveTravel}>{t("SAVE")}</Button>
+                                    </CardActions>
+                                }
                         </Card>
                     </Grid>
                 </Grid>
