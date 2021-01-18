@@ -8,20 +8,18 @@ import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles((theme) => ({
     card: {
-        padding: "10px",
-        margin: "10px",
+        padding: "5px",
+        margin: "5px",
         // borderStyle: "solid",
         // border: "2px",
         borderRadius: "10px",
         display: "inline-block",
         backgroundColor: '#e3e3ff',
+        position:'relative'
     },
     transport: {
-        minWidth: "100px",
-        marginTop: "15px",
-        borderStyle: "solid",
-        marginRight: "15px",
-        textAlign: "center"
+        marginTop:theme.spacing(2),
+        width:"40%"
     },
     places: {
         borderStyle: "solid"
@@ -41,7 +39,9 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         marginTop:"28px",
-        width: "20%"
+        width: "20%",
+        position:'absolute',
+        right:'5%'
     }
 }));
 
@@ -141,13 +141,13 @@ export default function Step(props: any) {
                                 }
                             }} />
                             <Button className={classes.button} id="fromID" onClick={(e) => {
-                                setPopoverFrom(true)
+                                setPopoverFrom(false)
                                 find(e, to)
                             }}><SearchIcon /></Button>
                     </div>
-                    <div >
+                    <div className={classes.city}>
 
-                        <FormControl variant="outlined">
+                        <FormControl variant="outlined" className={classes.transport}>
                             <Select
                                 variant="outlined"
                                 fullWidth
@@ -156,7 +156,7 @@ export default function Step(props: any) {
                                 autoComplete="type"
                                 onChange={handleChangeTransport}
                                 value={step.by}
-                                className={classes.field}
+                                // className={classes.field}
                             >
                                 <MenuItem value={"TGV"} >{t("TGV")}</MenuItem>
                                 <MenuItem value={"PLANE"}>{t("PLANE")}</MenuItem>
@@ -169,7 +169,7 @@ export default function Step(props: any) {
                         </FormControl>
                         {
                             (step.by === "CAR" || step.by === "ELECTRIC_CAR") &&
-                            <FormControl variant="outlined">
+                            <FormControl variant="outlined" className={classes.transport}>
                                 <Select
                                     variant="outlined"
                                     fullWidth
@@ -177,7 +177,7 @@ export default function Step(props: any) {
                                     name="nbPers"
                                     onChange={ChangeNumber}
                                     value={step.nbPers}
-                                    className={classes.field}
+                                    // className={classes.field}
                                 >
                                     <MenuItem value={1}>1 {t("PASSENGER")}</MenuItem>
                                     <MenuItem value={2}>2 {t("PASSENGERS")}</MenuItem>
@@ -188,8 +188,6 @@ export default function Step(props: any) {
                                     <MenuItem value={7}>7 {t("PASSENGERS")}</MenuItem>
                                 </Select>
                             </FormControl>
-
-
                         }
                     </div>
                 </CardContent>
