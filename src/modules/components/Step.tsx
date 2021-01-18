@@ -109,6 +109,7 @@ export default function Step(props: any) {
                     <div className={classes.city}>
                         <TextField
                             name="from"
+                            required
                             label={t("FROM")}
                             variant="outlined"
                             id="from"
@@ -119,6 +120,7 @@ export default function Step(props: any) {
                             onChange={onChangeFrom}
                             onKeyDown={(event) => {
                                 if (event.key === 'Enter') {
+                                    event.preventDefault();
                                     setPopoverFrom(true)
                                     find(event, from)
                                 }
@@ -129,6 +131,7 @@ export default function Step(props: any) {
                             }}><SearchIcon /></Button>
                         <TextField
                             name="to"
+                            required
                             label={t("TO")}
                             variant="outlined"
                             id="to" value={to}
@@ -136,6 +139,7 @@ export default function Step(props: any) {
                             className={classes.field} onChange={onChangeTo}
                             onKeyDown={(event) => {
                                 if (event.key === 'Enter') {
+                                    event.preventDefault();
                                     setPopoverFrom(false)
                                     find(event, to)
                                 }
