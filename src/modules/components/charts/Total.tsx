@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 'auto'
   },
   total: {
-    backgroundColor: '#dedeff',
+    backgroundColor: '#d5d5ff',
     borderRadius:"10%",
     width: "90%",
     maxWidth:"300px",

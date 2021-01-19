@@ -11,6 +11,7 @@ import TimeCharts from '../components/charts/Time';
 import TotalCharts from '../components/charts/Total';
 import TypeCharts from '../components/charts/Type';
 import Typography from '../components/Typography';
+import HomeHeaderLayout from './homePage/HomeHeaderLayout';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -51,15 +52,17 @@ function StatisticsView(props : Props) {
 
   return (
     <React.Fragment>
+      <HomeHeaderLayout>
       <Box display="flex">
         <Box m="auto">
-          <Typography variant="h2" gutterBottom marked="center" align="center" className={classes.title}>
+          <Typography variant="h2" color="inherit" gutterBottom marked="center" align="center" className={classes.title}>
             {t("STATISTICS")}
         </Typography>
         </Box>
       </Box>
-      
       <TotalCharts/>
+
+      </HomeHeaderLayout>
       <DepartmentCharts />
       <Grid container spacing={3}>
         <Grid item md={6}>
