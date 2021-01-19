@@ -1,6 +1,7 @@
 import { Box, Button, Card, CardActions, CardContent, Container, FormControl, Grid, InputLabel, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Select } from '@material-ui/core';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import AddIcon from '@material-ui/icons/Add';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { Redirect } from 'react-router-dom';
@@ -39,8 +40,6 @@ const connector = connect(mapState, mapDispatch)
 type PropsFromRedux = ConnectedProps<typeof connector>
 type Props = PropsFromRedux
 
-
-
 interface place {
     name: string,
     country: string,
@@ -70,7 +69,7 @@ const defaultStep: stepInterface =
     nbPers: 1
 }
 
-const defaultListStep: stepInterface[] = [defaultStep]
+const defaultListStep: stepInterface[] = []
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -90,67 +89,79 @@ const useStyles = makeStyles((theme) => ({
     table: {
         minWidth: 700,
     },
+    cardContainer: {
+        width: "100%",
+    },
     journeyCard: {
-        maxWidth: "650px",
-        margin:"auto",
-        width: "92%",
+        // maxWidth: "650px",
+         margin:"auto",
+         width: "92%",
         borderRadius: "10px",
         backgroundColor: '#eeeeff',
-        display: "block",
+        display: "flex",
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(4),
+        //margin: "none",
+        boxShadow: 'none',
+        justifyContent: "center",
+        flexDirection: "column"
+    },
+    cardContent:{
+        padding: "0px 0px 4px 0px"
     },
     emissionCard: {
         display: "block"
     },
     actionButton: {
-        flexDirection: "row-reverse"
+        flexDirection: "row",
+        justifyContent: "center"
+
     },
     etape: {
         marginLeft: "2%",
-        marginBottom:theme.spacing(1)
+        marginBottom: theme.spacing(1)
     },
     form: {
         width: "60%",
-        marginRight:"20%",
+        marginRight: "20%",
         marginLeft: "20%",
         marginTop: theme.spacing(2),
         minWidth: "100px"
 
     },
-    cardTitle:{
+    cardTitle: {
+        marginTop: theme.spacing(3),
         marginBottom: theme.spacing(3)
     },
-    steps:{
-        width:"90%",
+    steps: {
+        width: "90%",
         margin: "auto"
     },
     recap: {
         padding: "10px",
-        marginTop:theme.spacing(1),
-        width:"90%",
+        marginTop: theme.spacing(1),
+        width: "90%",
         marginLeft: "5%",
         marginRight: "5%",
         borderRadius: "10px",
-        display: "inline-block",
-        backgroundColor: '#e3e3ff',
+        //display: "inline-block",
+        backgroundColor: '#f8f8ff',
+        boxShadow: 'none'
     },
-    arrow: {
+    arrow: {
         marginBottom: "-5px"
     },
-    generalform:{
+    generalform: {
         display: "contents"
     }
 }));
 
 
-
-
 function Simulation(props: Props) {
     const { t } = useTranslation('simulationPage');
     const classes = useStyles();
-    const [listStep, setlistStep] = useState(defaultListStep)
-    const [date, setDate] = useState<Date | null>(
+    const [listStep, setlistStep] = React.useState(defaultListStep)
+    const [date, setDate] = React.useState<Date | null>(
         null
     )
     const [type, setType] = useState(null)
@@ -164,8 +175,10 @@ function Simulation(props: Props) {
     const urlParams: any = useParams()
 
 
-    const removeStep = (event: any) => {
-        setlistStep(listStep.slice(0, -1))
+    const removeStep = (event: any, index: number) => {
+        const newFeatures = [...listStep];
+        newFeatures.splice(index,1);
+        setlistStep(newFeatures);
         event.preventDefault();
     }
 
@@ -199,8 +212,8 @@ function Simulation(props: Props) {
         return Math.round(getDistance({ latitude: step.from.lat, longitude: step.from.lng }, { latitude: step.to.lat, longitude: step.to.lng }) / 10) / 100
     }
 
-    const checkMobilityId = () =>{
-        return props.mobilityData.mobilites.find((mobility:any)=> (mobility.id===+urlParams.id))
+    const checkMobilityId = () => {
+        return props.mobilityData.mobilites.find((mobility: any) => (mobility.id === +urlParams.id))
     }
 
     const saveTravel = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -225,15 +238,17 @@ function Simulation(props: Props) {
                 props.addTravel(body)
             }
         })
-       }
+    }
 
-    const displayListStep = listStep.map((step, index: number) =>
-        <Step key={index} id={index} step={defaultStep} updateStep={updateStep}></Step>)
+
+    const displayListStep = listStep.map((step, index: number) =>{ 
+        return <Step key={index} id={index} step={step} updateStep={updateStep} deleteAction={removeStep}></Step>
+    });
 
     const recap = listStep.map((step, index) => (
-        <Card className={classes.recap} variant="outlined">
+        <Card className={classes.recap} >
             <Typography variant="h5">
-                {t("STEP")} {index + 1} : {step.from.name} <ArrowRightAltIcon className={classes.arrow}/> {step.to.name}
+                {t("STEP")} {index + 1} : {step.from.name} <ArrowRightAltIcon className={classes.arrow} /> {step.to.name}
             </Typography>
             <List>
                 <ListItem>
@@ -257,90 +272,89 @@ function Simulation(props: Props) {
         </Card>
     ))
 
-    return (!props.user.isLoggedIn && urlParams.id) || (urlParams.id && !checkMobilityId()) ? (
-        <UnauthorizedContainer/>
-        ) : props.travel.error ?(
-            <Typography variant="h3" gutterBottom marked="center" align="center">
-                {props.travel.error} : Veuillez réessayer
-            </Typography>
-        ) : props.travel.success ?(
-            <Redirect to="/mobilites" />
-        ):(
-            <React.Fragment>
-                    {(props.user.isLoggedIn && urlParams.id) ?
-                        <Container className={classes.title}>
-                            <Box display="flex">
-                                <Box m="auto">
-                                    <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
-                                        {t("ENTER_YOUR_JOURNEY")}
-                                    </Typography>
-                                </Box>
-                            </Box>
-                            <Typography variant="h5" gutterBottom marked="center" align="center">
-                                {props.mobilityData.mobilites.map((mobility: any) => mobility.id === Number(urlParams.id) &&
-                                    <div>{t("SUBTITLE")}{t(mobility.type)} {t("IN")} {mobility.place}.</div>)}
-                            </Typography>
-                        </Container>
-                        :
-                        <Container className={classes.title}>
-                            <Box display="flex">
-                                <Box m="auto">
-                                    <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
-                                        {t("SIMULATE_YOUR_JOURNEY")}
-                                    </Typography>
-                                </Box>
-                            </Box>
+    if(listStep.length === 0){
+        listStep.push(defaultStep);
+        setlistStep(listStep);
+    }
 
-                            <Typography variant="h5" gutterBottom marked="center" align="center">
-                                {t("PAGE_DESCRIPTION")}
+    return (!props.user.isLoggedIn && urlParams.id) || (urlParams.id && !checkMobilityId()) ? (
+        <UnauthorizedContainer />
+    ) : props.travel.error ? (
+        <Typography variant="h3" gutterBottom marked="center" align="center">
+            {props.travel.error} : Veuillez réessayer
+        </Typography>
+    ) : props.travel.success ? (
+        <Redirect to="/mobilites" />
+    ) : (
+        <React.Fragment>
+            {(props.user.isLoggedIn && urlParams.id) ?
+                <Container className={classes.title}>
+                    <Box display="flex">
+                        <Box m="auto">
+                            <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
+                                {t("ENTER_YOUR_JOURNEY")}
                             </Typography>
-                        </Container>
-                    }
-                <Grid container >
-                    <form onSubmit={e => saveTravel(e)} className={classes.generalform}>
-                    <Grid md={6} alignItems="center">
-                    <Card className={classes.journeyCard} variant="outlined" >
-                        <CardContent>
-                            <Box display="flex" >
-                                <Box m="auto">
-                                    <Typography className={classes.cardTitle} variant="h4" marked="center" align="center" color="inherit">
-                                        {t("YOUR_JOURNEY")}
-                                    </Typography>
+                        </Box>
+                    </Box>
+                    <Typography variant="h5" gutterBottom marked="center" align="center">
+                        {props.mobilityData.mobilites.map((mobility: any) => mobility.id === Number(urlParams.id) &&
+                            <div>{t("SUBTITLE")}{t(mobility.type)} {t("IN")} {mobility.place}.</div>)}
+                    </Typography>
+                </Container>
+                :
+                <Container className={classes.title}>
+                    <Box display="flex">
+                        <Box m="auto">
+                            <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
+                                {t("SIMULATE_YOUR_JOURNEY")}
+                            </Typography>
+                        </Box>
+                    </Box>
+
+                    <Typography variant="h5" gutterBottom marked="center" align="center">
+                        {t("PAGE_DESCRIPTION")}
+                    </Typography>
+                </Container>
+            }
+            <Grid container >
+                <form onSubmit={e => saveTravel(e)} className={classes.generalform}>
+                    <Grid md={6} alignItems="center" className={classes.cardContainer} >
+                        <Card className={classes.journeyCard} >
+                            <CardContent className={classes.cardContent}>
+                                <Box display="flex" >
+                                    <Box m="auto">
+                                        <Typography className={classes.cardTitle} variant="h4" marked="center" align="center" color="inherit">
+                                            {t("YOUR_JOURNEY")}
+                                        </Typography>
+                                    </Box>
                                 </Box>
-                            </Box>
-                            {(props.user.isLoggedIn && urlParams.id) &&
-                                <div>
-                                    <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                                        <KeyboardDatePicker className={classes.form} disableToolbar required inputVariant="outlined" format="dd/MM/yyyy" id="date" label="Date" value={date} onChange={handleChangeDate} onKeyDown={(event) => {if (event.key === 'Enter') event.preventDefault()}} KeyboardButtonProps={{ 'aria-label': 'change date', }} />
-                                    </MuiPickersUtilsProvider>
-                                    <FormControl variant="outlined" className={classes.form}>
-                                        <InputLabel htmlFor="type">{t("TYPE")}</InputLabel>
-                                        <Select required variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} >
-                                            <MenuItem value={'GO'}>{t("GO")}</MenuItem>
-                                            <MenuItem value={'BACK'}>{t("BACK")}</MenuItem>
-                                        </Select>
-                                    </FormControl>
+                                {(props.user.isLoggedIn && urlParams.id) &&
+                                    <div>
+                                        <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                                            <KeyboardDatePicker className={classes.form} disableToolbar required inputVariant="outlined" format="dd/MM/yyyy" id="date" label="Date" value={date} onChange={handleChangeDate} onKeyDown={(event) => { if (event.key === 'Enter') event.preventDefault() }} KeyboardButtonProps={{ 'aria-label': 'change date', }} />
+                                        </MuiPickersUtilsProvider>
+                                        <FormControl variant="outlined" className={classes.form} style={{marginBottom: "16px"}}>
+                                            <InputLabel htmlFor="type">{t("TYPE")}</InputLabel>
+                                            <Select required variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} >
+                                                <MenuItem value={'GO'}>{t("GO")}</MenuItem>
+                                                <MenuItem value={'BACK'}>{t("BACK")}</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+                                }
+
+                                <div className={classes.steps}>
+                                    {displayListStep}
                                 </div>
-                            }
-                            <h4 className={classes.etape}>{t("STEPS")} :</h4>
-                            <div className={classes.steps}>
-                                {displayListStep}
-                            </div>
                             </CardContent>
                             <CardActions className={classes.actionButton}>
-                                {displayListStep.length <= 1 ?
-                                        <Button onClick={addStep}>{t("ADD_STEP")}</Button>
-                                    :
-                                    <div>
-                                        <Button onClick={removeStep}>{t("REMOVE_STEP")}</Button>
-                                        <Button onClick={addStep}>{t("ADD_STEP")}</Button>
-                                    </div>}
+                                <Button onClick={addStep}>{<AddIcon fontSize="large" />}</Button>
                             </CardActions>
                         </Card>
                     </Grid>
-                    <Grid md={6} alignItems="center">
-                        <Card className={classes.journeyCard} variant="outlined">
-                            <CardContent>
+                    <Grid md={6} alignItems="center" className={classes.cardContainer}>
+                        <Card className={classes.journeyCard} >
+                            <CardContent className={classes.cardContent}>
                                 <Box display="flex" >
                                     <Box m="auto">
                                         <Typography className={classes.cardTitle} variant="h4" marked="center" align="center" color="inherit">
@@ -355,17 +369,17 @@ function Simulation(props: Props) {
                                     {recap}
                                 </div>
                             </CardContent>
-                            
-                                {(props.user.isLoggedIn && urlParams.id) &&
-                                    <CardActions className={classes.actionButton}>
-                                        <Button type="submit">{t("SAVE")}</Button>
-                                    </CardActions>
-                                }
+
+                            {(props.user.isLoggedIn && urlParams.id) &&
+                                <CardActions className={classes.actionButton}>
+                                    <Button type="submit">{t("SAVE")}</Button>
+                                </CardActions>
+                            }
                         </Card>
                     </Grid>
-                    </form>
-                </Grid>
-            </React.Fragment>
+                </form>
+            </Grid>
+        </React.Fragment>
     )
 }
 
