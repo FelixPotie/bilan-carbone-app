@@ -23,6 +23,7 @@ import Snackbar from '../Snackbar'
 import DateFnsUtils from '@date-io/date-fns';
 import 'date-fns';
 import { ExportToCsv } from 'export-to-csv';
+import { calculateur } from '../../ademe/calcul';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -67,6 +68,16 @@ type Props = PropsFromRedux
 function ExportDataContainer(props: Props) {
     const classes = useStyles();
 
+    function carbone(travels: any): number {
+        var sum = 0;
+        travels.forEach((travel: any) => {
+            travel.steps.forEach((step: any) => {
+                sum = sum + step.carboneEmission;
+            })
+        });
+        return sum;
+    }
+
     useEffect(() => {
         props.getAppSettings();
     }, []);
@@ -81,34 +92,38 @@ function ExportDataContainer(props: Props) {
     useEffect(() => {
         if (props.mobilityFiltered.success) {
             if (props.mobilityFiltered.mobilites.length != 0) { 
-                console.log(props.mobilityFiltered.mobilites);
+                var exportData = [];
+                for(let i=0; i<props.mobilityFiltered.mobilites.length; i++){
+                    const m=props.mobilityFiltered.mobilites[i];
+                    const row={
+                        id: m.id,
+                        Nom: m.userId.split('.')[1],
+                        Prénom: m.userId.split('.')[0],
+                        Département: m.departmentTypeName,
+                        Type: m.type,
+                        Lieu: m.place,
+                        Année: m.year,
+                        Début: m.startDate.substring(0,10),
+                        Fin: m.endDate.substring(0,10),
+                        Carbone: carbone(m.travels)
+                    }
+                    exportData.push(row); 
+                }
                 const options = {
                     fieldSeparator: ',',
                     filename: 'rapportDemissionCarbone',
                     quoteStrings: '"',
                     decimalSeparator: '.',
                     showLabels: true,
-                    showTitle: true,
+                    showTitle: false,
                     title: 'listeDesMobilitée',
                     useTextFile: false,
                     useBom: true,
                     useKeysAsHeaders: true,
-                    // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
                 };
-
-                //// SHOULD CHANGE 
-                const data = props.mobilityFiltered.mobilites.map((mobility: { [x: string]: any; travels: any[]; }) => {
-                    const carboneEmission = mobility.travels.reduce((acc: any, current: { steps: any[]; }) => {
-                        return acc + current.steps.reduce((acc2: number, current2: { carboneEmission: number; }) => {
-                            return acc2 + current2.carboneEmission / 1000;
-                        }, 0);
-                    }, 0);
-                    mobility['carboneEmissionKG'] = carboneEmission;
-                    return mobility;
-                });
-
+                
                 const csvExporter = new ExportToCsv(options);
-                csvExporter.generateCsv(props.mobilityFiltered.mobilites);
+                csvExporter.generateCsv(exportData);
 
             } else {
                 setMessagSnackBar("Aucune donnée ne correspond à votre recherche")
