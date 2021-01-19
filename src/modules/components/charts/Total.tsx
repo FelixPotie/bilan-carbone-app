@@ -39,7 +39,18 @@ const useStyles = makeStyles((theme) => ({
     margin: 'auto'
   },
   total: {
-    backgroundColor: '#ccebff'
+    backgroundColor: '#dedeff',
+    borderRadius:"10%",
+    width: "90%",
+    maxWidth:"300px",
+    height: "width",
+    display:"flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin:'auto'
+  },
+  content: {
+    
   }
 }));
 
@@ -101,7 +112,7 @@ function TotalCharts(props: Props) {
       return (
         <div>
           <Typography variant="h5" gutterBottom marked="center" align="center" className={classes.subtitle}>
-            {(data/1000).toFixed(2)} kg {t("OF")} CO<sub>2</sub>
+            <h3>{(data/1000).toFixed(2)}  kg</h3>{t("OF")} CO<sub>2</sub>
           </Typography>
           <FormGroup className={classes.form}>
             {Object.keys(years).map((row:any) => (
@@ -119,18 +130,18 @@ function TotalCharts(props: Props) {
 
   return (
     <React.Fragment>
-      <Box display="flex">
-        <Box m="auto">
+      {/* <Box display="flex">
+        <Box m="auto"> */}
         <Card className={classes.total}>
-            <CardContent>
+            <CardContent className={classes.content}>
                 <Typography variant="h5" gutterBottom marked="center" align="center" className={classes.title}>
                     {t("TOTAL")} :
                 </Typography>
                 {displayData()}
             </CardContent>
         </Card>
-        </Box>
-      </Box>
+        {/* </Box>
+      </Box> */}
     </React.Fragment>
   )
 }
