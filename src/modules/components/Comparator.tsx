@@ -1,6 +1,3 @@
-import {
-    makeStyles,
-} from '@material-ui/core/styles';
 import * as React from 'react';
 import { data } from '../ademe/ges-transport'
 import { calculateur } from '../ademe/calcul'
@@ -26,7 +23,7 @@ function Comparator(props: ComparatorProps) {
                 {t("ALTERNATIVE")}
             </Typography>}
             <List>
-                {(props.distance !== 0 && props.nbPers === 1 && (props.meansOfTransport === "CAR" || props.meansOfTransport == "ELECTRIC_CAR")) && <div><ListItem><ListItemIcon><AutorenewIcon /></ListItemIcon><ListItemText>{t("CARPOOLING")}</ListItemText></ListItem></div>}
+                {(props.distance !== 0 && props.nbPers === 1 && (props.meansOfTransport === "CAR" || props.meansOfTransport === "ELECTRIC_CAR")) && <div><ListItem><ListItemIcon><AutorenewIcon /></ListItemIcon><ListItemText>{t("CARPOOLING")}</ListItemText></ListItem></div>}
                 {data.map((element) => (
                     ((props.distance > element.bornes[0] && props.distance < element.bornes[1]) &&
                         calculateur(props.distance, element.name, props.nbPers) < props.emissions) &&

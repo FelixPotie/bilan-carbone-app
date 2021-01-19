@@ -1,4 +1,3 @@
-import { NonNullChain } from "typescript"
 
 interface meanOfTransport{
     name: string,

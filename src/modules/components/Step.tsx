@@ -1,8 +1,7 @@
 // import classes from '*.module.css'
-import { Container, makeStyles, Select, Popover, FormControl, Button, Card, CardContent, CardHeader, IconButton, Typography } from '@material-ui/core'
+import { makeStyles, Select, Popover, FormControl, Button, Card, CardContent, CardHeader, IconButton, Typography } from '@material-ui/core'
 import { TextField, MenuItem } from '@material-ui/core'
 import React, { useState } from 'react'
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { geonames } from './../../utils/geonames'
 import SearchIcon from '@material-ui/icons/Search';
