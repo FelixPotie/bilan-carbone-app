@@ -130,8 +130,6 @@ function TotalCharts(props: Props) {
 
   return (
     <React.Fragment>
-      {/* <Box display="flex">
-        <Box m="auto"> */}
         <Card className={classes.total}>
             <CardContent className={classes.content}>
                 <Typography variant="h5" gutterBottom marked="center" align="center" className={classes.title}>
@@ -140,8 +138,6 @@ function TotalCharts(props: Props) {
                 {displayData()}
             </CardContent>
         </Card>
-        {/* </Box>
-      </Box> */}
     </React.Fragment>
   )
 }
