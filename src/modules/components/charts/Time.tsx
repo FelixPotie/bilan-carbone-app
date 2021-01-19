@@ -89,7 +89,7 @@ function TimeCharts(props: Props){
   
 
   const collectData = () => {     
-    const years = props.settingsData.appSettings.allYear;
+    const years = props.settingsData.appSettings.allYear.sort();
     const infos :{name:string, carbone: number}[]=[]
     years.forEach((year: number) => {
       infos.push({name: year.toString(), carbone: calculCarbone(year)})

@@ -137,6 +137,9 @@ const useStyles = makeStyles((theme) => ({
     },
     arrow: {
         marginBottom: "-5px"
+    },
+    generalform:{
+        display: "contents"
     }
 }));
 
@@ -200,35 +203,58 @@ function Simulation(props: Props) {
         return props.mobilityData.mobilites.find((mobility:any)=> (mobility.id===+urlParams.id))
     }
 
-    const saveTravel = () => {
-        if (!date) {
-            console.log("date non valide")
+    const saveTravel = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        let steps: Object[] = []
+        const body = {
+            mobilityId: urlParams.id,
+            type: type,
+            date: date?.toISOString(),
+            steps: steps
         }
-        else {
-            let steps: Object[] = []
-            const body = {
-                mobilityId: urlParams.id,
-                type: type,
-                date: date.toISOString(),
-                steps: steps
-            }
-            listStep.map((step, index: number) => {
-                steps.push({
-                    rank: index,
-                    departure: `${step.from.name}, ${step.from.country}`,
-                    arrival: `${step.to.name}, ${step.to.country}`,
-                    distance: Math.round(getDist(step)),
-                    meansOfTransport: step.by,
-                    carboneEmission: Math.round(calculateur(getDist(step), step.by, step.nbPers))
-                })
-                if (index === listStep.length - 1) {
-                    props.addTravel(body)
-                }
+        listStep.map((step, index: number) => {
+            steps.push({
+                rank: index,
+                departure: `${step.from.name}, ${step.from.country}`,
+                arrival: `${step.to.name}, ${step.to.country}`,
+                distance: Math.round(getDist(step)),
+                meansOfTransport: step.by,
+                carboneEmission: Math.round(calculateur(getDist(step), step.by, step.nbPers))
             })
+            if (index === listStep.length - 1) {
+                props.addTravel(body)
+            }
+        })
+       }
 
+    const chooseType = () => {
+        const mob = props.mobilityData.mobilites.find((m:any)=>m.id===+urlParams.id);
+        if(mob.travels.find((go:any)=>go.type==="GO") && mob.travels.find((back:any)=>back.type==="BACK")){
+            return(
+                <Select required variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} >
+                </Select>
+            )
+        }else if(mob.travels.find((go:any)=>go.type==="GO")){
+            return(
+                <Select required variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} >
+                    <MenuItem value={'BACK'}>{t("BACK")}</MenuItem>
+                </Select>
+            )
+        }else if(mob.travels.find((back:any)=>back.type==="BACK")){
+            return(
+                <Select required variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} >
+                    <MenuItem value={'GO'}>{t("GO")}</MenuItem>
+                </Select>
+            )
+        }else{
+            return(
+                <Select required variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} >
+                    <MenuItem value={'GO'}>{t("GO")}</MenuItem>
+                    <MenuItem value={'BACK'}>{t("BACK")}</MenuItem>
+                </Select>
+            )
         }
     }
-
     const displayListStep = listStep.map((step, index: number) =>
         <Step key={index} id={index} step={defaultStep} updateStep={updateStep}></Step>)
 
@@ -299,7 +325,7 @@ function Simulation(props: Props) {
                         </Container>
                     }
                 <Grid container >
-
+                    <form onSubmit={e => saveTravel(e)} className={classes.generalform}>
                     <Grid md={6} alignItems="center">
                     <Card className={classes.journeyCard} variant="outlined" >
                         <CardContent>
@@ -313,14 +339,11 @@ function Simulation(props: Props) {
                             {(props.user.isLoggedIn && urlParams.id) &&
                                 <div>
                                     <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                                        <KeyboardDatePicker className={classes.form} disableToolbar required inputVariant="outlined" format="dd/MM/yyyy" id="date" label="Date" value={date} onChange={handleChangeDate} KeyboardButtonProps={{ 'aria-label': 'change date', }} />
+                                        <KeyboardDatePicker className={classes.form} disableToolbar required inputVariant="outlined" format="dd/MM/yyyy" id="date" label="Date" value={date} onChange={handleChangeDate} onKeyDown={(event) => {if (event.key === 'Enter') event.preventDefault()}} KeyboardButtonProps={{ 'aria-label': 'change date', }} />
                                     </MuiPickersUtilsProvider>
                                     <FormControl variant="outlined" className={classes.form}>
                                         <InputLabel htmlFor="type">{t("TYPE")}</InputLabel>
-                                        <Select required variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} >
-                                            <MenuItem value={'GO'}>{t("GO")}</MenuItem>
-                                            <MenuItem value={'BACK'}>{t("BACK")}</MenuItem>
-                                        </Select>
+                                        {chooseType()}
                                     </FormControl>
                                 </div>
                             }
@@ -357,14 +380,15 @@ function Simulation(props: Props) {
                                     {recap}
                                 </div>
                             </CardContent>
-
+                            
                                 {(props.user.isLoggedIn && urlParams.id) &&
                                     <CardActions className={classes.actionButton}>
-                                        <Button onClick={saveTravel}>{t("SAVE")}</Button>
+                                        <Button type="submit">{t("SAVE")}</Button>
                                     </CardActions>
                                 }
                         </Card>
                     </Grid>
+                    </form>
                 </Grid>
             </React.Fragment>
     )

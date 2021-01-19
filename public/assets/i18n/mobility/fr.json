@@ -19,6 +19,12 @@
   "DATE":"Date",
   "STEPS":"Étape(s)",
   "GO": "Aller",
-  "BACK": "Retour"
+  "BACK": "Retour",
+  "FROM": "De",
+  "TO": "à",
+  "TRAJECT": "Trajets",
+  "INTERNSHIP":"Stage",
+  "SEMESTER":"Semestre",
+  "DOUBLE_DEGRE":"Double diplôme"
 
 }

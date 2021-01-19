@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Typography from '../../components/Typography';
+import Button from '../../components/Button';
 import { Grid } from '@material-ui/core';
 
 const styles = (theme: Theme) =>
@@ -37,6 +38,7 @@ const styles = (theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      marginBottom:theme.spacing(2)
     },
   });
 
@@ -59,6 +61,15 @@ function ProductCategories(props: WithStyles<typeof styles>) {
               {'thought to have scrambled parts of Cicero\'s De Finibus Bonorum et Malorum for use in a type specimen book.'}
             </Typography>
           </div>
+          <Button
+            color="secondary"
+            size="large"
+            variant="contained"
+            component="a"
+            href="/ecolab"
+          >
+            Tester le simulateur de l'ADEME 
+          </Button>
         </Grid>
         <Grid item xs={12} md={7}>
           <div

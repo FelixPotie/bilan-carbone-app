@@ -95,7 +95,7 @@ function SchoolYearCharts(props: Props) {
   }
 
   const colectYears = () => {     
-    const years = props.settingsData.appSettings.allYear;
+    const years = props.settingsData.appSettings.allYear.sort();
     years.forEach((year: number) => {
       setYears((prevState)=> ({...prevState, [year.toString()]: true}))
     })

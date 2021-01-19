@@ -54,9 +54,6 @@ const useStyles = makeStyles((theme) => ({
   field: {
     marginBottom: theme.spacing(2),
     width:'100%',
-
-  },
-  date: {
   }
 }));
 
@@ -141,9 +138,9 @@ function AddMobilityContainer(props: Props) {
                                 value={type}
                                 className={classes.field}
                             >
-                                <MenuItem value={'SEMESTER'}>Semestre</MenuItem>
-                                <MenuItem value={'INTERNSHIP'}>Stage</MenuItem>
-                                <MenuItem value={'DOUBLE_DEGRE'}>Double diplôme</MenuItem>
+                                <MenuItem value={'SEMESTER'}>{t("SEMESTER")}</MenuItem>
+                                <MenuItem value={'INTERNSHIP'}>{t("INTERNSHIP")}</MenuItem>
+                                <MenuItem value={'DOUBLE_DEGRE'}>{t("DOUBLE_DEGRE")}</MenuItem>
                             </Select>
                         </FormControl>
                         <div className={classes.form}>

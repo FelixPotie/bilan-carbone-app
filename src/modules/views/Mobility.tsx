@@ -82,16 +82,24 @@ function TravelRow(props: any) {
         });
         return sum;
     }
-
-    function type(type: string): string {
-        if (type === "INTERNSHIP") return "Stage";
-        if (type === "SEMESTER") return "Semestre";
-        if (type === "DOUBLE_DEGRE") return "Double diplôme";
-        return "";
+    
+    function displayDate(date: string): string {
+        return date.substring(8, 10)+"/"+date.substring(5, 7)+"/"+date.substring(0, 4);
     }
 
-
-    return (
+    function displayAddTravelButton(){
+        if(row.travels.find((go:any)=>go.type==="GO") && row.travels.find((back:any)=>back.type==="BACK")){
+            return (<div></div>)
+        } else {
+            return (<Button
+                variant="contained"
+                href={`${row.id}/add-journey`}
+            >
+                <AddIcon />
+            </Button>)
+        }
+    }
+       return (
         <React.Fragment>
 
             <TableRow key={row.id}>
@@ -99,19 +107,14 @@ function TravelRow(props: any) {
                     setOpen(!open)
                 }
                 }>{open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}</StyledTableCell>
-                <StyledTableCell align="center">{type(row.type)}</StyledTableCell>
+                <StyledTableCell align="center">{t(row.type)}</StyledTableCell>
                 <StyledTableCell align="center">{row.place}</StyledTableCell>
                 <StyledTableCell align="center">{row.year}A</StyledTableCell>
-                <StyledTableCell align="center">{row.startDate.substring(0, 10)}</StyledTableCell>
-                <StyledTableCell align="center">{row.endDate.substring(0, 10)}</StyledTableCell>
-                <StyledTableCell align="center">{carbone(row.travels)}</StyledTableCell>
+                <StyledTableCell align="center">{displayDate(row.startDate)}</StyledTableCell>
+                <StyledTableCell align="center">{displayDate(row.endDate)}</StyledTableCell>
+                <StyledTableCell align="center">{(carbone(row.travels)/1000).toFixed(2)} kg</StyledTableCell>
                 <StyledTableCell align="center">
-                    <Button
-                        variant="contained"
-                        href={`${row.id}/add-journey`}
-                    >
-                        <AddIcon />
-                    </Button>
+                     {displayAddTravelButton()}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                     <Button
@@ -141,18 +144,18 @@ function TravelRow(props: any) {
                                 <TableBody>
                                     {row.travels.map((travel: any) => (
                                         <TableRow>
-                                            <StyledTableCell component="th" scope="row">{travel.date.substring(0, 10)}</StyledTableCell>
-                                            <StyledTableCell>{travel.type}</StyledTableCell>
-                                            <StyledTableCell align="center">{travel.steps.map((step: any) => (<div>from {step.departure} to {step.arrival}</div>))}
+                                            <StyledTableCell align="center" component="th" scope="row">{displayDate(travel.date)}</StyledTableCell>
+                                            <StyledTableCell align="center">{t(travel.type)}</StyledTableCell>
+                                            <StyledTableCell align="center">{travel.steps.sort((a:any,b:any)=>{return a.rank-b.rank}).map((step: any) => (<div>{step.rank+1}. {t("FROM")} {step.departure} {t("TO")} {step.arrival}</div>))}
                                             </StyledTableCell>
-                                            <StyledTableCell><StyledTableCell align="center">
+                                            <StyledTableCell align="center">
                                                 <Button
                                                     variant="contained"
                                                     onClick={() => deleteTravel(travel.id, row.id)}
                                                 >
                                                     <DeleteIcon />
                                                 </Button>
-                                            </StyledTableCell></StyledTableCell>
+                                            </StyledTableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
