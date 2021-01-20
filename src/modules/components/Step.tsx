@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { geonames } from './../../utils/geonames'
 import SearchIcon from '@material-ui/icons/Search';
 import DeleteIcon from '@material-ui/icons/Delete';
+import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -41,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         marginTop: "28px",
-        width: "20%",
+        width: "15%",
         right: '5%'
     },
     cityRow: {
@@ -60,6 +62,11 @@ const useStyles = makeStyles((theme) => ({
         overflow: "hidden",
         whiteSpace: "nowrap"
     },
+    valid:{
+        marginTop: "33px",
+        width: "5%",
+        right: '5%'
+    }
 }));
 
 export default function Step(props: any) {
@@ -128,6 +135,18 @@ export default function Step(props: any) {
         }, props.id)
     }
 
+    const displayValid = (country: string) =>{
+        if(!country){
+            return (
+                <CancelIcon className={classes.valid} style={{ color: "#ee0000" }}></CancelIcon>
+            )
+        }else{
+            return (
+                <DoneOutlineIcon className={classes.valid} style={{ color: "#00ee00" }}></DoneOutlineIcon>
+            )
+        }
+    }
+
     // POPOVER
 
     const handleClose = () => {
@@ -172,6 +191,7 @@ export default function Step(props: any) {
                             setPopoverFrom(true)
                             find(e, getFrom())
                         }}><SearchIcon /></Button>
+                        {displayValid(props.step.from.country)}
                     </div>
                     <div className={classes.cityRow}>
                         <TextField
@@ -196,6 +216,7 @@ export default function Step(props: any) {
                             setPopoverFrom(false)
                             find(e, getTo())
                         }}><SearchIcon /></Button>
+                        {displayValid(props.step.to.country)}
                     </div>
 
                     <div className={classes.city}>
