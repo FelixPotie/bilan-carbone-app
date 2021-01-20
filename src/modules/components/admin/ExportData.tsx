@@ -23,7 +23,6 @@ import Snackbar from '../Snackbar'
 import DateFnsUtils from '@date-io/date-fns';
 import 'date-fns';
 import { ExportToCsv } from 'export-to-csv';
-import { calculateur } from '../../ademe/calcul';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -91,7 +90,7 @@ function ExportDataContainer(props: Props) {
 
     useEffect(() => {
         if (props.mobilityFiltered.success) {
-            if (props.mobilityFiltered.mobilites.length != 0) { 
+            if (props.mobilityFiltered.mobilites.length !== 0) { 
                 var exportData = [];
                 for(let i=0; i<props.mobilityFiltered.mobilites.length; i++){
                     const m=props.mobilityFiltered.mobilites[i];
@@ -196,7 +195,7 @@ function ExportDataContainer(props: Props) {
 
     const handleChangeDepartment = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (!event.target.checked) {
-            setAllSelector({ ...allSelector, ["allDepartment"]: event.target.checked });
+            setAllSelector({ ...allSelector, "allDepartment": event.target.checked });
         }
         setStateDepartment({ ...stateDepartment, [event.target.name]: event.target.checked });
     };
@@ -204,14 +203,14 @@ function ExportDataContainer(props: Props) {
     const handleChangeSchoolYear = (event: React.ChangeEvent<HTMLInputElement>) => {
 
         if (!event.target.checked) {
-            setAllSelector({ ...allSelector, ["allSchoolYear"]: event.target.checked });
+            setAllSelector({ ...allSelector, "allSchoolYear": event.target.checked });
         }
         setStateSchoolYear({ ...stateSchlooYear, [event.target.value]: event.target.checked });
     };
 
     const handleChangeMobilityType = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (!event.target.checked) {
-            setAllSelector({ ...allSelector, ["allMobilityType"]: event.target.checked });
+            setAllSelector({ ...allSelector, "allMobilityType": event.target.checked });
         }
         setStateMobilityType({ ...stateMobilityType, [event.target.name]: event.target.checked });
     };

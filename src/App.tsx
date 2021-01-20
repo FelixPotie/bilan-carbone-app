@@ -14,21 +14,23 @@ class App extends React.PureComponent {
 
 
   render() {
-    
+
     return (
       <div>
         <Provider store={store}>
-          <Auth/>
-          <NavBar />
-          <Router>
-            <Switch>
-              {routes.map((prop,key) => {
-                return <Route path={prop.path} exact component={prop.component} key={key} />
-              })
-              }
-            </Switch>
-          </Router>
-          <AppFooter />
+          <Auth />
+          <main>
+            <NavBar />
+            <Router>
+              <Switch>
+                {routes.map((prop, key) => {
+                  return <Route path={prop.path} exact component={prop.component} key={key} />
+                })
+                }
+              </Switch>
+            </Router>
+          </main>
+            <AppFooter />
         </Provider>
       </div>
     );

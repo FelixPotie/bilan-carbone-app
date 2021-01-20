@@ -1,10 +1,13 @@
 // import classes from '*.module.css'
-import {Container, makeStyles, Select, Popover, FormControl, Button, Card, CardContent} from '@material-ui/core'
+import { makeStyles, Select, Popover, FormControl, Button, Card, CardContent, CardHeader, IconButton, Typography } from '@material-ui/core'
 import { TextField, MenuItem } from '@material-ui/core'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { geonames } from './../../utils/geonames'
 import SearchIcon from '@material-ui/icons/Search';
+import DeleteIcon from '@material-ui/icons/Delete';
+import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -13,19 +16,20 @@ const useStyles = makeStyles((theme) => ({
         // borderStyle: "solid",
         // border: "2px",
         borderRadius: "10px",
-        display: "inline-block",
-        backgroundColor: '#e3e3ff',
-        position:'relative'
+        //display: "inline-block",
+        backgroundColor: '#f8f8ff',
+        position: 'relative',
+        boxShadow: 'none'
     },
     transport: {
-        marginTop:theme.spacing(2),
-        width:"40%"
+        marginTop: theme.spacing(2),
+        width: "40%",
     },
     places: {
         borderStyle: "solid"
     },
     field: {
-        width: "80%",
+        width: "50%",
         // marginRight:"20%",
         marginTop: theme.spacing(2),
         minWidth: "100px"
@@ -34,37 +38,76 @@ const useStyles = makeStyles((theme) => ({
         verticalAlign: "middle"
     },
     city: {
-        width:"90%",
-        margin: "auto"
+        width: "90%",
+        //margin: "auto"
     },
     button: {
-        marginTop:"28px",
-        width: "20%",
-        position:'absolute',
-        right:'5%'
+        marginTop: "28px",
+        width: "15%",
+        right: '5%'
+    },
+    cityRow: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "flex-start"
+    },
+    country: {
+        marginTop: "28px",
+        right: '5%',
+        width: "30%",
+        padding: "6px 8px",
+        borderBottom: "1px solid rgba(0, 0, 0, 0.42)",
+        color: "grey",
+        textOverflow: "ellipsis",
+        overflow: "hidden",
+        whiteSpace: "nowrap"
+    },
+    valid:{
+        marginTop: "33px",
+        width: "5%",
+        right: '5%'
     }
 }));
 
 export default function Step(props: any) {
     const classes = useStyles()
-    const [from, setFrom] = useState('Montpellier, France')
-    const [to, setTo] = useState('Montpellier, France')
     const [anchorEl, setAnchorEl] = useState(null);
     const [results, setResults] = useState([])
-    const [step, setStep] = useState({ from: props.step.from, to: props.step.to, by: props.step.by, nbPers: props.step.nbPers })
-
 
     const { t } = useTranslation('simulationPage');
 
     const [popoverFrom, setPopoverFrom] = useState(false)
 
+    const getFrom = () => {
+        return props.step.from.name
+    }
+    const getTo = () => {
+        return props.step.to.name
+    }
 
     const onChangeFrom = (event: any) => {
-        setFrom(event.target.value)
+        let newStep = {
+            ...props.step,
+            from: {
+                ...props.step.from,
+                name: event.target.value,
+                country: "",
+            }
+        }
+        props.updateStep(newStep, props.id)
+
     }
 
     const onChangeTo = (event: any) => {
-        setTo(event.target.value)
+        let newStep = {
+            ...props.step,
+            to: {
+                ...props.step.to,
+                name: event.target.value,
+                country: "",
+            }
+        }
+        props.updateStep(newStep, props.id)
     }
 
     const find = (event: any, point: string) => {
@@ -75,22 +118,33 @@ export default function Step(props: any) {
             }).catch(err => { console.log(err) })
     }
 
+    const getBy = () => props.step.by
+
     const handleChangeTransport = (event: any) => {
         props.updateStep({
-            ...step, by: event.target.value
+            ...props.step, by: event.target.value
         }, props.id)
-        setStep({ ...step, by: event.target.value })
     }
+
+    const getNbPers = () => props.step.nbPers
 
     const ChangeNumber = (event: any) => {
         props.updateStep({
-            ...step,
+            ...props.step,
             nbPers: event.target.value
         }, props.id)
-        setStep({
-            ...step,
-            nbPers: event.target.value
-        })
+    }
+
+    const displayValid = (country: string) =>{
+        if(!country){
+            return (
+                <CancelIcon className={classes.valid} style={{ color: "#ee0000" }}></CancelIcon>
+            )
+        }else{
+            return (
+                <DoneOutlineIcon className={classes.valid} style={{ color: "#00ee00" }}></DoneOutlineIcon>
+            )
+        }
     }
 
     // POPOVER
@@ -104,16 +158,21 @@ export default function Step(props: any) {
 
     return (
         <React.Fragment>
-            <Card className={classes.card} variant="outlined" >
+            <Card className={classes.card} >
+                <CardHeader style={{ paddingBottom: "4px" }} title={t("STEP").concat(" ", props.id + 1)} action={
+                    <IconButton aria-label="settings" onClick={(event) => props.deleteAction(event, props.id)} >
+                        <DeleteIcon />
+                    </IconButton>
+                } />
                 <CardContent>
-                    <div className={classes.city}>
+                    <div className={classes.cityRow}>
                         <TextField
                             name="from"
                             required
                             label={t("FROM")}
-                            variant="outlined"
+                            variant="standard"
                             id="from"
-                            value={from}
+                            value={getFrom()}
                             type="text"
                             placeholder="from"
                             className={classes.field}
@@ -122,45 +181,55 @@ export default function Step(props: any) {
                                 if (event.key === 'Enter') {
                                     event.preventDefault();
                                     setPopoverFrom(true)
-                                    find(event, from)
+                                    find(event, getFrom())
                                 }
                             }} />
-                            <Button className={classes.button} id="fromID" onClick={(e) => {
-                                setPopoverFrom(true)
-                                find(e, from)
-                            }}><SearchIcon /></Button>
+                        <Typography className={classes.country} >
+                            {props.step.from.country}
+                        </Typography>
+                        <Button className={classes.button} id="fromID" onClick={(e) => {
+                            setPopoverFrom(true)
+                            find(e, getFrom())
+                        }}><SearchIcon /></Button>
+                        {displayValid(props.step.from.country)}
+                    </div>
+                    <div className={classes.cityRow}>
                         <TextField
                             name="to"
                             required
                             label={t("TO")}
-                            variant="outlined"
-                            id="to" value={to}
+                            variant="standard"
+                            id="to" value={getTo()}
                             type="text" placeholder="to"
                             className={classes.field} onChange={onChangeTo}
                             onKeyDown={(event) => {
                                 if (event.key === 'Enter') {
                                     event.preventDefault();
                                     setPopoverFrom(false)
-                                    find(event, to)
+                                    find(event, getTo())
                                 }
                             }} />
-                            <Button className={classes.button} id="fromID" onClick={(e) => {
-                                setPopoverFrom(false)
-                                find(e, to)
-                            }}><SearchIcon /></Button>
+                        <Typography className={classes.country} >
+                            {props.step.to.country}
+                        </Typography>
+                        <Button className={classes.button} id="toID" onClick={(e) => {
+                            setPopoverFrom(false)
+                            find(e, getTo())
+                        }}><SearchIcon /></Button>
+                        {displayValid(props.step.to.country)}
                     </div>
+
                     <div className={classes.city}>
 
-                        <FormControl variant="outlined" className={classes.transport}>
+                        <FormControl variant="standard" className={classes.transport} style={{ paddingRight: "8px" }}>
                             <Select
-                                variant="outlined"
+                                variant="standard"
                                 fullWidth
                                 id="by"
                                 name="by"
                                 autoComplete="type"
                                 onChange={handleChangeTransport}
-                                value={step.by}
-                                // className={classes.field}
+                                value={getBy()}
                             >
                                 <MenuItem value={"TGV"} >{t("TGV")}</MenuItem>
                                 <MenuItem value={"PLANE"}>{t("PLANE")}</MenuItem>
@@ -172,16 +241,16 @@ export default function Step(props: any) {
                             </Select>
                         </FormControl>
                         {
-                            (step.by === "CAR" || step.by === "ELECTRIC_CAR") &&
-                            <FormControl variant="outlined" className={classes.transport}>
+                            (getBy() === "CAR" || getBy() === "ELECTRIC_CAR") &&
+                            <FormControl variant="standard" className={classes.transport} style={{ paddingLeft: "8px" }}>
                                 <Select
-                                    variant="outlined"
+                                    variant="standard"
                                     fullWidth
                                     id="nbPers"
                                     name="nbPers"
                                     onChange={ChangeNumber}
-                                    value={step.nbPers}
-                                    // className={classes.field}
+                                    value={getNbPers()}
+                                // className={classes.field}
                                 >
                                     <MenuItem value={1}>1 {t("PASSENGER")}</MenuItem>
                                     <MenuItem value={2}>2 {t("PASSENGERS")}</MenuItem>
@@ -209,10 +278,8 @@ export default function Step(props: any) {
                     results.map((result: any) => (
                         <p onClick={() => {
                             if (popoverFrom) {
-                                console.log(props.key)
-                                setFrom(`${result.name}, ${result.countryName}`)
                                 let newStep = {
-                                    ...step,
+                                    ...props.step,
                                     from: {
                                         name: result.name,
                                         country: result.countryName,
@@ -221,13 +288,10 @@ export default function Step(props: any) {
                                     }
                                 }
                                 props.updateStep(newStep, props.id)
-                                setStep(newStep)
-
                             }
                             else {
-                                setTo(`${result.name}, ${result.countryName}`)
                                 let newStep = {
-                                    ...step,
+                                    ...props.step,
                                     to: {
                                         name: result.name,
                                         country: result.countryName,
@@ -236,7 +300,6 @@ export default function Step(props: any) {
                                     }
                                 }
                                 props.updateStep(newStep, props.id)
-                                setStep(newStep)
                             }
                             handleClose()
                         }}> {result.name}, {result.countryName} </p>
