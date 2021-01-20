@@ -1,4 +1,4 @@
-import { CardContent, Checkbox, Card, FormControlLabel, FormGroup, Grid, makeStyles, CircularProgress, Box } from '@material-ui/core';
+import { CardContent, Checkbox, Card, FormControlLabel, FormGroup, makeStyles, CircularProgress } from '@material-ui/core';
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import { connect, ConnectedProps } from 'react-redux';
