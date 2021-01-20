@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
@@ -83,6 +83,10 @@ function AppFooter() {
     i18n.changeLanguage(target.value)
   }
 
+  const [languageLoaded, setLanguageLoaded] = React.useState("");
+
+  i18n.on('loaded', function(loaded) { if (loaded) setLanguageLoaded(i18n.language) });
+
   return (
     <Typography component="footer" className={classes.root}>
       <Container className={classes.container}>
@@ -138,7 +142,8 @@ function AppFooter() {
             </Typography>
             <FormControl className={classes.formControl}>
               <Select
-                value={i18n.language}
+                type="text"
+                value={languageLoaded}
                 onChange={changeLanguage}
                 className={classes.select}
                 inputProps={{
@@ -157,10 +162,7 @@ function AppFooter() {
           </Grid>
           <Grid item xs={12}>
             <React.Fragment>
-              {'© '}
-              <Link color="inherit" href="https://material-ui.com/">
-                {t("MADE_BY")} Bourrat Mathis, Potié Félix, Gayet Simon.
-              </Link>{' '}
+              {'© '}{t("MADE_BY")} Bourrat Mathis, Potié Félix, Gayet Simon.{' '}
               {new Date().getFullYear()}
             </React.Fragment>
           </Grid>
