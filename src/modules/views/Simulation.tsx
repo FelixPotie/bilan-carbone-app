@@ -93,8 +93,8 @@ const useStyles = makeStyles((theme) => ({
     },
     journeyCard: {
         // maxWidth: "650px",
-         margin:"auto",
-         width: "92%",
+        margin: "auto",
+        width: "92%",
         borderRadius: "10px",
         backgroundColor: '#eeeeff',
         display: "flex",
@@ -105,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "center",
         flexDirection: "column"
     },
-    cardContent:{
+    cardContent: {
         padding: "0px 0px 4px 0px"
     },
     emissionCard: {
@@ -176,7 +176,7 @@ function Simulation(props: Props) {
 
     const removeStep = (event: any, index: number) => {
         const newFeatures = [...listStep];
-        newFeatures.splice(index,1);
+        newFeatures.splice(index, 1);
         setlistStep(newFeatures);
         event.preventDefault();
     }
@@ -187,7 +187,6 @@ function Simulation(props: Props) {
             if (index === id) {
                 return updatedStep;
             }
-
             return step;
         });
         setlistStep(newList);
@@ -224,7 +223,7 @@ function Simulation(props: Props) {
             date: date?.toISOString(),
             steps: steps
         }
-        listStep.map((step, index: number) => {
+        listStep.forEach((step, index: number) => {
             steps.push({
                 rank: index,
                 departure: `${step.from.name}, ${step.from.country}`,
@@ -240,26 +239,26 @@ function Simulation(props: Props) {
     }
 
     const chooseType = () => {
-        const mob = props.mobilityData.mobilites.find((m:any)=>m.id===+urlParams.id);
-        if(mob.travels.find((go:any)=>go.type==="GO") && mob.travels.find((back:any)=>back.type==="BACK")){
-            return(
+        const mob = props.mobilityData.mobilites.find((m: any) => m.id === +urlParams.id);
+        if (mob.travels.find((go: any) => go.type === "GO") && mob.travels.find((back: any) => back.type === "BACK")) {
+            return (
                 <Select required variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} >
                 </Select>
             )
-        }else if(mob.travels.find((go:any)=>go.type==="GO")){
-            return(
+        } else if (mob.travels.find((go: any) => go.type === "GO")) {
+            return (
                 <Select required variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} >
                     <MenuItem value={'BACK'}>{t("BACK")}</MenuItem>
                 </Select>
             )
-        }else if(mob.travels.find((back:any)=>back.type==="BACK")){
-            return(
+        } else if (mob.travels.find((back: any) => back.type === "BACK")) {
+            return (
                 <Select required variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} >
                     <MenuItem value={'GO'}>{t("GO")}</MenuItem>
                 </Select>
             )
-        }else{
-            return(
+        } else {
+            return (
                 <Select required variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} >
                     <MenuItem value={'GO'}>{t("GO")}</MenuItem>
                     <MenuItem value={'BACK'}>{t("BACK")}</MenuItem>
@@ -267,9 +266,9 @@ function Simulation(props: Props) {
             )
         }
     }
-    
 
-    const displayListStep = listStep.map((step, index: number) =>{ 
+
+    const displayListStep = listStep.map((step, index: number) => {
         return <Step key={index} id={index} step={step} updateStep={updateStep} deleteAction={removeStep}></Step>
     });
 
@@ -300,7 +299,7 @@ function Simulation(props: Props) {
         </Card>
     ))
 
-    if(listStep.length === 0){
+    if (listStep.length === 0) {
         listStep.push(defaultStep);
         setlistStep(listStep);
     }
@@ -314,97 +313,97 @@ function Simulation(props: Props) {
     ) : props.travel.success ? (
         <Redirect to="/mobilites" />
     ) : (
-        <React.Fragment>
-            {(props.user.isLoggedIn && urlParams.id) ?
-                <Container className={classes.title}>
-                    <Box display="flex">
-                        <Box m="auto">
-                            <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
-                                {t("ENTER_YOUR_JOURNEY")}
-                            </Typography>
-                        </Box>
-                    </Box>
-                    <Typography variant="h5" gutterBottom marked="center" align="center">
-                        {props.mobilityData.mobilites.map((mobility: any) => mobility.id === Number(urlParams.id) &&
-                            <div>{t("SUBTITLE")}{t(mobility.type)} {t("IN")} {mobility.place}.</div>)}
-                    </Typography>
-                </Container>
-                :
-                <Container className={classes.title}>
-                    <Box display="flex">
-                        <Box m="auto">
-                            <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
-                                {t("SIMULATE_YOUR_JOURNEY")}
-                            </Typography>
-                        </Box>
-                    </Box>
-
-                    <Typography variant="h5" gutterBottom marked="center" align="center">
-                        {t("PAGE_DESCRIPTION")}
-                    </Typography>
-                </Container>
-            }
-            <Grid container >
-                <form onSubmit={e => saveTravel(e)} className={classes.generalform}>
-                    <Grid md={6} alignItems="center" className={classes.cardContainer} >
-                        <Card className={classes.journeyCard} >
-                            <CardContent className={classes.cardContent}>
-                                <Box display="flex" >
+                    <React.Fragment>
+                        {(props.user.isLoggedIn && urlParams.id) ?
+                            <Container className={classes.title}>
+                                <Box display="flex">
                                     <Box m="auto">
-                                        <Typography className={classes.cardTitle} variant="h4" marked="center" align="center" color="inherit">
-                                            {t("YOUR_JOURNEY")}
+                                        <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
+                                            {t("ENTER_YOUR_JOURNEY")}
                                         </Typography>
                                     </Box>
                                 </Box>
-                                {(props.user.isLoggedIn && urlParams.id) &&
-                                    <div>
-                                        <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                                            <KeyboardDatePicker className={classes.form} disableToolbar required inputVariant="outlined" format="dd/MM/yyyy" id="date" label="Date" value={date} onChange={handleChangeDate} onKeyDown={(event) => { if (event.key === 'Enter') event.preventDefault() }} KeyboardButtonProps={{ 'aria-label': 'change date', }} />
-                                        </MuiPickersUtilsProvider>
-                                        <FormControl variant="outlined" className={classes.form} style={{marginBottom: "16px"}}>
-                                            <InputLabel htmlFor="type">{t("TYPE")}</InputLabel>
-                                             {chooseType()}
-                                        </FormControl>
-                                    </div>
-                                }
-                                <div className={classes.steps}>
-                                    {displayListStep}
-                                </div>
-                            </CardContent>
-                            <CardActions className={classes.actionButton}>
-                                <Button onClick={addStep}>{<AddIcon fontSize="large" />}</Button>
-                            </CardActions>
-                        </Card>
-                    </Grid>
-                    <Grid md={6} alignItems="center" className={classes.cardContainer}>
-                        <Card className={classes.journeyCard} >
-                            <CardContent className={classes.cardContent}>
-                                <Box display="flex" >
-                                    <Box m="auto">
-                                        <Typography className={classes.cardTitle} variant="h4" marked="center" align="center" color="inherit">
-                                            {t("YOUR_EMISSIONS")}
-                                        </Typography>
-                                    </Box>
-                                </Box>
-                                <Typography className={classes.etape} variant="h5" color="inherit">
-                                    {t("EMISSION_DESCRIPTION")}
+                                <Typography variant="h5" gutterBottom marked="center" align="center">
+                                    {props.mobilityData.mobilites.map((mobility: any) => mobility.id === Number(urlParams.id) &&
+                                        <div>{t("SUBTITLE")}{t(mobility.type)} {t("IN")} {mobility.place}.</div>)}
                                 </Typography>
-                                <div className={classes.steps}>
-                                    {recap}
-                                </div>
-                            </CardContent>
+                            </Container>
+                            :
+                            <Container className={classes.title}>
+                                <Box display="flex">
+                                    <Box m="auto">
+                                        <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
+                                            {t("SIMULATE_YOUR_JOURNEY")}
+                                        </Typography>
+                                    </Box>
+                                </Box>
 
-                            {(props.user.isLoggedIn && urlParams.id) &&
-                                <CardActions className={classes.actionButton}>
-                                    <Button type="submit">{t("SAVE")}</Button>
-                                </CardActions>
-                            }
-                        </Card>
-                    </Grid>
-                </form>
-            </Grid>
-        </React.Fragment>
-    )
+                                <Typography variant="h5" gutterBottom marked="center" align="center">
+                                    {t("PAGE_DESCRIPTION")}
+                                </Typography>
+                            </Container>
+                        }
+                        <Grid container >
+                            <form onSubmit={e => saveTravel(e)} className={classes.generalform}>
+                                <Grid md={6} alignItems="center" className={classes.cardContainer} >
+                                    <Card className={classes.journeyCard} >
+                                        <CardContent className={classes.cardContent}>
+                                            <Box display="flex" >
+                                                <Box m="auto">
+                                                    <Typography className={classes.cardTitle} variant="h4" marked="center" align="center" color="inherit">
+                                                        {t("YOUR_JOURNEY")}
+                                                    </Typography>
+                                                </Box>
+                                            </Box>
+                                            {(props.user.isLoggedIn && urlParams.id) &&
+                                                <div>
+                                                    <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                                                        <KeyboardDatePicker className={classes.form} disableToolbar required inputVariant="outlined" format="dd/MM/yyyy" id="date" label="Date" value={date} onChange={handleChangeDate} onKeyDown={(event) => { if (event.key === 'Enter') event.preventDefault() }} KeyboardButtonProps={{ 'aria-label': 'change date', }} />
+                                                    </MuiPickersUtilsProvider>
+                                                    <FormControl variant="outlined" className={classes.form} style={{ marginBottom: "16px" }}>
+                                                        <InputLabel htmlFor="type">{t("TYPE")}</InputLabel>
+                                                        {chooseType()}
+                                                    </FormControl>
+                                                </div>
+                                            }
+                                            <div className={classes.steps}>
+                                                {displayListStep}
+                                            </div>
+                                        </CardContent>
+                                        <CardActions className={classes.actionButton}>
+                                            <Button onClick={addStep}>{<AddIcon fontSize="large" />}</Button>
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
+                                <Grid md={6} alignItems="center" className={classes.cardContainer}>
+                                    <Card className={classes.journeyCard} >
+                                        <CardContent className={classes.cardContent}>
+                                            <Box display="flex" >
+                                                <Box m="auto">
+                                                    <Typography className={classes.cardTitle} variant="h4" marked="center" align="center" color="inherit">
+                                                        {t("YOUR_EMISSIONS")}
+                                                    </Typography>
+                                                </Box>
+                                            </Box>
+                                            <Typography className={classes.etape} variant="h5" color="inherit">
+                                                {t("EMISSION_DESCRIPTION")}
+                                            </Typography>
+                                            <div className={classes.steps}>
+                                                {recap}
+                                            </div>
+                                        </CardContent>
+
+                                        {(props.user.isLoggedIn && urlParams.id) &&
+                                            <CardActions className={classes.actionButton}>
+                                                <Button type="submit">{t("SAVE")}</Button>
+                                            </CardActions>
+                                        }
+                                    </Card>
+                                </Grid>
+                            </form>
+                        </Grid>
+                    </React.Fragment>
+                )
 }
 
 export default connector(Simulation);
