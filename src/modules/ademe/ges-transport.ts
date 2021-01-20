@@ -1,4 +1,3 @@
-
 interface meanOfTransport{
     name: string,
     bornes: [number, number],

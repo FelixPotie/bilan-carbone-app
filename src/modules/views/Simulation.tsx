@@ -187,7 +187,6 @@ function Simulation(props: Props) {
             if (index === id) {
                 return updatedStep;
             }
-
             return step;
         });
         setlistStep(newList);
@@ -224,7 +223,7 @@ function Simulation(props: Props) {
             date: date?.toISOString(),
             steps: steps
         }
-        listStep.map((step, index: number) => {
+        listStep.forEach((step, index: number) => {
             steps.push({
                 rank: index,
                 departure: `${step.from.name}, ${step.from.country}`,
