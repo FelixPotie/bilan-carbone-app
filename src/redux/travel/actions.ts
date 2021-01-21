@@ -29,12 +29,11 @@ export const addStep = (travelId: number, steps: any) => {
     const headers = {
         'Content-Type': 'application/json',
     }
-    steps.map((step: any) => {
+    steps.forEach((step: any) => {
         let newStep = {
             ...step,
             travelId: travelId
         }
-        console.log(newStep)
         if(step.distance !== 0)
         axios.post('step/', newStep, { headers: headers })
         .then(response => {

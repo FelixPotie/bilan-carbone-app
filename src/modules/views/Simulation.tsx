@@ -94,8 +94,8 @@ const useStyles = makeStyles((theme) => ({
     },
     journeyCard: {
         // maxWidth: "650px",
-         margin:"auto",
-         width: "92%",
+        margin: "auto",
+        width: "92%",
         borderRadius: "10px",
         backgroundColor: '#eeeeff',
         display: "flex",
@@ -106,7 +106,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "center",
         flexDirection: "column"
     },
-    cardContent:{
+    cardContent: {
         padding: "0px 0px 4px 0px"
     },
     emissionCard: {
@@ -182,7 +182,7 @@ function Simulation(props: Props) {
 
     const removeStep = (event: any, index: number) => {
         const newFeatures = [...listStep];
-        newFeatures.splice(index,1);
+        newFeatures.splice(index, 1);
         setlistStep(newFeatures);
         event.preventDefault();
     }
@@ -193,7 +193,6 @@ function Simulation(props: Props) {
             if (index === id) {
                 return updatedStep;
             }
-
             return step;
         });
         setlistStep(newList);
@@ -230,7 +229,7 @@ function Simulation(props: Props) {
             date: date?.toISOString(),
             steps: steps
         }
-        listStep.map((step, index: number) => {
+        listStep.forEach((step, index: number) => {
             steps.push({
                 rank: index,
                 departure: `${step.from.name}, ${step.from.country}`,
@@ -246,26 +245,26 @@ function Simulation(props: Props) {
     }
 
     const chooseType = () => {
-        const mob = props.mobilityData.mobilites.find((m:any)=>m.id===+urlParams.id);
-        if(mob.travels.find((go:any)=>go.type==="GO") && mob.travels.find((back:any)=>back.type==="BACK")){
-            return(
+        const mob = props.mobilityData.mobilites.find((m: any) => m.id === +urlParams.id);
+        if (mob.travels.find((go: any) => go.type === "GO") && mob.travels.find((back: any) => back.type === "BACK")) {
+            return (
                 <Select required variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} >
                 </Select>
             )
-        }else if(mob.travels.find((go:any)=>go.type==="GO")){
-            return(
+        } else if (mob.travels.find((go: any) => go.type === "GO")) {
+            return (
                 <Select required variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} >
                     <MenuItem value={'BACK'}>{t("BACK")}</MenuItem>
                 </Select>
             )
-        }else if(mob.travels.find((back:any)=>back.type==="BACK")){
-            return(
+        } else if (mob.travels.find((back: any) => back.type === "BACK")) {
+            return (
                 <Select required variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} >
                     <MenuItem value={'GO'}>{t("GO")}</MenuItem>
                 </Select>
             )
-        }else{
-            return(
+        } else {
+            return (
                 <Select required variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} >
                     <MenuItem value={'GO'}>{t("GO")}</MenuItem>
                     <MenuItem value={'BACK'}>{t("BACK")}</MenuItem>
@@ -273,9 +272,9 @@ function Simulation(props: Props) {
             )
         }
     }
-    
 
-    const displayListStep = listStep.map((step, index: number) =>{ 
+
+    const displayListStep = listStep.map((step, index: number) => {
         return <Step key={index} id={index} step={step} updateStep={updateStep} deleteAction={removeStep}></Step>
     });
 
@@ -306,7 +305,7 @@ function Simulation(props: Props) {
         </Card>
     ))
 
-    if(listStep.length === 0){
+    if (listStep.length === 0) {
         listStep.push(defaultStep);
         setlistStep(listStep);
     }
@@ -371,9 +370,9 @@ function Simulation(props: Props) {
                                         <MuiPickersUtilsProvider utils={DateFnsUtils} >
                                             <KeyboardDatePicker className={classes.form} disableToolbar required inputVariant="outlined" format="dd/MM/yyyy" id="date" label="Date" value={date} onChange={handleChangeDate} onKeyDown={(event) => { if (event.key === 'Enter') event.preventDefault() }} KeyboardButtonProps={{ 'aria-label': 'change date', }} />
                                         </MuiPickersUtilsProvider>
-                                        <FormControl variant="outlined" className={classes.form} style={{marginBottom: "16px"}}>
+                                        <FormControl variant="outlined" className={classes.form} style={{ marginBottom: "16px" }}>
                                             <InputLabel htmlFor="type">{t("TYPE")}</InputLabel>
-                                             {chooseType()}
+                                            {chooseType()}
                                         </FormControl>
                                     </div>
                                 }
