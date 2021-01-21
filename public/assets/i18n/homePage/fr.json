@@ -1,7 +1,11 @@
 {
-  "SIMULATE_YOUR_JOURNEY": "Simuler votre trajet",
-  "ENTER_SIMULATE_DESCIPTION": "Entrer sur notre simulateur pour découvrir l'empreinte carbone de votre trajet",
-  "LAUNCH_SIMULATION": "Lancer la simulation",
+  "SIMULATE_YOUR_JOURNEY": "Bienvenue sur MOBILAN",
+  "LOGGIN": "Connectez-vous pour enregistrer une mobilité internationale de Polytech Montpellier et ses trajets associés ou",
+  "SIMULATE": "Rendez-vous sur notre simulateur pour découvrir l'empreinte carbone de votre trajet.",
+  "LAUNCH_SIMULATION": "Simulateur",
   "STAT_TEXT": "Decouvrez les statistiques de l'école",
-  "STAT":"Statistiques"
+  "STAT":"Statistiques",
+  "SIGNIN":"Se connecter",
+  "MOBILITY": "Mes mobilités",
+  "ADD_MOBILITY": "Ici vous pouvez enregistrer vos trajets liés à vos mobilités internationales de Polytech Montpellier"
 }

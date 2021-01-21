@@ -38,5 +38,9 @@
     "ALTERNATIVE": "Alternative",
     "REDUCE_BY": "you reduce by",
     "CARPOOLING": "Think about carpooling for your journey by car",
-    "SUBTITLE":"Enter here your journey for your "
+    "SUBTITLE":"Enter here your journey for your ",
+    "ALERT_CONNECTED": "This is just a simulation, to record your trip, please link it to a mobility by going to the tab ",
+    "MOBILITIES": "Mobilities",
+    "ALERT_DISCONNECTED":"This is just a simulation, to record your trip, please login and link it to a mobility !",
+    "LOGIN": "Login"
 }
