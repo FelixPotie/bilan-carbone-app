@@ -6,60 +6,60 @@ import {
   WithStyles,
 } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
-import Grid from '@material-ui/core/Grid';
 import Button from '../../components/Button';
 import Typography from '../../components/Typography';
 
 const styles = (theme: Theme) =>
   createStyles({
     root: {
-      display: 'flex',
       backgroundColor: theme.palette.secondary.light,
       paddingLeft: '24px',
-      paddingRight: '24px'
+      paddingRight: '24px',
+      paddingTop: theme.spacing(10),
+      paddingBottom: theme.spacing(15),
+
     },
     container: {
-      marginTop: theme.spacing(10),
-      marginBottom: theme.spacing(15),
+      display: 'flex',
+      flexWrap:'wrap',
+      justifyContent:'space-evenly',
+      backgroundColor: theme.palette.secondary.light,
     },
     title: {
-      fontSize: theme.typography.h4.fontSize
+      fontSize: theme.typography.h4.fontSize,
+      margin: theme.spacing(2),
     },
     button: {
-
+      margin: theme.spacing(2),
     },
   });
 
 function HowItWorks(props: WithStyles<typeof styles>) {
   const { classes } = props;
-  const  {t} = useTranslation('homePage');
+  const { t } = useTranslation('homePage');
 
   return (
     <section className={classes.root}>
-      <Grid container justify="center" spacing={2} alignItems="center"  className={classes.container}>
-        <Grid item xs={12} md={9} >
-          <Typography
-            variant="h4"
-            marked="left"
-            className={classes.title}
-            component="h2"
-          >
-            {t("STAT_TEXT")}
+      <div className={classes.container}>
+        <Typography
+          variant="h4"
+          marked="left"
+          className={classes.title}
+          component="h2"
+        >
+          {t("STAT_TEXT")}
         </Typography>
-        </Grid>
-        <Grid item xs={12} md={3} >
-          <Button
-            color="secondary"
-            size="large"
-            variant="contained"
-            className={classes.button}
-            component="a"
-            href="/statistics"
-          >
-            {t("STAT")}
+        <Button
+          color="secondary"
+          size="large"
+          variant="contained"
+          className={classes.button}
+          component="a"
+          href="/statistics"
+        >
+          {t("STAT")}
         </Button>
-        </Grid>
-      </Grid>
+      </div>
     </section>
   );
 }

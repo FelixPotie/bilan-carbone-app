@@ -9,6 +9,7 @@ import Container from '@material-ui/core/Container';
 import Typography from '../../components/Typography';
 import Button from '../../components/Button';
 import { Grid } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -45,31 +46,32 @@ const styles = (theme: Theme) =>
 function ProductCategories(props: WithStyles<typeof styles>) {
   const { classes } = props;
 
+  const { t } = useTranslation('homePage');
+
   return (
     <Container className={classes.root} component="section">
       <Grid container className={classes.grid} spacing={2} direction="row" justify="center" >
         <Grid item xs={12} md={4} className={classes.textBloc}>
           <Typography variant="h3" marked="left" className={classes.title}>
-            En colaboration avec l'Ademe
+          {t('ADEME_COLABORATION')}
           </Typography>
           <div className={classes.item}>
             <Typography className={classes.text}  >
-              {
-                'Lorem ipsum, or lipsum as it is sometimes known,'}
-              {'is dummy text used in laying out print, graphic or web designs.'}
-              {'The passage is attributed to an unknown typesetter in the 15th century who is'}
-              {'thought to have scrambled parts of Cicero\'s De Finibus Bonorum et Malorum for use in a type specimen book.'}
+              {t('ADEME_TEXT_PART1')} <a href="https://ecolab.ademe.fr/">Ecolab</a>
             </Typography>
           </div>
-          <Button
-            color="secondary"
-            size="large"
-            variant="contained"
-            component="a"
-            href="/ecolab"
-          >
-            Tester le simulateur de l'ADEME 
-          </Button>
+          <div >
+            <Button
+              color="secondary"
+              size="large"
+              variant="contained"
+              component="a"
+              href="/ecolab"
+              style={{margin: '5% 0% 5% 0%'}}
+            >
+              {t('ADEME_SIMULATOR')}
+            </Button>
+          </div>
         </Grid>
         <Grid item xs={12} md={7}>
           <div
