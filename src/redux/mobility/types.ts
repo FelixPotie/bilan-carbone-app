@@ -30,6 +30,7 @@ interface getMobilityFailure {
 
 interface addMobilitySuccess {
     type: typeof ADD_MOBILITY_SUCCESS,
+    payload: number
 }
 
 interface addMobilityFailure {

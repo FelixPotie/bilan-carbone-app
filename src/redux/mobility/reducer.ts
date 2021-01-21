@@ -6,7 +6,8 @@ const initialState = {
     loading: false,
     mobilites: mobilites,
     error: '',
-    success: false
+    success: false,
+    mobilityId:0
 }
 
 export function mobilityReducer(state = initialState, action: MobilityActionTypes) {
@@ -37,6 +38,7 @@ export function mobilityReducer(state = initialState, action: MobilityActionType
             return {
                 ...state,
                 success: true,
+                mobilityId: action.payload,
                 error: ''
             }
         case ADD_MOBILITY_FAILURE:

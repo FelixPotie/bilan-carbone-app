@@ -1,8 +1,11 @@
 {
-  "SIMULATE_YOUR_JOURNEY": "Simulate your journey",
-  "ENTER_SIMULATE_DESCIPTION": "Enter our simulator to discover the carbon footprint of your travel route",
-  "LAUNCH_SIMULATION": "Launch simulation",
+  "SIMULATE_YOUR_JOURNEY": "Welcome on MOBILAN",
+  "LOGGIN": "Login to register an international mobility of Polytech Montpellier and its associated trajects or",
+  "SIMULATE": "Visit our simulator to find out the carbon footprint of your journey.",
+  "LAUNCH_SIMULATION": "Simulation",
   "STAT_TEXT": "Discover the statistics of the school",
-  "STAT":"Statistics"
-
+  "STAT":"Statistics",
+  "SIGNIN":"Login",
+  "MOBILITY": "My mobilities",
+  "ADD_MOBILITY": "Here you can register your trips related to your international mobility from Polytech Montpellier"
 }

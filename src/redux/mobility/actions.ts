@@ -74,9 +74,10 @@ export const getMobilitiesWithFilter = (body: object) => {
     }
 }
 
-export function addMobilitySuccess() : MobilityActionTypes{
+export function addMobilitySuccess(id: number) : MobilityActionTypes{
     return {
-        type: ADD_MOBILITY_SUCCESS
+        type: ADD_MOBILITY_SUCCESS,
+        payload: id
     }
 }
 
@@ -94,7 +95,10 @@ export const addMobility = (body: object) => {
         }
         axios.post('mobility/', body, {headers:headers})
             .then(response => {
-                dispatch(addMobilitySuccess())
+                console.log('1212');
+                console.log(response);
+                console.log('1212');
+                dispatch(addMobilitySuccess(response.data.id));
             })
             .catch(error => {
                 const errorMsg = error.message

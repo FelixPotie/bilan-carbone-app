@@ -109,8 +109,8 @@ function AddMobilityContainer(props: Props) {
             <Typography variant="h3" gutterBottom marked="center" align="center">
                 {props.mobility.error} : Veuillez réessayer
             </Typography>
-        ) : props.mobility.success ?(
-            <Redirect to="/mobilites"/>
+        ) : props.mobility.success && props.mobility.mobilityId!==0 ?(
+            <Redirect to={`${props.mobility.mobilityId}/add-journey`}/>
         ) : (
         <React.Fragment>
             <Grid container justify="space-evenly" alignItems="center" >

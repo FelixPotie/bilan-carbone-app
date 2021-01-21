@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActions, CardContent, Container, FormControl, Grid, InputLabel, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Select } from '@material-ui/core';
+import { Box, Button, Card, CardActions, CardContent, Container, FormControl, Grid, InputLabel, Link, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Select } from '@material-ui/core';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import AddIcon from '@material-ui/icons/Add';
 import React, { useEffect, useState } from 'react'
@@ -19,6 +19,7 @@ import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import UnauthorizedContainer from './Unauthorized';
 import DriveEtaRoundedIcon from '@material-ui/icons/DriveEtaRounded';
 import GrainIcon from '@material-ui/icons/Grain';
+import Alert from '@material-ui/lab/Alert';
 
 const mapState = (state: RootState) => {
     return {
@@ -152,6 +153,11 @@ const useStyles = makeStyles((theme) => ({
     },
     generalform: {
         display: "contents"
+    },
+    alert:{
+        width:"80%",
+        margin:"auto",
+        marginTop: theme.spacing(2)
     }
 }));
 
@@ -313,97 +319,101 @@ function Simulation(props: Props) {
     ) : props.travel.success ? (
         <Redirect to="/mobilites" />
     ) : (
-                    <React.Fragment>
-                        {(props.user.isLoggedIn && urlParams.id) ?
-                            <Container className={classes.title}>
-                                <Box display="flex">
+        <React.Fragment>
+            {(props.user.isLoggedIn && urlParams.id) ?
+                <Container className={classes.title}>
+                    <Box display="flex">
+                        <Box m="auto">
+                            <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
+                                {t("ENTER_YOUR_JOURNEY")}
+                            </Typography>
+                        </Box>
+                    </Box>
+                    <Typography variant="h5" gutterBottom marked="center" align="center">
+                        {props.mobilityData.mobilites.map((mobility: any) => mobility.id === Number(urlParams.id) &&
+                            <div>{t("SUBTITLE")}{t(mobility.type)} {t("IN")} {mobility.place}.</div>)}
+                    </Typography>
+                </Container>
+                :
+                <Container className={classes.title}>
+                    <Box display="flex">
+                        <Box m="auto">
+                            <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
+                                {t("SIMULATE_YOUR_JOURNEY")}
+                            </Typography>
+                        </Box>
+                    </Box>
+                    <Typography variant="h5" gutterBottom marked="center" align="center">
+                        {t("PAGE_DESCRIPTION")}
+                    </Typography>
+                    {props.user.isLoggedIn ?
+                        <Alert variant="outlined" severity="warning" className={classes.alert}>{t("ALERT_CONNECTED")}<strong><Link href='/mobilites'>{t("MOBILITIES")}</Link></strong> !</Alert>
+                        :
+                        <Alert variant="outlined" severity="warning" className={classes.alert}>{t("ALERT_DISCONNECTED")} <strong><Link href='/signin'>{t("LOGIN")}</Link></strong></Alert>
+                    }
+                </Container>
+            }
+            <Grid container >
+                <form onSubmit={e => saveTravel(e)} className={classes.generalform}>
+                    <Grid md={6} alignItems="center" className={classes.cardContainer} >
+                        <Card className={classes.journeyCard} >
+                            <CardContent className={classes.cardContent}>
+                                <Box display="flex" >
                                     <Box m="auto">
-                                        <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
-                                            {t("ENTER_YOUR_JOURNEY")}
+                                        <Typography className={classes.cardTitle} variant="h4" marked="center" align="center" color="inherit">
+                                            {t("YOUR_JOURNEY")}
                                         </Typography>
                                     </Box>
                                 </Box>
-                                <Typography variant="h5" gutterBottom marked="center" align="center">
-                                    {props.mobilityData.mobilites.map((mobility: any) => mobility.id === Number(urlParams.id) &&
-                                        <div>{t("SUBTITLE")}{t(mobility.type)} {t("IN")} {mobility.place}.</div>)}
-                                </Typography>
-                            </Container>
-                            :
-                            <Container className={classes.title}>
-                                <Box display="flex">
+                                {(props.user.isLoggedIn && urlParams.id) &&
+                                    <div>
+                                        <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                                            <KeyboardDatePicker className={classes.form} disableToolbar required inputVariant="outlined" format="dd/MM/yyyy" id="date" label="Date" value={date} onChange={handleChangeDate} onKeyDown={(event) => { if (event.key === 'Enter') event.preventDefault() }} KeyboardButtonProps={{ 'aria-label': 'change date', }} />
+                                        </MuiPickersUtilsProvider>
+                                        <FormControl variant="outlined" className={classes.form} style={{ marginBottom: "16px" }}>
+                                            <InputLabel htmlFor="type">{t("TYPE")}</InputLabel>
+                                            {chooseType()}
+                                        </FormControl>
+                                    </div>
+                                }
+                                <div className={classes.steps}>
+                                    {displayListStep}
+                                </div>
+                            </CardContent>
+                            <CardActions className={classes.actionButton}>
+                                <Button onClick={addStep}>{<AddIcon fontSize="large" />}</Button>
+                            </CardActions>
+                        </Card>
+                    </Grid>
+                    <Grid md={6} alignItems="center" className={classes.cardContainer}>
+                        <Card className={classes.journeyCard} >
+                            <CardContent className={classes.cardContent}>
+                                <Box display="flex" >
                                     <Box m="auto">
-                                        <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
-                                            {t("SIMULATE_YOUR_JOURNEY")}
+                                        <Typography className={classes.cardTitle} variant="h4" marked="center" align="center" color="inherit">
+                                            {t("YOUR_EMISSIONS")}
                                         </Typography>
                                     </Box>
                                 </Box>
-
-                                <Typography variant="h5" gutterBottom marked="center" align="center">
-                                    {t("PAGE_DESCRIPTION")}
+                                <Typography className={classes.etape} variant="h5" color="inherit">
+                                    {t("EMISSION_DESCRIPTION")}
                                 </Typography>
-                            </Container>
-                        }
-                        <Grid container >
-                            <form onSubmit={e => saveTravel(e)} className={classes.generalform}>
-                                <Grid md={6} alignItems="center" className={classes.cardContainer} >
-                                    <Card className={classes.journeyCard} >
-                                        <CardContent className={classes.cardContent}>
-                                            <Box display="flex" >
-                                                <Box m="auto">
-                                                    <Typography className={classes.cardTitle} variant="h4" marked="center" align="center" color="inherit">
-                                                        {t("YOUR_JOURNEY")}
-                                                    </Typography>
-                                                </Box>
-                                            </Box>
-                                            {(props.user.isLoggedIn && urlParams.id) &&
-                                                <div>
-                                                    <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                                                        <KeyboardDatePicker className={classes.form} disableToolbar required inputVariant="outlined" format="dd/MM/yyyy" id="date" label="Date" value={date} onChange={handleChangeDate} onKeyDown={(event) => { if (event.key === 'Enter') event.preventDefault() }} KeyboardButtonProps={{ 'aria-label': 'change date', }} />
-                                                    </MuiPickersUtilsProvider>
-                                                    <FormControl variant="outlined" className={classes.form} style={{ marginBottom: "16px" }}>
-                                                        <InputLabel htmlFor="type">{t("TYPE")}</InputLabel>
-                                                        {chooseType()}
-                                                    </FormControl>
-                                                </div>
-                                            }
-                                            <div className={classes.steps}>
-                                                {displayListStep}
-                                            </div>
-                                        </CardContent>
-                                        <CardActions className={classes.actionButton}>
-                                            <Button onClick={addStep}>{<AddIcon fontSize="large" />}</Button>
-                                        </CardActions>
-                                    </Card>
-                                </Grid>
-                                <Grid md={6} alignItems="center" className={classes.cardContainer}>
-                                    <Card className={classes.journeyCard} >
-                                        <CardContent className={classes.cardContent}>
-                                            <Box display="flex" >
-                                                <Box m="auto">
-                                                    <Typography className={classes.cardTitle} variant="h4" marked="center" align="center" color="inherit">
-                                                        {t("YOUR_EMISSIONS")}
-                                                    </Typography>
-                                                </Box>
-                                            </Box>
-                                            <Typography className={classes.etape} variant="h5" color="inherit">
-                                                {t("EMISSION_DESCRIPTION")}
-                                            </Typography>
-                                            <div className={classes.steps}>
-                                                {recap}
-                                            </div>
-                                        </CardContent>
+                                <div className={classes.steps}>
+                                    {recap}
+                                </div>
+                            </CardContent>
 
-                                        {(props.user.isLoggedIn && urlParams.id) &&
-                                            <CardActions className={classes.actionButton}>
-                                                <Button type="submit">{t("SAVE")}</Button>
-                                            </CardActions>
-                                        }
-                                    </Card>
-                                </Grid>
-                            </form>
-                        </Grid>
-                    </React.Fragment>
-                )
+                            {(props.user.isLoggedIn && urlParams.id) &&
+                                <CardActions className={classes.actionButton}>
+                                    <Button type="submit">{t("SAVE")}</Button>
+                                </CardActions>
+                            }
+                        </Card>
+                    </Grid>
+                </form>
+            </Grid>
+        </React.Fragment>
+    )
 }
 
 export default connector(Simulation);
