@@ -85,7 +85,7 @@ function AppFooter() {
 
   const [languageLoaded, setLanguageLoaded] = React.useState("");
 
-  i18n.on('loaded', function(loaded) { if (loaded) setLanguageLoaded(i18n.language) });
+  i18n.on('loaded', function(loaded) { if (loaded) console.log(i18n.language);setLanguageLoaded(i18n.language) });
 
   return (
     <Typography component="footer" className={classes.root}>
