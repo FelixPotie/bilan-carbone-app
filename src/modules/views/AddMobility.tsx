@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '../components/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { Grid, Select, MenuItem, InputLabel, FormControl, Box } from '@material-ui/core';
+import {Grid, Select, MenuItem, InputLabel, FormControl, Box, FormHelperText} from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { RootState } from '../../redux';
 import { connect, ConnectedProps } from 'react-redux';
@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
   form: {
     marginRight: '5%',
     marginLeft: '5%',
+      marginBottom: theme.spacing(2),
     width: '90%',
   },
   button: {
@@ -52,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
     },
   field: {
-    marginBottom: theme.spacing(2),
+    //marginTop: theme.spacing(2),
     width:'100%',
   }
 }));
@@ -74,6 +75,8 @@ function AddMobilityContainer(props: Props) {
     const [end_date, setSelectedEndDate] = React.useState<Date | null>(
         null,
     );
+    const [dateError, setDateError] = React.useState(false);
+
     const {type, place, year} = state;
     
     const handleChange = (event: React.ChangeEvent<any>) => {
@@ -81,25 +84,37 @@ function AddMobilityContainer(props: Props) {
     };
 
     const handleStartDateChange = (date: Date | null) => {
-        setSelectedStartDate(date);
+        if(end_date !== null && date !== null && end_date < date) {
+            setDateError(true);
+        } else {
+            setSelectedStartDate(date);
+            setDateError(false)
+        }
     };
 
     const handleEndDateChange = (date: Date | null) => {
-        setSelectedEndDate(date);
+        if(start_date !== null && date !== null && date < start_date) {
+            setDateError(true);
+        } else {
+            setSelectedEndDate(date);
+            setDateError(false)
+        }
     };
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const body ={
-            "userId": props.user.user.username,
-            "departmentTypeName": props.user.user.department,
-            "type": type,
-            "place": place,
-            "year": +year,
-            "startDate": start_date?.toISOString(),
-            "endDate": end_date?.toISOString()
+        if( end_date !== null && start_date !== null && end_date > start_date) {
+            const body = {
+                "userId": props.user.user.username,
+                "departmentTypeName": props.user.user.department,
+                "type": type,
+                "place": place,
+                "year": +year,
+                "startDate": start_date?.toISOString(),
+                "endDate": end_date?.toISOString()
+            }
+            props.addMobility(body);
         }
-        props.addMobility(body);
     }
 
     
@@ -181,6 +196,7 @@ function AddMobilityContainer(props: Props) {
                                 <KeyboardDatePicker
                                     disableToolbar
                                     required
+                                    error={dateError}
                                     inputVariant="outlined"
                                     format="dd/MM/yyyy"
                                     id="start_date"
@@ -192,6 +208,7 @@ function AddMobilityContainer(props: Props) {
                                         'aria-label': 'change date',
                                     }}
                                     />
+                                <FormHelperText hidden={!dateError} error={dateError}>{t("ADD_DATE_ERROR")}</FormHelperText>
                             </MuiPickersUtilsProvider>
                         </div>
                         <div className={classes.form}>
@@ -199,6 +216,7 @@ function AddMobilityContainer(props: Props) {
                                 <KeyboardDatePicker
                                     disableToolbar
                                     required
+                                    error={dateError}
                                     inputVariant="outlined"
                                     format="dd/MM/yyyy"
                                     id="end_date"
@@ -210,10 +228,9 @@ function AddMobilityContainer(props: Props) {
                                         'aria-label': 'change date',
                                     }}
                                 />
+                                <FormHelperText hidden={!dateError} error={dateError}>{t("ADD_DATE_ERROR")}</FormHelperText>
                             </MuiPickersUtilsProvider>
-                        
                         </div>
-                                
                         <div className={classes.button}>
                         <Button
                             type="submit"
