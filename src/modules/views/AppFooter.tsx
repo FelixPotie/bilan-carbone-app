@@ -80,12 +80,16 @@ function AppFooter() {
 
   const changeLanguage = (e: React.FormEvent<EventTarget>) => {
     let target = e.target as HTMLInputElement;
-    i18n.changeLanguage(target.value)
+    i18n.changeLanguage(target.value);
   }
 
-  const [languageLoaded, setLanguageLoaded] = React.useState("");
+  const [languageLoaded, setLanguageLoaded] = React.useState("fr-FR"); //use default language instead of setting it her arbitrarily
 
-  i18n.on('loaded', function(loaded) { if (loaded) console.log(i18n.language);setLanguageLoaded(i18n.language) });
+  i18n.on('loaded', function (loaded) {
+    if (loaded && typeof i18n.language !== "undefined") {
+      setLanguageLoaded(i18n.language);
+    }
+  });
 
   return (
     <Typography component="footer" className={classes.root}>
