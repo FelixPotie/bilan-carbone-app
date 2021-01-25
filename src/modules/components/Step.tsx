@@ -78,6 +78,8 @@ export default function Step(props: any) {
 
     const [popoverFrom, setPopoverFrom] = useState(false)
 
+    const [popoverTo, setPopoverTo] = useState(false)
+
     const getFrom = () => {
         return props.step.from.name
     }
@@ -96,8 +98,8 @@ export default function Step(props: any) {
         }
         props.updateStep(newStep, props.id);
         if(event.nativeEvent.data === " "){
-            setPopoverFrom(true)
-            find(event, getFrom())
+            setPopoverFrom(true);
+            find(event, getFrom());
         }
 
     }
@@ -113,8 +115,8 @@ export default function Step(props: any) {
         }
         props.updateStep(newStep, props.id);
         if(event.nativeEvent.data === " "){
-            setPopoverFrom(true)
-            find(event, getFrom())
+            setPopoverTo(true);
+            find(event, getTo());
         }
     }
 
@@ -213,7 +215,7 @@ export default function Step(props: any) {
                             onKeyDown={(event) => {
                                 if (event.key === 'Enter') {
                                     event.preventDefault();
-                                    setPopoverFrom(false)
+                                    setPopoverTo(false)
                                     find(event, getTo())
                                 }
                             }} />
@@ -221,7 +223,7 @@ export default function Step(props: any) {
                             {props.step.to.country}
                         </Typography>
                         <Button className={classes.button} id="toID" onClick={(e) => {
-                            setPopoverFrom(false)
+                            setPopoverTo(false)
                             find(e, getTo())
                         }}><SearchIcon /></Button>
                         {displayValid(props.step.to.country)}
