@@ -279,7 +279,7 @@ function Simulation(props: Props) {
     });
 
     const recap = listStep.map((step, index) => (
-        <Card className={classes.recap} >
+        <Card className={classes.recap} key={index}>
             <Typography variant="h5">
                 {t("STEP")} {index + 1} : {step.from.name} <ArrowRightAltIcon className={classes.arrow} /> {step.to.name}
             </Typography>
@@ -301,7 +301,7 @@ function Simulation(props: Props) {
                     </ListItemText>
                 </ListItem>
             </List>
-            <Comparator meansOfTransport={step.by} distance={getDist(step)} nbPers={step.nbPers} emissions={calculateur(getDist(step), step.by, step.nbPers)} ></Comparator>
+            <Comparator key={index} meansOfTransport={step.by} distance={getDist(step)} nbPers={step.nbPers} emissions={calculateur(getDist(step), step.by, step.nbPers)} />
         </Card>
     ))
 
@@ -353,9 +353,9 @@ function Simulation(props: Props) {
                     }
                 </Container>
             }
-            <Grid container >
+            <Grid container>
                 <form onSubmit={e => saveTravel(e)} className={classes.generalform}>
-                    <Grid md={6} alignItems="center" className={classes.cardContainer} >
+                    <Grid item md={6} className={classes.cardContainer} >
                         <Card className={classes.journeyCard} >
                             <CardContent className={classes.cardContent}>
                                 <Box display="flex" >
@@ -385,7 +385,7 @@ function Simulation(props: Props) {
                             </CardActions>
                         </Card>
                     </Grid>
-                    <Grid md={6} alignItems="center" className={classes.cardContainer}>
+                    <Grid item md={6} className={classes.cardContainer}>
                         <Card className={classes.journeyCard} >
                             <CardContent className={classes.cardContent}>
                                 <Box display="flex" >
@@ -395,7 +395,7 @@ function Simulation(props: Props) {
                                         </Typography>
                                     </Box>
                                 </Box>
-                                <Typography className={classes.etape} variant="h5" color="inherit">
+                                <Typography key="emission" className={classes.etape} variant="h5" color="inherit">
                                     {t("EMISSION_DESCRIPTION")}
                                 </Typography>
                                 <div className={classes.steps}>

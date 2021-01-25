@@ -25,3 +25,11 @@ yarn-error.log*
 
 #cache
 .eslintcache
+/.idea/.gitignore
+/.idea/bilan-carbone-app.iml
+/.idea/codeStyles/codeStyleConfig.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/sbt.xml
+/.idea/vcs.xml

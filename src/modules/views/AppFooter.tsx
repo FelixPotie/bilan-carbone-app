@@ -80,12 +80,12 @@ function AppFooter() {
 
   const changeLanguage = (e: React.FormEvent<EventTarget>) => {
     let target = e.target as HTMLInputElement;
-    i18n.changeLanguage(target.value)
+    i18n.changeLanguage(target.value);
   }
 
-  const [languageLoaded, setLanguageLoaded] = React.useState("");
+  const [languageLoaded, setLanguageLoaded] = React.useState("fr-FR"); //use default language instead of setting it her arbitrarily
 
-  i18n.on('loaded', function(loaded) { if (loaded) setLanguageLoaded(i18n.language) });
+  i18n.on('loaded', function(loaded) { if (loaded) console.log(i18n.language);setLanguageLoaded(i18n.language) });
 
   return (
     <Typography component="footer" className={classes.root}>
@@ -97,11 +97,7 @@ function AppFooter() {
             </Typography>
             <div className={classes.item}>
               <Typography className={classes.text}  >
-                {
-                  'Lorem ipsum, or lipsum as it is sometimes known,'}
-                {'is dummy text used in laying out print, graphic or web designs.'}
-                {'The passage is attributed to an unknown typesetter in the 15th century who is'}
-                {'thought to have scrambled parts of Cicero\'s De Finibus Bonorum et Malorum for use in a type specimen book.'}
+                {t('FOOTER.TEXT')}
               </Typography>
             </div>
           </Grid>
