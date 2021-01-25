@@ -25,5 +25,6 @@
   "TRAJECT": "Traject",
   "INTERNSHIP":"Internship",
   "SEMESTER":"Semester",
-  "DOUBLE_DEGRE":"Double degree"
+  "DOUBLE_DEGRE":"Double degree",
+  "ADD_DATE_ERROR": "The start date must be before the end date"
 }

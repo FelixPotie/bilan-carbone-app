@@ -1,11 +1,14 @@
 {
-  "SIMULATE_YOUR_JOURNEY": "Welcome on MOBILAN",
-  "LOGGIN": "Login to register an international mobility of Polytech Montpellier and its associated trajects or",
-  "SIMULATE": "Visit our simulator to find out the carbon footprint of your journey.",
+  "ADD_MOBILITY": "Here you can register your trips related to your international mobility from Polytech Montpellier",
+  "ADEME_COLABORATION": "In collaboration with Ademe agency",
+  "ADEME_SIMULATOR": "ADEME simulator",
+  "ADEME_TEXT_PART1": "In order to calculate the carbon emissions of the mobilities we used the data from ADEME (French Environment and Energy Management Agency). These are the data used by their platform calculator.",
   "LAUNCH_SIMULATION": "Simulation",
-  "STAT_TEXT": "Discover the statistics of the school",
-  "STAT":"Statistics",
-  "SIGNIN":"Login",
+  "LOGGIN": "Login to register an international mobility of Polytech Montpellier and its associated trajects or",
   "MOBILITY": "My mobilities",
-  "ADD_MOBILITY": "Here you can register your trips related to your international mobility from Polytech Montpellier"
+  "SIGNIN":"Login",
+  "SIMULATE_YOUR_JOURNEY": "Welcome on MOBILAN",
+  "SIMULATE": "Visit our simulator to find out the carbon footprint of your journey.",
+  "STAT_TEXT": "Discover the statistics of the school",
+  "STAT":"Statistics"
 }

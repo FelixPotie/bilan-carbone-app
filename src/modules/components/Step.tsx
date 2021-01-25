@@ -78,6 +78,8 @@ export default function Step(props: any) {
 
     const [popoverFrom, setPopoverFrom] = useState(false)
 
+    const [popoverTo, setPopoverTo] = useState(false)
+
     const getFrom = () => {
         return props.step.from.name
     }
@@ -94,7 +96,11 @@ export default function Step(props: any) {
                 country: "",
             }
         }
-        props.updateStep(newStep, props.id)
+        props.updateStep(newStep, props.id);
+        if(event.nativeEvent.data === " "){
+            setPopoverFrom(true);
+            find(event, getFrom());
+        }
 
     }
 
@@ -107,7 +113,11 @@ export default function Step(props: any) {
                 country: "",
             }
         }
-        props.updateStep(newStep, props.id)
+        props.updateStep(newStep, props.id);
+        if(event.nativeEvent.data === " "){
+            setPopoverTo(true);
+            find(event, getTo());
+        }
     }
 
     const find = (event: any, point: string) => {
@@ -138,11 +148,11 @@ export default function Step(props: any) {
     const displayValid = (country: string) =>{
         if(!country){
             return (
-                <CancelIcon className={classes.valid} style={{ color: "#ee0000" }}></CancelIcon>
+                <CancelIcon className={classes.valid} style={{color: "#ee0000"}}/>
             )
         }else{
             return (
-                <DoneOutlineIcon className={classes.valid} style={{ color: "#00ee00" }}></DoneOutlineIcon>
+                <DoneOutlineIcon className={classes.valid} style={{color: "#00ee00"}}/>
             )
         }
     }
@@ -158,7 +168,7 @@ export default function Step(props: any) {
 
     return (
         <React.Fragment>
-            <Card className={classes.card} >
+            <Card className={classes.card} key={props.id}>
                 <CardHeader style={{ paddingBottom: "4px" }} title={t("STEP").concat(" ", props.id + 1)} action={
                     <IconButton aria-label="settings" onClick={(event) => props.deleteAction(event, props.id)} >
                         <DeleteIcon />
@@ -205,7 +215,7 @@ export default function Step(props: any) {
                             onKeyDown={(event) => {
                                 if (event.key === 'Enter') {
                                     event.preventDefault();
-                                    setPopoverFrom(false)
+                                    setPopoverTo(false)
                                     find(event, getTo())
                                 }
                             }} />
@@ -213,7 +223,7 @@ export default function Step(props: any) {
                             {props.step.to.country}
                         </Typography>
                         <Button className={classes.button} id="toID" onClick={(e) => {
-                            setPopoverFrom(false)
+                            setPopoverTo(false)
                             find(e, getTo())
                         }}><SearchIcon /></Button>
                         {displayValid(props.step.to.country)}
@@ -275,8 +285,8 @@ export default function Step(props: any) {
                     horizontal: 'left',
                 }}>
                 {(results && results.length !== 0) ?
-                    results.map((result: any) => (
-                        <p onClick={() => {
+                    results.map((result: any, index) => (
+                        <p key={index} onClick={() => {
                             if (popoverFrom) {
                                 let newStep = {
                                     ...props.step,

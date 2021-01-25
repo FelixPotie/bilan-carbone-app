@@ -25,6 +25,7 @@
   "TRAJECT": "Trajets",
   "INTERNSHIP":"Stage",
   "SEMESTER":"Semestre",
-  "DOUBLE_DEGRE":"Double diplôme"
+  "DOUBLE_DEGRE":"Double diplôme",
+  "ADD_DATE_ERROR": "La date de début doit être avant la date de fin"
 
 }
