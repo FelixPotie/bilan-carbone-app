@@ -13,10 +13,7 @@ const useStyles = makeStyles((theme) => ({
     card: {
         padding: "5px",
         margin: "5px",
-        // borderStyle: "solid",
-        // border: "2px",
         borderRadius: "10px",
-        //display: "inline-block",
         backgroundColor: '#f8f8ff',
         position: 'relative',
         boxShadow: 'none'
@@ -30,8 +27,7 @@ const useStyles = makeStyles((theme) => ({
     },
     field: {
         width: "50%",
-        // marginRight:"20%",
-        marginTop: theme.spacing(2),
+        marginTop: "28px",
         minWidth: "100px"
     },
     search: {
@@ -39,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
     },
     city: {
         width: "90%",
-        //margin: "auto"
     },
     button: {
         marginTop: "28px",
@@ -55,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: "28px",
         right: '5%',
         width: "30%",
-        padding: "6px 8px",
+        padding: "16px 8px 0px 6px",
         borderBottom: "1px solid rgba(0, 0, 0, 0.42)",
         color: "grey",
         textOverflow: "ellipsis",
