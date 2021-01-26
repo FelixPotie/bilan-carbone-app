@@ -395,7 +395,6 @@ function ExportDataContainer(props: Props) {
                                 variant="contained"
                                 className={classes.button}
                                 onClick={getMobility}
-                            // href="/"
                             >
                                 Exporter
                             </Button>

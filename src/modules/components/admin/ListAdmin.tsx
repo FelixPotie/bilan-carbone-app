@@ -6,6 +6,7 @@ import Typography from '../Typography';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { deleteAdmin, getAdmins } from '../../../redux/admin/actions';
 import UnauthorizedAdminContainer from './UnauthorizedAdmin';
+import { useHistory } from 'react-router-dom';
 
 
 
@@ -64,6 +65,8 @@ const StyledTableCell = withStyles((theme: Theme) =>
 function ListAdminContainer(props: Props) {
     const classes = useStyles();
 
+    const history = useHistory();
+
     useEffect(()=> {
         props.getAdmins()
     }, [])
@@ -87,7 +90,7 @@ function ListAdminContainer(props: Props) {
                         <Button
                             variant="contained"
                             className={classes.button}
-                            href="/admin/add"
+                            onClick={() => history.push("/admin/add")}
                         >
                             Ajouter un administrateur
                         </Button>

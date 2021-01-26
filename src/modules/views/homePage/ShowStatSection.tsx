@@ -8,6 +8,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import Button from '../../components/Button';
 import Typography from '../../components/Typography';
+import { useHistory } from 'react-router-dom';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -34,6 +35,7 @@ const styles = (theme: Theme) =>
 function HowItWorks(props: WithStyles<typeof styles>) {
   const { classes } = props;
   const { t } = useTranslation('homePage');
+  const history = useHistory();
 
   return (
     <section className={classes.root}>
@@ -52,7 +54,8 @@ function HowItWorks(props: WithStyles<typeof styles>) {
           variant="contained"
           className={classes.button}
           component="a"
-          href="/statistics"
+          onClick={() => history.push("/statistics")}
+
         >
           {t("STAT")}
         </Button>

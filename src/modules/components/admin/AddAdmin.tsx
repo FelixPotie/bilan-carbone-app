@@ -88,7 +88,7 @@ function AddAdminContainer(props: Props) {
             <Typography variant="h3" gutterBottom marked="center" align="center">
                 {props.admin.failure} : Veuillez réessayer
             </Typography>
-        ) : props.admin.success ?(
+        ) : !props.admin.success ?(
             <Redirect to="list"/>
         ) : (
         <React.Fragment>

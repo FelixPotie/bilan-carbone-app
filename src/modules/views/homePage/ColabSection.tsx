@@ -10,6 +10,7 @@ import Typography from '../../components/Typography';
 import Button from '../../components/Button';
 import { Grid } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -53,6 +54,7 @@ const styles = (theme: Theme) =>
 
 function ProductCategories(props: WithStyles<typeof styles>) {
   const { classes } = props;
+  const history = useHistory();
 
   const { t } = useTranslation('homePage');
 
@@ -77,7 +79,7 @@ function ProductCategories(props: WithStyles<typeof styles>) {
               size="large"
               variant="contained"
               component="a"
-              href="/ecolab"
+              onClick={() => history.push("/ecolab")}
               style={{margin: '5% 0% 5% 0%'}}
             >
               {t('ADEME_SIMULATOR')}
