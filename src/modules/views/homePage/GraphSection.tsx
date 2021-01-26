@@ -18,8 +18,8 @@ const styles = (theme: Theme) =>
       backgroundColor: theme.palette.secondary.light,
     },
     container: {
-      marginTop: theme.spacing(15),
-      marginBottom: theme.spacing(10),
+      marginTop: theme.spacing(10),
+      marginBottom: theme.spacing(6),
       display: 'flex',
       position: 'relative',
     },
@@ -28,19 +28,18 @@ const styles = (theme: Theme) =>
       flexDirection: 'column',
       justifyContent:'center',
       alignItems: 'center',
+      marginTop:theme.spacing(2)
     },
     image: {
       maxHeight: 250,
       height: 'auto',
       maxWidth: 500,
-      marginBottom:theme.spacing(2)
     },
     imagePopo: {
       maxHeight: 250,
       height: 'auto',
       maxWidth: 500,
       width: "90%",
-      marginBottom:theme.spacing(2)
     },
     title: {
       marginTop: theme.spacing(2),
@@ -48,7 +47,7 @@ const styles = (theme: Theme) =>
       textAlign:'center'
     },
     text: {
-      textAlign: "center",
+      textAlign: "justify",
     },
     imageBox: {
       display:'flex',
@@ -65,7 +64,7 @@ function ProductValues(props: WithStyles<typeof styles>) {
     <div className={classes.root}>
       <Container className={classes.container}>
         
-        <Grid container spacing={10}>
+        <Grid container spacing={8}>
           <Grid container item direction="row">
             <Grid item xs={12} md={6}>
               <div className={classes.item}>

@@ -1,8 +1,9 @@
 {
   "ADD_MOBILITY": "Here you can register your trips related to your international mobility from Polytech Montpellier",
-  "ADEME_COLABORATION": "In collaboration with Ademe agency",
+  "ADEME_COLABORATION": "Collaboration with Ademe agency",
   "ADEME_SIMULATOR": "ADEME simulator",
-  "ADEME_TEXT_PART1": "In order to calculate the carbon emissions of the mobilities we used the data from ADEME (French Environment and Energy Management Agency). These are the data used by their platform calculator.",
+  "ADEME_TEXT_PART1": "In order to calculate the carbon emissions, we used data from ADEME, Agence De l'Environnement et de la maîtrise de l'Énergie. Our carbon calculator is based on the system offered by their platform :",
+  "ADEME_TEXT_PART2":"You can try this simulator directly on this site by clicking on the button below.",
   "LAUNCH_SIMULATION": "Simulation",
   "LOGGIN": "Login to register an international mobility of Polytech Montpellier and its associated trajects or",
   "MOBILITY": "My mobilities",
