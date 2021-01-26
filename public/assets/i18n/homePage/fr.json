@@ -10,6 +10,8 @@
   "SIMULATE": "Rendez-vous sur notre simulateur pour découvrir l'empreinte carbone de votre trajet.",
   "SIGNIN":"Se connecter",
   "STAT_TEXT": "Decouvrez les statistiques de l'école",
-  "STAT":"Statistiques"
-  
+  "STAT":"Statistiques",
+  "MOBILAN_TEXT":"L'application MOBILAN a pour but de répertorier les bilans carbones des mobilités internationales des étudiants de Polytech Montpellier. MOBILAN est la concaténation des mots mobilité et bilan carbone.",
+  "POLYTECH_TEXT":"L'école d'ingénieurs Polytech Montpellier fait partie du réseau Polytech composé de 15 écoles réparties en France. Pour valider son diplôme d'ingénieur chaque étudiant doit effectuer une mobilité internationale, durant un stage, un semestre ou un double diplôme.",
+  "DDRS_TEXT":"Ce projet est en lien avec les relations internationales ainsi que le pôle de Développement Durable et responsabilité sociétale de Polytech Montpellier. Le but de cette démarche est de sensibiliser les étudiants pour qu'ils prennent conscience des émissions carbones émises en voyageant, cela pour les inciter à prendre un moyen de transport plus responsable."
 }

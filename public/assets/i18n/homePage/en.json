@@ -10,5 +10,8 @@
   "SIMULATE_YOUR_JOURNEY": "Welcome on MOBILAN",
   "SIMULATE": "Visit our simulator to find out the carbon footprint of your journey.",
   "STAT_TEXT": "Discover the statistics of the school",
-  "STAT":"Statistics"
+  "STAT":"Statistics",
+  "MOBILAN_TEXT":"The MOBILAN application aims to list the carbon balance sheets of the international mobility of Polytech Montpellier students. MOBILAN is the concatenation of the words mobility and carbon balance.",
+  "POLYTECH_TEXT":"The Polytech Montpellier engineering school is part of the Polytech network of 15 schools in France. To validate his engineering degree each student must complete an international mobility, during an internship, a semester or a double degree.",
+  "DDRS_TEXT":"This project is linked to international relations as well as the Sustainable Development and Social Responsibility division of Polytech Montpellier. The aim of this approach is to make students aware of the carbon emissions emitted by travelling, to encourage them to take a more responsible means of transport."
 }
