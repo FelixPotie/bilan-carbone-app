@@ -50,6 +50,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   text: {
     marginTop: '2%',
     color: 'secondary',
+    textAlign:"justify"
   },
   item: {
     display: 'flex',

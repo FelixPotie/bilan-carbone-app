@@ -8,6 +8,7 @@ import {
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Typography from '../../components/Typography';
+import { useTranslation } from 'react-i18next/';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -17,120 +18,119 @@ const styles = (theme: Theme) =>
       backgroundColor: theme.palette.secondary.light,
     },
     container: {
-      marginTop: theme.spacing(15),
-      marginBottom: theme.spacing(30),
+      marginTop: theme.spacing(10),
+      marginBottom: theme.spacing(6),
       display: 'flex',
       position: 'relative',
     },
     item: {
       display: 'flex',
       flexDirection: 'column',
+      justifyContent:'center',
       alignItems: 'center',
-      padding: theme.spacing(0, 5),
+      marginTop:theme.spacing(2)
     },
     image: {
-      maxHeight: 300,
+      maxHeight: 250,
       height: 'auto',
-      maxWidth: '100%'
+      maxWidth: 500,
+    },
+    imagePopo: {
+      maxHeight: 250,
+      height: 'auto',
+      maxWidth: 500,
+      width: "90%",
     },
     title: {
-      marginTop: theme.spacing(5),
+      marginTop: theme.spacing(2),
       marginBottom: theme.spacing(5),
+      textAlign:'center'
     },
-    curvyLines: {
-      pointerEvents: 'none',
-      position: 'absolute',
-      top: -180,
+    text: {
+      textAlign: "justify",
+    },
+    imageBox: {
+      display:'flex',
+      alignItems:'center',
+      justifyContent:'center'
     },
   });
 
 function ProductValues(props: WithStyles<typeof styles>) {
   const { classes } = props;
+  const { t } = useTranslation('homePage');
 
   return (
-    <section className={classes.root}>
+    <div className={classes.root}>
       <Container className={classes.container}>
-        <img
-          src="/static/themes/onepirate/productCurvyLines.png"
-          className={classes.curvyLines}
-          alt="curvy lines"
-        />
-        <Grid container spacing={10}>
+        
+        <Grid container spacing={8}>
           <Grid container item direction="row">
             <Grid item xs={12} md={6}>
               <div className={classes.item}>
                 <img
                   className={classes.image}
-                  src="/assets/img/homePage/graphe1_t.png"
-                  alt=""
+                  src="mobilan.png"
+                  alt="logo mobilan"
                 />
               </div>
             </Grid>
             <Grid item xs={12} md={6}>
               <div className={classes.item}>
-                <Typography variant="h6" className={classes.title}>
-                  New experiences
+                <Typography variant="h4" className={classes.title}>
+                  MOBILAN
               </Typography>
-                <Typography variant="h5">
-                  {
-                    'Privatize a pool, take a Japanese bath or wake up in 900m2 of garden… '
-                  }
-                  {'your Sundays will not be alike.'}
+                <Typography variant="h5" className={classes.text}>
+                  {t('MOBILAN_TEXT')}
                 </Typography>
               </div>
             </Grid>
           </Grid>
           <Grid container item direction="row-reverse" >
-            <Grid item xs={12} md={6}>
-              <div className={classes.item}>
+            <Grid item xs={12} md={6}  className={classes.imageBox}>
+              <div className={classes.item} >
                 <img
-                  className={classes.image}
-                  src="/assets/img/homePage/graphe2_t.png"
-                  alt=""
+                  className={classes.imagePopo}
+                  src="polytech.png"
+                  alt="logo polytech"
                 />
               </div>
             </Grid>
             <Grid item xs={12} md={6}>
               <div className={classes.item}>
-                <Typography variant="h6" className={classes.title}>
-                  New experiences
+                <Typography variant="h4" className={classes.title}>
+                  POLYTECH MONTPELLIER
               </Typography>
-                <Typography variant="h5">
-                  {
-                    'Privatize a pool, take a Japanese bath or wake up in 900m2 of garden… '
-                  }
-                  {'your Sundays will not be alike.'}
+                <Typography variant="h5" className={classes.text}>
+                  {t('POLYTECH_TEXT')}
                 </Typography>
               </div>
             </Grid>
           </Grid>
           <Grid container item direction="row">
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6} className={classes.imageBox}>
               <div className={classes.item}>
                 <img
                   className={classes.image}
-                  src="/assets/img/homePage/graphe3_t.png"
+                  src="ddrs.png"
                   alt=""
                 />
               </div>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6} >
               <div className={classes.item}>
-                <Typography variant="h6" className={classes.title}>
-                  New experiences
+                <Typography variant="h4" className={classes.title}>
+                  {'DD&RS'}
               </Typography>
-                <Typography variant="h5">
-                  {
-                    'Privatize a pool, take a Japanese bath or wake up in 900m2 of garden… '
-                  }
-                  {'your Sundays will not be alike.'}
+                <Typography variant="h5" className={classes.text}>
+                  {t("DDRS_TEXT")}
                 </Typography>
               </div>
             </Grid>
           </Grid>
         </Grid>
       </Container>
-    </section>
+    </div>
   );
 }
 

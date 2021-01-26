@@ -13,11 +13,8 @@ const styles = (theme: Theme) =>
   createStyles({
     root: {
       backgroundColor: theme.palette.secondary.light,
-      paddingLeft: '24px',
-      paddingRight: '24px',
-      paddingTop: theme.spacing(10),
-      paddingBottom: theme.spacing(15),
-
+      marginTop: theme.spacing(8),
+      marginBottom: theme.spacing(15),
     },
     container: {
       display: 'flex',
@@ -45,7 +42,7 @@ function HowItWorks(props: WithStyles<typeof styles>) {
           variant="h4"
           marked="left"
           className={classes.title}
-          component="h2"
+          component="h4"
         >
           {t("STAT_TEXT")}
         </Typography>
