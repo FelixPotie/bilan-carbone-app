@@ -6,6 +6,7 @@ import { useTranslation} from 'react-i18next'
 import { Grid } from '@material-ui/core';
 import { RootState } from '../../../redux';
 import { connect, ConnectedProps } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -60,6 +61,8 @@ type Props = PropsFromRedux
 function HomeHeader(props: Props) {
   const classes = useStyles();
 
+  const history = useHistory();
+
   const  {t} = useTranslation('homePage');
 
   const displayButtons = () => {
@@ -73,7 +76,7 @@ function HomeHeader(props: Props) {
           size="large"
           className={classes.button}
           component="a"
-          href="/mobilites"
+          onClick={() => history.push("/mobilites")}
         >
           {t("MOBILITY")}
         </Button>
@@ -91,7 +94,7 @@ function HomeHeader(props: Props) {
           size="large"
           className={classes.button}
           component="a"
-          href="/signin"
+          onClick={() => history.push("/signin")}
         >
           {t("SIGNIN")}
         </Button>
@@ -103,7 +106,7 @@ function HomeHeader(props: Props) {
           size="large"
           className={classes.button}
           component="a"
-          href="/simulation"
+          onClick={() => history.push("/simulation")}
         >
           {t("LAUNCH_SIMULATION")}
         </Button>

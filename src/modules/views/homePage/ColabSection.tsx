@@ -10,6 +10,7 @@ import Typography from '../../components/Typography';
 import Button from '../../components/Button';
 import { Grid } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -19,9 +20,11 @@ const styles = (theme: Theme) =>
     },
     title: {
       fontSize: theme.typography.h4.fontSize,
+      textAlign:"center"
     },
     text: {
       marginTop: '5%',
+      textAlign:'justify'
     },
     grid:{
       marginTop: '5%'
@@ -41,10 +44,17 @@ const styles = (theme: Theme) =>
       alignItems: 'center',
       marginBottom:theme.spacing(2)
     },
+    button: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      marginBottom: theme.spacing(2)
+    }
   });
 
 function ProductCategories(props: WithStyles<typeof styles>) {
   const { classes } = props;
+  const history = useHistory();
 
   const { t } = useTranslation('homePage');
 
@@ -52,21 +62,24 @@ function ProductCategories(props: WithStyles<typeof styles>) {
     <Container className={classes.root} component="section">
       <Grid container className={classes.grid} spacing={2} direction="row" justify="center" >
         <Grid item xs={12} md={4} className={classes.textBloc}>
-          <Typography variant="h3" marked="left" className={classes.title}>
+          <Typography variant="h4" marked="left" className={classes.title}>
           {t('ADEME_COLABORATION')}
           </Typography>
           <div className={classes.item}>
-            <Typography className={classes.text}  >
+            <Typography variant="h5" className={classes.text}  >
               {t('ADEME_TEXT_PART1')} <a href="https://ecolab.ademe.fr/">Ecolab</a>
+              <br/>
+              <br/>
+              {t('ADEME_TEXT_PART2')}
             </Typography>
           </div>
-          <div >
+          <div className={classes.button}>
             <Button
               color="secondary"
               size="large"
               variant="contained"
               component="a"
-              href="/ecolab"
+              onClick={() => history.push("/ecolab")}
               style={{margin: '5% 0% 5% 0%'}}
             >
               {t('ADEME_SIMULATOR')}

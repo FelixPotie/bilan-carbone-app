@@ -1,7 +1,7 @@
-import { Link } from '@material-ui/core';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect, ConnectedProps } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { RootState } from '../../../redux';
 
 
@@ -21,11 +21,8 @@ function NavBarIn(props: Props) {
     
     return props.user.isLoggedIn ? (
         <Link
-            color="inherit"
-            variant="h6"
-            underline="none"
             className={props.classesLinks}
-            href="/mobilites"
+            to='/mobilites'
         >
             {t("MOBILITIES")}
         </Link>

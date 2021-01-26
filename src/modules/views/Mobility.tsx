@@ -10,6 +10,7 @@ import UnauthorizedContainer from './Unauthorized';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
+import { useHistory } from 'react-router-dom';
 
 
 const mapState = (state: RootState) => {
@@ -70,7 +71,9 @@ function TravelRow(props: any) {
     const { row, deleteMobility, deleteTravel } = props
     const [open, setOpen] = useState(false)
 
-    
+    const history = useHistory();
+
+
     const { t } = useTranslation('mobility');
 
     function carbone(travels: any): number {
@@ -82,24 +85,24 @@ function TravelRow(props: any) {
         });
         return sum;
     }
-    
+
     function displayDate(date: string): string {
-        return date.substring(8, 10)+"/"+date.substring(5, 7)+"/"+date.substring(0, 4);
+        return date.substring(8, 10) + "/" + date.substring(5, 7) + "/" + date.substring(0, 4);
     }
 
-    function displayAddTravelButton(){
-        if(row.travels.find((go:any)=>go.type==="GO") && row.travels.find((back:any)=>back.type==="BACK")){
+    function displayAddTravelButton() {
+        if (row.travels.find((go: any) => go.type === "GO") && row.travels.find((back: any) => back.type === "BACK")) {
             return (<div></div>)
         } else {
             return (<Button
                 variant="contained"
-                href={`${row.id}/add-journey`}
+                onClick={() => history.push(`${row.id}/add-journey`)}
             >
                 <AddIcon />
             </Button>)
         }
     }
-       return (
+    return (
         <React.Fragment>
 
             <TableRow key={row.id}>
@@ -112,9 +115,9 @@ function TravelRow(props: any) {
                 <StyledTableCell align="center">{row.year}A</StyledTableCell>
                 <StyledTableCell align="center">{displayDate(row.startDate)}</StyledTableCell>
                 <StyledTableCell align="center">{displayDate(row.endDate)}</StyledTableCell>
-                <StyledTableCell align="center">{(carbone(row.travels)/1000).toFixed(2)} kg</StyledTableCell>
+                <StyledTableCell align="center">{(carbone(row.travels) / 1000).toFixed(2)} kg</StyledTableCell>
                 <StyledTableCell align="center">
-                     {displayAddTravelButton()}
+                    {displayAddTravelButton()}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                     <Button
@@ -130,7 +133,7 @@ function TravelRow(props: any) {
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box margin={1}>
                             <Typography variant="h6" gutterBottom component="div">
-                            {t("TRAJECT")}
+                                {t("TRAJECT")}
                             </Typography>
                             <Table size="small" aria-label="purchases">
                                 <TableHead>
@@ -146,7 +149,7 @@ function TravelRow(props: any) {
                                         <TableRow>
                                             <StyledTableCell align="center" component="th" scope="row">{displayDate(travel.date)}</StyledTableCell>
                                             <StyledTableCell align="center">{t(travel.type)}</StyledTableCell>
-                                            <StyledTableCell align="center">{travel.steps.sort((a:any,b:any)=>{return a.rank-b.rank}).map((step: any) => (<div>{step.rank+1}. {t("FROM")} {step.departure} {t("TO")} {step.arrival}</div>))}
+                                            <StyledTableCell align="center">{travel.steps.sort((a: any, b: any) => { return a.rank - b.rank }).map((step: any) => (<div>{step.rank + 1}. {t("FROM")} {step.departure} {t("TO")} {step.arrival}</div>))}
                                             </StyledTableCell>
                                             <StyledTableCell align="center">
                                                 <Button
@@ -171,6 +174,7 @@ function TravelRow(props: any) {
 function MobilitiesContainer(props: Props) {
     const classes = useStyles();
     const { t } = useTranslation('mobility');
+    const history = useHistory();
 
     useEffect(() => {
         if (props.user.isLoggedIn) props.getMobilitiesByUser(props.user.user.username)
@@ -198,7 +202,7 @@ function MobilitiesContainer(props: Props) {
                                 <Button
                                     variant="contained"
                                     className={classes.button}
-                                    href="/add-mobility"
+                                    onClick={() => history.push("/add-mobility")}
                                 >
                                     {t("ADD_MOBILITY")}
                                 </Button>

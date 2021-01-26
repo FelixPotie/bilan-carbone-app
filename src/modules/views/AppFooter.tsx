@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
 import Container from '@material-ui/core/Container';
 import Typography from '../components/Typography';
 import { FormControl, Select } from '@material-ui/core';
@@ -9,6 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 //locales
 import LANGUAGES from '../../locales/Languages'
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 
 
@@ -39,7 +39,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: 'small'
   },
   Link: {
-    color: 'white'
+    color: 'white',
+    textDecoration: 'none', 
+    
   },
   title: {
     fontSize: theme.typography.h4.fontSize,
@@ -48,6 +50,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   text: {
     marginTop: '2%',
     color: 'secondary',
+    textAlign:"justify"
   },
   item: {
     display: 'flex',
@@ -107,13 +110,13 @@ function AppFooter() {
             </Typography>
             <ul className={classes.list}>
               <li >
-                <Link color="inherit" href="/home">{t("HOME")}</Link>
+                <Link className={classes.Link} to="/home">{t("HOME")}</Link>
               </li>
               <li >
-                <Link color="inherit" href="/simulation">{t("SIMULATE")}</Link>
+                <Link className={classes.Link} to="/simulation">{t("SIMULATE")}</Link>
               </li>
               <li >
-                <Link color="inherit" href="/statistics">{t("STATISTICS")}</Link>
+                <Link className={classes.Link} to="/statistics">{t("STATISTICS")}</Link>
               </li>
             </ul>
           </Grid>
@@ -124,10 +127,10 @@ function AppFooter() {
             </Typography>
             <ul className={classes.list}>
               <li>
-                <Link color="inherit" href="/terms">{t("TERMS")}</Link>
+                <Link className={classes.Link} to="/terms">{t("TERMS")}</Link>
               </li>
               <li>
-                <Link color="inherit" href="/privacy">{t("PRIVACY")}</Link>
+                <Link className={classes.Link} to="/privacy">{t("PRIVACY")}</Link>
               </li>
             </ul>
           </Grid>

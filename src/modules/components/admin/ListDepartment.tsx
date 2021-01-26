@@ -81,7 +81,7 @@ function ListDepartmentContainer(props: Props) {
     const classes = useStyles();
 
     useEffect(()=> {
-        props.getAppSettings()
+        props.getAppSettings();
     }, [])
 
     const initialState = {
@@ -190,7 +190,7 @@ function ListDepartmentContainer(props: Props) {
                         </TableRow>
                         </TableHead>
                         <TableBody>
-                        {props.settingsData.appSettings.department.map((row:any) => (
+                        {props.settingsData.appSettings.department.sort((a:any,b:any) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)).map((row:any) => (
                             <TableRow key={row.name}>
                             <StyledTableCell align="center">{row.name}</StyledTableCell>
                             <StyledTableCell align="center">{row.status}</StyledTableCell>

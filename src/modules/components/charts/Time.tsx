@@ -100,7 +100,7 @@ function TimeCharts(props: Props){
 
   function calculCarbone(year: number) : number{
     var sum = 0;
-    props.mobilityData.mobilites.forEach((mobility:any) => {
+    props.mobilityData.mobilitiesStats.forEach((mobility:any) => {
       if(+mobility.startDate.substring(0, 4)===year && getKeyValue(departments)(mobility.departmentTypeName)){
         mobility.travels.forEach((travel:any) => {
           travel.steps.forEach( (step:any) => {

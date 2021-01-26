@@ -1,9 +1,9 @@
-import { Box, Button, Card, CardActions, CardContent, Container, FormControl, Grid, InputLabel, Link, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Select } from '@material-ui/core';
+import { Box, Button, Card, CardActions, CardContent, Container, FormControl, Grid, InputLabel, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Select } from '@material-ui/core';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import AddIcon from '@material-ui/icons/Add';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Typography from '../components/Typography';
 import Step from '../components/Step';
 import Comparator from '../components/Comparator';
@@ -172,7 +172,7 @@ function Simulation(props: Props) {
     const [type, setType] = useState(null)
 
     useEffect(() => {
-        if (props.user.isLoggedIn) {
+        if (props.user.isLoggedIn && urlParams.id) {
             props.getMobilitiesByUser(props.user.user.username)
         }
     }, [props.user.isLoggedIn])
@@ -347,9 +347,9 @@ function Simulation(props: Props) {
                         {t("PAGE_DESCRIPTION")}
                     </Typography>
                     {props.user.isLoggedIn ?
-                        <Alert variant="outlined" severity="warning" className={classes.alert}>{t("ALERT_CONNECTED")}<strong><Link href='/mobilites'>{t("MOBILITIES")}</Link></strong> !</Alert>
+                        <Alert variant="outlined" severity="warning" className={classes.alert}>{t("ALERT_CONNECTED")}<strong><Link to='/mobilites'>{t("MOBILITIES")}</Link></strong> !</Alert>
                         :
-                        <Alert variant="outlined" severity="warning" className={classes.alert}>{t("ALERT_DISCONNECTED")} <strong><Link href='/signin'>{t("LOGIN")}</Link></strong></Alert>
+                        <Alert variant="outlined" severity="warning" className={classes.alert}>{t("ALERT_DISCONNECTED")} <strong><Link to='/signin'>{t("LOGIN")}</Link></strong></Alert>
                     }
                 </Container>
             }

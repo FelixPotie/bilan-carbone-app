@@ -87,7 +87,7 @@ function DepartmentCharts(props: Props) {
   
   function calculCarbone(department: string) : number{
     var sum = 0;
-    props.mobilityData.mobilites.forEach((mobility:any) => {
+    props.mobilityData.mobilitiesStats.forEach((mobility:any) => {
       if(mobility.departmentTypeName===department && getKeyValue(years)(mobility.startDate.substring(0, 4)) ){
         mobility.travels.forEach((travel:any) => {
           travel.steps.forEach( (step:any) => {

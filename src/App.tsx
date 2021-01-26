@@ -18,19 +18,19 @@ class App extends React.PureComponent {
     return (
       <div>
         <Provider store={store}>
-          <Auth />
-          <main>
-            <NavBar />
-            <Router>
+          <Router>
+            <main>
+              {/* <Auth/> */}
+              <NavBar />
               <Switch>
                 {routes.map((prop, key) => {
                   return <Route path={prop.path} exact component={prop.component} key={key} />
                 })
                 }
               </Switch>
-            </Router>
-          </main>
+            </main>
             <AppFooter />
+          </Router>
         </Provider>
       </div>
     );

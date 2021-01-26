@@ -3,7 +3,6 @@ import SignInOutButton from './SignInOutButton';
 import Toolbar, { styles as toolbarStyles } from '../Toolbar';
 import { AppBarProps, Hidden, WithStyles } from '@material-ui/core';
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Link from '@material-ui/core/Link';
 import AppBar from './AppBar';
 import IconButton from "@material-ui/core/IconButton";
 import Drawer from "@material-ui/core/Drawer";
@@ -11,8 +10,10 @@ import NavBarLinks from './NavBarLinks';
 import { useTranslation} from 'react-i18next'
 
 
+
 // @material-ui/icons
 import Menu from "@material-ui/icons/Menu";
+import { Link } from 'react-router-dom';
 
 const styles = (theme: Theme) => createStyles({
   appResponsive: {
@@ -20,6 +21,9 @@ const styles = (theme: Theme) => createStyles({
   },
   title: {
     fontSize: 24,
+    color: "white",
+    textDecoration: "none",
+    textTransform: "uppercase"
   },
   placeholder: toolbarStyles(theme).root,
   toolbar: {
@@ -43,6 +47,8 @@ const styles = (theme: Theme) => createStyles({
     fontSize: 16,
     color: theme.palette.common.white,
     marginLeft: theme.spacing(3),
+    textDecoration: 'none',
+    textTransform: 'uppercase'
   },
   linkSecondary: {
     // color: theme.palette.secondary.main,
@@ -64,7 +70,11 @@ const styles = (theme: Theme) => createStyles({
   
   linksContainerBar:{
     fontSize: 16,
-    margin:'10px'
+    margin:'10px',
+    color: "white",
+    textDecoration: "none",
+    textTransform: "uppercase"
+    
   },
 
   linksContainerDrawer:{
@@ -120,11 +130,8 @@ function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
 
           <div /* left */>
             <Link
-              variant="h6"
-              underline="none"
-              color="inherit"
               className={classes.title}
-              href="/home"
+              to="/home"
             >
               {t("APP_NAME")}
             </Link>
@@ -164,7 +171,7 @@ function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
             <div className={classes.appResponsive}>
               <NavBarLinks classesRow={classes.NavDrawerLinks} classesLinks={classes.linksContainerDrawer}/>
               <div className={classes.linksContainerDrawer} >
-                <SignInOutButton classesName={classes.empty} classes={classes}/>
+                <SignInOutButton classesName={classes.rightLink} classes={classes}/>
               </div>
             </div>
           </Drawer>

@@ -1,14 +1,17 @@
 import React from 'react';
 import { AppBarProps, WithStyles } from '@material-ui/core';
-import { withStyles, Theme } from '@material-ui/core/styles';
-import Link from '@material-ui/core/Link';
+import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import AppBar from './AppBar';
 import SignInOutButton from './SignInOutButton';
 import Toolbar, { styles as toolbarStyles } from '../Toolbar';
+import { Link } from 'react-router-dom';
 
-const styles = (theme: Theme) => ({
+const styles = (theme: Theme) => createStyles({
   title: {
     fontSize: 24,
+    color: theme.palette.common.white,
+    textDecoration: 'none',
+    textTransform: 'uppercase'
   },
   placeholder: toolbarStyles(theme).root,
   toolbar: {
@@ -31,6 +34,8 @@ const styles = (theme: Theme) => ({
     fontSize: 16,
     color: theme.palette.common.white,
     marginLeft: theme.spacing(3),
+    textDecoration: 'none',
+    textTransform: 'uppercase'
   },
   linkSecondary: {
     // color: theme.palette.secondary.main,
@@ -52,46 +57,33 @@ function NavBarAdmin(props: WithStyles<typeof styles> & AppBarProps) {
         <AppBar position="fixed">
           <Toolbar className={classes.toolbar}>
             <div className={classes.left} />
-            <Link
-              variant="h6"
-              underline="none"
-              color="inherit"
+            <a
               className={classes.title}
-              href="/home"
+              href='/home'
             >
               Retourner sur MOBILAN
-            </Link>
-
+            </a>
             <div className={classes.center} />
             <Link
-              color="inherit"
-              variant="h6"
-              underline="none"
               className={classes.rightLink}
-              href="/admin/export-data"
+              to='/admin/export-data'
             >
               Exporter les données
             </Link>
             <Link
-                color="inherit"
-                variant="h6"
-                underline="none"
                 className={classes.rightLink}
-                href="/admin/list"
+                to='/admin/list'
             >
               Gestion des admins
             </Link>
             <Link
-                color="inherit"
-                variant="h6"
-                underline="none"
                 className={classes.rightLink}
-                href="/admin/departments"
+                to='/admin/departments'
             >
               Gestion des sections
             </Link>
             <div className={classes.right}>
-              <SignInOutButton className={classes.rightLink} classes={classes} label="admin"/>
+              <SignInOutButton classesName={classes.rightLink} classes={classes} label="admin"/>
             </div>
           </Toolbar>
         </AppBar>

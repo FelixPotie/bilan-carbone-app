@@ -1,8 +1,9 @@
 {
   "ADD_MOBILITY": "Here you can register your trips related to your international mobility from Polytech Montpellier",
-  "ADEME_COLABORATION": "In collaboration with Ademe agency",
+  "ADEME_COLABORATION": "Collaboration with Ademe agency",
   "ADEME_SIMULATOR": "ADEME simulator",
-  "ADEME_TEXT_PART1": "In order to calculate the carbon emissions of the mobilities we used the data from ADEME (French Environment and Energy Management Agency). These are the data used by their platform calculator.",
+  "ADEME_TEXT_PART1": "In order to calculate the carbon emissions, we used data from ADEME, Agence De l'Environnement et de la maîtrise de l'Énergie. Our carbon calculator is based on the system offered by their platform :",
+  "ADEME_TEXT_PART2":"You can try this simulator directly on this site by clicking on the button below.",
   "LAUNCH_SIMULATION": "Simulation",
   "LOGGIN": "Login to register an international mobility of Polytech Montpellier and its associated trajects or",
   "MOBILITY": "My mobilities",
@@ -10,5 +11,8 @@
   "SIMULATE_YOUR_JOURNEY": "Welcome on MOBILAN",
   "SIMULATE": "Visit our simulator to find out the carbon footprint of your journey.",
   "STAT_TEXT": "Discover the statistics of the school",
-  "STAT":"Statistics"
+  "STAT":"Statistics",
+  "MOBILAN_TEXT":"The MOBILAN application aims to list the carbon balance sheets of the international mobility of Polytech Montpellier students. MOBILAN is the concatenation of the words mobility and carbon balance.",
+  "POLYTECH_TEXT":"The Polytech Montpellier engineering school is part of the Polytech network of 15 schools in France. To validate his engineering degree each student must complete an international mobility, during an internship, a semester or a double degree.",
+  "DDRS_TEXT":"This project is linked to international relations as well as the Sustainable Development and Social Responsibility division of Polytech Montpellier. The aim of this approach is to make students aware of the carbon emissions emitted by travelling, to encourage them to take a more responsible means of transport."
 }

@@ -1,5 +1,6 @@
 import { Box, Button, Container, makeStyles } from '@material-ui/core';
 import React from 'react'
+import { useHistory } from 'react-router-dom';
 import Typography from '../components/Typography';
 
 const useStyles = makeStyles((theme) => ({
@@ -19,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 function UnauthorizedContainer() {
     const classes = useStyles();
+    const history = useHistory();
     return (
         <React.Fragment>
             <Container>
@@ -32,7 +34,7 @@ function UnauthorizedContainer() {
                         <Box m="auto">
                             <Button
                                 variant="contained"
-                                href="/signin"
+                                onClick={() => history.push("/signin")}
                                 className={classes.button}
                                 >
                                 {'Se connecter'}
