@@ -172,7 +172,7 @@ function Simulation(props: Props) {
     const [type, setType] = useState(null)
 
     useEffect(() => {
-        if (props.user.isLoggedIn) {
+        if (props.user.isLoggedIn && urlParams.id) {
             props.getMobilitiesByUser(props.user.user.username)
         }
     }, [props.user.isLoggedIn])

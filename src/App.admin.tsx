@@ -19,7 +19,6 @@ class AppAdmin extends React.PureComponent {
         return (
             <div>
                 <Provider store={store}>
-                <Auth label="admin"/>
                 <NavBarAdmin/>
                 <Switch>
                 {routes.map((prop,key) => {

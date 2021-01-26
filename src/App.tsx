@@ -18,9 +18,9 @@ class App extends React.PureComponent {
     return (
       <div>
         <Provider store={store}>
-          <Auth />
           <Router>
             <main>
+              {/* <Auth/> */}
               <NavBar />
               <Switch>
                 {routes.map((prop, key) => {

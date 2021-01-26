@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux';
 import { getAppSettings } from '../../redux/appSettings/actions';
-import { getMobilities } from '../../redux/mobility/actions';
+import { getMobilitiesForStats } from '../../redux/mobility/actions';
 import DepartmentCharts from '../components/charts/Department';
 import SchoolYearCharts from '../components/charts/SchoolYear';
 import TimeCharts from '../components/charts/Time';
@@ -31,7 +31,7 @@ const mapState = (state: RootState) => {
 
 const mapDispatch = (dispatch:any) => {
   return {
-      getMobilities: () => dispatch(getMobilities()),
+      getMobilitiesForStats: () => dispatch(getMobilitiesForStats()),
       getAppSettings: () => dispatch(getAppSettings())
   }
 }
@@ -46,7 +46,7 @@ function StatisticsView(props : Props) {
 
 
   useEffect(()=> {
-    props.getMobilities()
+    props.getMobilitiesForStats()
     props.getAppSettings()
   }, [])
 

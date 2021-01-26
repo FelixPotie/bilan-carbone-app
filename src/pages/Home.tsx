@@ -4,12 +4,14 @@ import HomeHeader from '../modules/views/homePage/HomeHeader';
 import GraphSection from '../modules/views/homePage/GraphSection';
 import ShowStatSection from '../modules/views/homePage/ShowStatSection';
 import withRoot from '../modules/withRoot';
+import Auth from '../modules/components/Auth';
 
 
 function Index() {
 
   return (
     <React.Fragment>
+      <Auth/>
       <HomeHeader />
       <GraphSection />
       <ColabSection />
