@@ -10,7 +10,8 @@ import UnauthorizedContainer from './Unauthorized';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import classes from '*.module.css';
 import { initTravel } from '../../redux/travel/actions';
 
 
@@ -45,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(4),
         marginBottom: theme.spacing(4),
         justifyContent: 'center',
+        textDecoration: 'none'
     },
     tableContainer: {
         padingLeft: theme.spacing(4),
@@ -99,12 +101,16 @@ function TravelRow(props: any) {
             return (<div></div>)
         } else {
             return (
-            <Button
-                variant="contained"
-                onClick={() => history.push(`${row.id}/add-journey`)}
-            >
-                <AddIcon />
-            </Button>)
+                <Link
+                to={`/${row.id}/add-journey`}>
+                    <Button
+                        variant="contained"
+                        // onClick={() => history.push("/" + row.id + "/add-journey")}
+                    >
+                        <AddIcon />
+                    </Button>
+                </Link>
+            )
         }
     }
     return (
@@ -211,13 +217,17 @@ function MobilitiesContainer(props: Props) {
                         </Typography>
                         <Box display="flex">
                             <Box m="auto">
-                                <Button
-                                    variant="contained"
+                                <Link
+                                    to="/add-mobility"
                                     className={classes.button}
-                                    onClick={() => history.push("/add-mobility")}
                                 >
-                                    {t("ADD_MOBILITY")}
-                                </Button>
+                                    <Button
+                                        variant="contained"
+                                        className={classes.button}
+                                    >
+                                        {t("ADD_MOBILITY")}
+                                    </Button>
+                                </Link>
                             </Box>
                         </Box>
                     </Container>

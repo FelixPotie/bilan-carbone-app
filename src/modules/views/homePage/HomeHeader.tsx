@@ -2,11 +2,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '../../components/Button';
 import Typography from '../../components/Typography';
 import HomeHeaderLayout from './HomeHeaderLayout';
-import { useTranslation} from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { Grid } from '@material-ui/core';
 import { RootState } from '../../../redux';
 import { connect, ConnectedProps } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -19,9 +19,10 @@ const useStyles = makeStyles((theme) => ({
     width:'100%',
     borderRadius: "10px"
   },
-  buttons: {
+  buttons: {
     marginTop: theme.spacing(2),
     maxWidth: 550
+
   },
   onebutton: {
     marginTop: theme.spacing(2),
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(8),
     },
   },
-  h5:{
+  h5: {
     marginTop: theme.spacing(2)
   },
   more: {
@@ -43,15 +44,18 @@ const useStyles = makeStyles((theme) => ({
   item: {
     display: "flex",
     justifyContent: "center",
-    marginLeft:'auto',
-    marginRight:'auto'
+    marginLeft: 'auto',
+    marginRight: 'auto'
   },
+  link: {
+    textDecoration: "none"
+  }
 }));
 
 const mapState = (state: RootState) => {
-    return {
-        user: state.user,
-    }
+  return {
+    user: state.user,
+  }
 }
 
 
@@ -64,76 +68,87 @@ function HomeHeader(props: Props) {
 
   const history = useHistory();
 
-  const  {t} = useTranslation('homePage');
+  const { t } = useTranslation('homePage');
 
   const displayButtons = () => {
-    if(props.user.isLoggedIn){
+    if (props.user.isLoggedIn) {
       return (
         <Grid container spacing={1} className={classes.onebutton}>
-        <Grid item md={12} className={classes.item}>
-        <Button
-          color="secondary"
-          variant="contained"
-          size="large"
-          className={classes.button}
-          component="a"
-          onClick={() => history.push("/mobilites")}
-        >
-          {t("MOBILITY")}
-        </Button>
+          <Grid item md={12} className={classes.item}>
+            <Link
+              to="/mobilites"
+              className={classes.link}>
+              <Button
+                color="secondary"
+                variant="contained"
+                size="large"
+                className={classes.button}
+                component="a"
+              >
+                {t("MOBILITY")}
+              </Button>
+            </Link>
+          </Grid>
         </Grid>
-      </Grid>
-        
+
       )
     } else {
-      return(
+      return (
         <Grid container spacing={1} className={classes.buttons}>
-        <Grid item md={6} className={classes.item}>
-        <Button
-          color="secondary"
-          variant="contained"
-          size="large"
-          className={classes.button}
-          component="a"
-          onClick={() => history.push("/signin")}
-        >
-          {t("SIGNIN")}
-        </Button>
+          <Grid item md={6} className={classes.item}>
+            <Link
+              to="/signin"
+              className={classes.link}>
+              <Button
+                color="secondary"
+                variant="contained"
+                size="large"
+                className={classes.button}
+                component="a"
+                // onClick={() => history.push("/signin")}
+              >
+                {t("SIGNIN")}
+              </Button>
+            </Link>
+          </Grid>
+          <Grid item md={6} className={classes.item}>
+          <Link
+              to="/simulation"
+              className={classes.link}>
+            <Button
+              color="secondary"
+              variant="contained"
+              size="large"
+              className={classes.button}
+              component="a"
+              // onClick={() => history.push("/simulation")}
+            >
+              {t("LAUNCH_SIMULATION")}
+            </Button>
+            </Link>
+          </Grid>
         </Grid>
-        <Grid item md={6}  className={classes.item}>
-        <Button
-          color="secondary"
-          variant="contained"
-          size="large"
-          className={classes.button}
-          component="a"
-          onClick={() => history.push("/simulation")}
-        >
-          {t("LAUNCH_SIMULATION")}
-        </Button>
-        </Grid>
-      </Grid>
       )
     }
   }
 
-  const displaySubtitles = () =>{
-    if(props.user.isLoggedIn){
-      return(
+  const displaySubtitles = () => {
+    if (props.user.isLoggedIn) {
+      return (
         <div className={classes.subtitle}>
           <Typography color="inherit" align="center" variant="h5" className={classes.h5}>
-          {t("ADD_MOBILITY")}
+            {t("ADD_MOBILITY")}
           </Typography>
         </div>
       )
-    }else{
-      return(
+    } else {
+      return (
         <div className={classes.subtitle}>
           <Typography color="inherit" align="center" variant="h5" className={classes.h5}>
-          {t("LOGGIN")}
+            {t("LOGGIN")}
           </Typography>
           <Typography color="inherit" align="center" variant="h5" className={classes.h5}>
-          {t("SIMULATE")}
+            {t("SIMULATE")}
           </Typography>
         </div>
       )
@@ -144,13 +159,13 @@ function HomeHeader(props: Props) {
     <HomeHeaderLayout >
       {/* Increase the network loading priority of the background image. */}
       <Typography color="inherit" align="center" variant="h2" marked="center">
-       {t("SIMULATE_YOUR_JOURNEY")}
+        {t("SIMULATE_YOUR_JOURNEY")}
       </Typography>
       {displaySubtitles()}
-      
+
       {displayButtons()}
-      
-      
+
+
     </HomeHeaderLayout>
   );
 }
