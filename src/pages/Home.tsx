@@ -5,17 +5,26 @@ import GraphSection from '../modules/views/homePage/GraphSection';
 import ShowStatSection from '../modules/views/homePage/ShowStatSection';
 import withRoot from '../modules/withRoot';
 import Auth from '../modules/components/Auth';
+import { makeStyles, Theme } from '@material-ui/core';
 
+
+const useStyles = makeStyles((theme: Theme) => ({
+    body: {
+      backgroundColor: theme.palette.secondary.light,
+    }
+}));
 
 function Index() {
-
+  const classes = useStyles();
   return (
-    <React.Fragment>
+    <React.Fragment >
       <Auth/>
       <HomeHeader />
-      <GraphSection />
-      <ColabSection />
-      <ShowStatSection />
+      <div className={classes.body}>
+        <GraphSection />
+        <ColabSection />
+        <ShowStatSection />
+      </div>
     </React.Fragment>
   );
 }

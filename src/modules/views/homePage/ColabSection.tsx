@@ -35,8 +35,9 @@ const styles = (theme: Theme) =>
       height: 'auto'
     },
     root: {
-      marginTop: theme.spacing(8),
-      marginBottom: theme.spacing(4),
+      paddingTop: theme.spacing(8),
+      paddingBottom: theme.spacing(4),
+      
     },
     item: {
       display: 'flex',

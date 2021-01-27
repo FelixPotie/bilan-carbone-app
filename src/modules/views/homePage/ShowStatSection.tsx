@@ -13,15 +13,13 @@ import { useHistory } from 'react-router-dom';
 const styles = (theme: Theme) =>
   createStyles({
     root: {
-      backgroundColor: theme.palette.secondary.light,
-      marginTop: theme.spacing(8),
-      marginBottom: theme.spacing(15),
+      paddingTop: theme.spacing(8),
+      paddingBottom: theme.spacing(15),
     },
     container: {
       display: 'flex',
       flexWrap:'wrap',
       justifyContent:'space-evenly',
-      backgroundColor: theme.palette.secondary.light,
     },
     title: {
       fontSize: theme.typography.h4.fontSize,
