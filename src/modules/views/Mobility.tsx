@@ -11,6 +11,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
+import { initTravel } from '../../redux/travel/actions';
 
 
 const mapState = (state: RootState) => {
@@ -25,7 +26,8 @@ const mapDispatch = (dispatch: any) => {
         getMobilitiesByUser: (username: string) => dispatch(getMobilitiesByUser(username)),
         deleteMobility: (id: number) => dispatch(deleteMobility(id)),
         loadUser: () => dispatch(loadUser()),
-        deleteTravel: (id: number, mobilityId: number) => dispatch(deleteTravel(id, mobilityId))
+        deleteTravel: (id: number, mobilityId: number) => dispatch(deleteTravel(id, mobilityId)),
+        initTravel: () => dispatch(initTravel())
     }
 }
 
@@ -68,6 +70,8 @@ const StyledTableCell = withStyles((theme: Theme) =>
 )(TableCell);
 
 function TravelRow(props: any) {
+
+
     const { row, deleteMobility, deleteTravel } = props
     const [open, setOpen] = useState(false)
 
@@ -94,7 +98,8 @@ function TravelRow(props: any) {
         if (row.travels.find((go: any) => go.type === "GO") && row.travels.find((back: any) => back.type === "BACK")) {
             return (<div></div>)
         } else {
-            return (<Button
+            return (
+            <Button
                 variant="contained"
                 onClick={() => history.push(`${row.id}/add-journey`)}
             >
@@ -177,8 +182,15 @@ function MobilitiesContainer(props: Props) {
     const history = useHistory();
 
     useEffect(() => {
-        if (props.user.isLoggedIn) props.getMobilitiesByUser(props.user.user.username)
+        if (props.user.isLoggedIn) {
+            props.getMobilitiesByUser(props.user.user.username);
+            props.initTravel();
+        }
     }, [props.user.isLoggedIn])
+
+    useEffect(() => {
+        
+    }, [])
 
     return !props.user.isLoggedIn ? (
         <UnauthorizedContainer />

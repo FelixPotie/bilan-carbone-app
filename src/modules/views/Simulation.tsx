@@ -9,7 +9,7 @@ import Step from '../components/Step';
 import Comparator from '../components/Comparator';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux';
-import { addTravel } from '../../redux/travel/actions';
+import { addTravel, initTravel } from '../../redux/travel/actions';
 import { getMobilitiesByUser } from '../../redux/mobility/actions';
 import DateFnsUtils from '@date-io/date-fns';
 import { getDistance } from 'geolib'

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ADD_TRAVEL_SUCCESS, ADD_TRAVEL_FAILURE, TravelActionTypes} from "./types"
+import { ADD_TRAVEL_SUCCESS, ADD_TRAVEL_FAILURE, INIT_TRAVEL, TravelActionTypes} from "./types"
 
 
 export const addTravel = (travel: any) => {
@@ -57,5 +57,11 @@ export function addTravelFailure(error: any): TravelActionTypes {
     return {
         type: ADD_TRAVEL_FAILURE,
         payload: error
+    }
+}
+
+export function initTravel(): TravelActionTypes {
+    return {
+        type: INIT_TRAVEL,
     }
 }

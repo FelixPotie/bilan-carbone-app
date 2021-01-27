@@ -134,7 +134,6 @@ function DepartmentCharts(props: Props) {
             <XAxis dataKey="name" />
             <YAxis label={{ value: 'kg', angle: -90, position: 'insideLeft' }}/>
             <Tooltip />
-            <Legend />
             <Bar dataKey="carbone" barSize={20} fill="#8884d8" />
           </BarChart>
         </ResponsiveContainer>
