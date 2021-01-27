@@ -307,6 +307,22 @@ function Simulation(props: Props) {
         </Card>
     ))
 
+    const displayButton = () =>{
+        var good=true;
+        listStep.forEach((step:stepInterface)=>{
+            if(step.from.country==="" || step.to.country==="") good=false;
+        });
+        if(good){
+            return(
+                <Button variant="contained" color="primary" type="submit">{t("SAVE")}</Button>
+            )
+        }else{
+            return(
+                <Button variant="contained" color="primary" disabled>{t("SAVE")}</Button>
+            )
+        }
+    }
+
     if (listStep.length === 0) {
         listStep.push(defaultStep);
         setlistStep(listStep);
@@ -407,7 +423,7 @@ function Simulation(props: Props) {
 
                             {(props.user.isLoggedIn && urlParams.id) &&
                                 <CardActions className={classes.actionButton}>
-                                    <Button variant="contained" color="primary" type="submit">{t("SAVE")}</Button>
+                                    {displayButton()}
                                 </CardActions>
                             }
                         </Card>
