@@ -62,8 +62,20 @@ const useStyles = makeStyles((theme) => ({
 const StyledTableCell = withStyles((theme: Theme) =>
     createStyles({
         head: {
-            backgroundColor: '#96989B',
+            backgroundColor: '#005988',
             color: theme.palette.common.white,
+        },
+        body: {
+            fontSize: 14,
+        },
+    }),
+)(TableCell);
+
+const StyledSmallTableCell = withStyles((theme: Theme) =>
+    createStyles({
+        head: {
+            backgroundColor: '#ddddff',
+            color: '#666666',
         },
         body: {
             fontSize: 14,
@@ -149,27 +161,27 @@ function TravelRow(props: any) {
                             <Table size="small" aria-label="purchases">
                                 <TableHead>
                                     <TableRow>
-                                        <StyledTableCell align="center">{t("DATE")}</StyledTableCell>
-                                        <StyledTableCell align="center">Type</StyledTableCell>
-                                        <StyledTableCell align="center">{t("STEPS")}</StyledTableCell>
-                                        <StyledTableCell align="center">{t("DELETE_TRAJECT")}</StyledTableCell>
+                                        <StyledSmallTableCell align="center">{t("DATE")}</StyledSmallTableCell>
+                                        <StyledSmallTableCell align="center">Type</StyledSmallTableCell>
+                                        <StyledSmallTableCell align="center">{t("STEPS")}</StyledSmallTableCell>
+                                        <StyledSmallTableCell align="center">{t("DELETE_TRAJECT")}</StyledSmallTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {row.travels.sort((a:any,b:any) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0)).map((travel: any) => (
                                         <TableRow>
-                                            <StyledTableCell align="center" component="th" scope="row">{displayDate(travel.date)}</StyledTableCell>
-                                            <StyledTableCell align="center">{t(travel.type)}</StyledTableCell>
-                                            <StyledTableCell align="center">{travel.steps.sort((a: any, b: any) => { return a.rank - b.rank }).map((step: any) => (<div>{step.rank + 1}. {t("FROM")} {step.departure} {t("TO")} {step.arrival}</div>))}
-                                            </StyledTableCell>
-                                            <StyledTableCell align="center">
+                                            <StyledSmallTableCell align="center" component="th" scope="row">{displayDate(travel.date)}</StyledSmallTableCell>
+                                            <StyledSmallTableCell align="center">{t(travel.type)}</StyledSmallTableCell>
+                                            <StyledSmallTableCell align="center">{travel.steps.sort((a: any, b: any) => { return a.rank - b.rank }).map((step: any) => (<div>{step.rank + 1}. {t("FROM")} {step.departure} {t("TO")} {step.arrival}</div>))}
+                                            </StyledSmallTableCell>
+                                            <StyledSmallTableCell align="center">
                                                 <Button
                                                     variant="contained"
                                                     onClick={() => deleteTravel(travel.id, row.id)}
                                                 >
                                                     <DeleteIcon />
                                                 </Button>
-                                            </StyledTableCell>
+                                            </StyledSmallTableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
