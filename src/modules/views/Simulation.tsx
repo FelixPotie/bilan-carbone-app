@@ -345,7 +345,7 @@ function Simulation(props: Props) {
         <React.Fragment>
             {(props.user.isLoggedIn && urlParams.id) ?
                 <Container className={classes.title}>
-                    <Link
+                    {/* <Link
                         to="/mobilites"
                         className={classes.button}
                     >
@@ -355,7 +355,7 @@ function Simulation(props: Props) {
                         >
                             {t('RETURN')}
                         </Button>
-                    </Link>
+                    </Link> */}
                     <Box display="flex">
                         
                         <Box m="auto">
