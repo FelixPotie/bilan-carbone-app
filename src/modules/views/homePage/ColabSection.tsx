@@ -35,8 +35,9 @@ const styles = (theme: Theme) =>
       height: 'auto'
     },
     root: {
-      marginTop: theme.spacing(8),
-      marginBottom: theme.spacing(4),
+      paddingTop: theme.spacing(8),
+      paddingBottom: theme.spacing(4),
+      
     },
     item: {
       display: 'flex',
@@ -44,12 +45,16 @@ const styles = (theme: Theme) =>
       alignItems: 'center',
       marginBottom: theme.spacing(2)
     },
-    button: {
+    buttonBox: {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
       marginBottom: theme.spacing(2),
       textDecoration: "none"
+
+    },
+    button:{
+      borderRadius: "10px"
     }
   });
 

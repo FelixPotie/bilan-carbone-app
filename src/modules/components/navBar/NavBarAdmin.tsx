@@ -57,12 +57,12 @@ function NavBarAdmin(props: WithStyles<typeof styles> & AppBarProps) {
         <AppBar position="fixed">
           <Toolbar className={classes.toolbar}>
             <div className={classes.left} />
-            <Link
+            <a
               className={classes.title}
-              to='/home'
+              href='/home'
             >
               Retourner sur MOBILAN
-            </Link>
+            </a>
             <div className={classes.center} />
             <Link
               className={classes.rightLink}

@@ -1,5 +1,6 @@
 import { Box, Container } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
+import Auth from '../modules/components/Auth';
 import Typography from '../modules/components/Typography';
 import withRoot from '../modules/withRoot';
 
@@ -29,6 +30,7 @@ function Ecolab() {
 
     return (
         <React.Fragment>
+            <Auth/>
             <Container>
                 <Box>
                     <Typography variant="h3" gutterBottom marked="center" align="center">

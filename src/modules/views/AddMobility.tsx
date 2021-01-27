@@ -194,7 +194,6 @@ function AddMobilityContainer(props: Props) {
                         <div className={classes.form}>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <KeyboardDatePicker
-                                    disableToolbar
                                     required
                                     error={dateError}
                                     inputVariant="outlined"
@@ -214,7 +213,6 @@ function AddMobilityContainer(props: Props) {
                         <div className={classes.form}>
                             <MuiPickersUtilsProvider utils={DateFnsUtils} >
                                 <KeyboardDatePicker
-                                    disableToolbar
                                     required
                                     error={dateError}
                                     inputVariant="outlined"

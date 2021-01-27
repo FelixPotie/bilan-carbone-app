@@ -1,4 +1,4 @@
-import { GET_MOBILITY_FAILURE, GET_MOBILITY_REQUEST, GET_MOBILITY_SUCCESS, ADD_MOBILITY_SUCCESS, ADD_MOBILITY_FAILURE, DELETE_MOBILITY_SUCCESS, DELETE_MOBILITY_FAILURE, MobilityActionTypes, DELETE_TRAVEL_FAILURE, DELETE_TRAVEL_SUCCESS } from "./types"
+import { GET_MOBILITY_FAILURE, GET_MOBILITY_REQUEST, GET_MOBILITY_SUCCESS, ADD_MOBILITY_SUCCESS, ADD_MOBILITY_FAILURE, DELETE_MOBILITY_SUCCESS, DELETE_MOBILITY_FAILURE, MobilityActionTypes, DELETE_TRAVEL_FAILURE, DELETE_TRAVEL_SUCCESS, GET_MOBILITIES_STATS_SUCCESS } from "./types"
 
 const mobilites: any[] = []
 
@@ -7,7 +7,8 @@ const initialState = {
     mobilites: mobilites,
     error: '',
     success: false,
-    mobilityId:0
+    mobilityId:0,
+    mobilitiesStats: mobilites
 }
 
 export function mobilityReducer(state = initialState, action: MobilityActionTypes) {
@@ -26,6 +27,14 @@ export function mobilityReducer(state = initialState, action: MobilityActionType
                 mobilites: action.payload,
                 success: true,
                 error: ''
+            }
+        case GET_MOBILITIES_STATS_SUCCESS:
+            return{
+                ...state,
+                loading: false,
+                mobilitiesStats: action.payload,
+                success: true,
+                error:''
             }
         case GET_MOBILITY_FAILURE:
             return {

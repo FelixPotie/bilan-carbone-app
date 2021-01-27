@@ -13,10 +13,7 @@ const useStyles = makeStyles((theme) => ({
     card: {
         padding: "5px",
         margin: "5px",
-        // borderStyle: "solid",
-        // border: "2px",
         borderRadius: "10px",
-        //display: "inline-block",
         backgroundColor: '#f8f8ff',
         position: 'relative',
         boxShadow: 'none'
@@ -30,8 +27,7 @@ const useStyles = makeStyles((theme) => ({
     },
     field: {
         width: "50%",
-        // marginRight:"20%",
-        marginTop: theme.spacing(2),
+        marginTop: "28px",
         minWidth: "100px"
     },
     search: {
@@ -39,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
     },
     city: {
         width: "90%",
-        //margin: "auto"
     },
     button: {
         marginTop: "28px",
@@ -55,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: "28px",
         right: '5%',
         width: "30%",
-        padding: "6px 8px",
+        padding: "16px 8px 0px 6px",
         borderBottom: "1px solid rgba(0, 0, 0, 0.42)",
         color: "grey",
         textOverflow: "ellipsis",
@@ -70,15 +65,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Step(props: any) {
-    const classes = useStyles()
+    const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
-    const [results, setResults] = useState([])
+    const [results, setResults] = useState([]);
 
     const { t } = useTranslation('simulationPage');
 
-    const [popoverFrom, setPopoverFrom] = useState(false)
-
-    const [popoverTo, setPopoverTo] = useState(false)
+    const [popover, setPopover] = useState(false);
 
     const getFrom = () => {
         return props.step.from.name
@@ -98,7 +91,7 @@ export default function Step(props: any) {
         }
         props.updateStep(newStep, props.id);
         if(event.nativeEvent.data === " "){
-            setPopoverFrom(true);
+            setPopover(true);
             find(event, getFrom());
         }
 
@@ -115,7 +108,7 @@ export default function Step(props: any) {
         }
         props.updateStep(newStep, props.id);
         if(event.nativeEvent.data === " "){
-            setPopoverTo(true);
+            setPopover(false);
             find(event, getTo());
         }
     }
@@ -184,21 +177,22 @@ export default function Step(props: any) {
                             id="from"
                             value={getFrom()}
                             type="text"
-                            placeholder="from"
+                            placeholder={t("FROM")}
                             className={classes.field}
                             onChange={onChangeFrom}
                             onKeyDown={(event) => {
                                 if (event.key === 'Enter') {
                                     event.preventDefault();
-                                    setPopoverFrom(true)
-                                    find(event, getFrom())
+                                    setPopover(true);
+                                    find(event, getFrom());
                                 }
                             }} />
                         <Typography className={classes.country} >
                             {props.step.from.country}
                         </Typography>
                         <Button className={classes.button} id="fromID" onClick={(e) => {
-                            setPopoverFrom(true)
+                            e.preventDefault();
+                            setPopover(true)
                             find(e, getFrom())
                         }}><SearchIcon /></Button>
                         {displayValid(props.step.from.country)}
@@ -210,20 +204,21 @@ export default function Step(props: any) {
                             label={t("TO")}
                             variant="standard"
                             id="to" value={getTo()}
-                            type="text" placeholder="to"
+                            type="text" placeholder={t("TO")}
                             className={classes.field} onChange={onChangeTo}
                             onKeyDown={(event) => {
                                 if (event.key === 'Enter') {
                                     event.preventDefault();
-                                    setPopoverTo(false)
-                                    find(event, getTo())
+                                    setPopover(false);
+                                    find(event, getTo());
                                 }
                             }} />
                         <Typography className={classes.country} >
                             {props.step.to.country}
                         </Typography>
                         <Button className={classes.button} id="toID" onClick={(e) => {
-                            setPopoverTo(false)
+                            e.preventDefault();
+                            setPopover(false)
                             find(e, getTo())
                         }}><SearchIcon /></Button>
                         {displayValid(props.step.to.country)}
@@ -287,7 +282,7 @@ export default function Step(props: any) {
                 {(results && results.length !== 0) ?
                     results.map((result: any, index) => (
                         <p key={index} onClick={() => {
-                            if (popoverFrom) {
+                            if (popover) {
                                 let newStep = {
                                     ...props.step,
                                     from: {

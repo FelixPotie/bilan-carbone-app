@@ -2,6 +2,7 @@ import { Box, Container, makeStyles } from '@material-ui/core';
 import React from 'react'
 import withRoot from '../modules/withRoot'
 import Typography from '../modules/components/Typography';
+import Auth from '../modules/components/Auth';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -24,6 +25,7 @@ function NotFound() {
 
     return (
         <React.Fragment>
+            <Auth/>
             <Container>
                 <Box>
                     <Typography variant="h2" gutterBottom marked="center" align="center" className={classes.title}>

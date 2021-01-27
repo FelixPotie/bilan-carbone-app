@@ -15,8 +15,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 900,//theme.typography.fontWeightRegular,
     fontSize: 20,
     margin: theme.spacing(1),
-    textAlign: "center",
-    width: '100%'
+    textAlign:"center",
+    width:'100%',
+    borderRadius: "10px"
   },
   buttons: {
     marginTop: theme.spacing(2),

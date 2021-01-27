@@ -13,9 +13,8 @@ import { Link, useHistory } from 'react-router-dom';
 const styles = (theme: Theme) =>
   createStyles({
     root: {
-      backgroundColor: theme.palette.secondary.light,
-      marginTop: theme.spacing(8),
-      marginBottom: theme.spacing(15),
+      paddingTop: theme.spacing(8),
+      paddingBottom: theme.spacing(15),
     },
     container: {
       display: 'flex',
@@ -29,6 +28,8 @@ const styles = (theme: Theme) =>
     },
     button: {
       margin: theme.spacing(2),
+      borderRadius: "10px"
+
     },
   });
 

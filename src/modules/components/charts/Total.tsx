@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1),
     width: '90%',
     margin: 'auto'
-},
+  },
   form: {
     display: 'flex',
     width: '90%',
@@ -42,12 +42,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#d5d5ff',
     borderRadius:"10%",
     width: "90%",
-    maxWidth:"300px",
-    height: "width",
+    maxWidth:"400px",
     display:"flex",
     justifyContent: "center",
     alignItems: "center",
-    margin:'auto'
   },
   content: {
     
@@ -83,7 +81,7 @@ function TotalCharts(props: Props) {
   
   function calculCarbone() : number{
     var sum = 0;
-    props.mobilityData.mobilites.forEach((mobility:any) => {
+    props.mobilityData.mobilitiesStats.forEach((mobility:any) => {
       if(getKeyValue(years)(mobility.startDate.substring(0, 4)) ){
         mobility.travels.forEach((travel:any) => {
           travel.steps.forEach( (step:any) => {

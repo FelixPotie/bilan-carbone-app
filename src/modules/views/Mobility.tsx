@@ -12,6 +12,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import { Link, useHistory } from 'react-router-dom';
 import classes from '*.module.css';
+import { initTravel } from '../../redux/travel/actions';
 
 
 const mapState = (state: RootState) => {
@@ -26,7 +27,8 @@ const mapDispatch = (dispatch: any) => {
         getMobilitiesByUser: (username: string) => dispatch(getMobilitiesByUser(username)),
         deleteMobility: (id: number) => dispatch(deleteMobility(id)),
         loadUser: () => dispatch(loadUser()),
-        deleteTravel: (id: number, mobilityId: number) => dispatch(deleteTravel(id, mobilityId))
+        deleteTravel: (id: number, mobilityId: number) => dispatch(deleteTravel(id, mobilityId)),
+        initTravel: () => dispatch(initTravel())
     }
 }
 
@@ -70,6 +72,8 @@ const StyledTableCell = withStyles((theme: Theme) =>
 )(TableCell);
 
 function TravelRow(props: any) {
+
+
     const { row, deleteMobility, deleteTravel } = props
     const [open, setOpen] = useState(false)
 
@@ -136,7 +140,7 @@ function TravelRow(props: any) {
                 </StyledTableCell>
             </TableRow>
             <TableRow>
-                <TableCell align="center" style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
+                <TableCell align="center" style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={9}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box margin={1}>
                             <Typography variant="h6" gutterBottom component="div">
@@ -184,8 +188,15 @@ function MobilitiesContainer(props: Props) {
     const history = useHistory();
 
     useEffect(() => {
-        if (props.user.isLoggedIn) props.getMobilitiesByUser(props.user.user.username)
+        if (props.user.isLoggedIn) {
+            props.getMobilitiesByUser(props.user.user.username);
+            props.initTravel();
+        }
     }, [props.user.isLoggedIn])
+
+    useEffect(() => {
+        
+    }, [])
 
     return !props.user.isLoggedIn ? (
         <UnauthorizedContainer />

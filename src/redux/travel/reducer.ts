@@ -1,4 +1,4 @@
-import { ADD_TRAVEL_SUCCESS, ADD_TRAVEL_FAILURE, TravelActionTypes } from "./types"
+import { ADD_TRAVEL_SUCCESS, ADD_TRAVEL_FAILURE, INIT_TRAVEL, TravelActionTypes } from "./types"
 
 const initialState = {
     loading: false,
@@ -9,6 +9,12 @@ const initialState = {
 
 export function travelReducer(state = initialState,action: TravelActionTypes) {
     switch (action.type){
+        case INIT_TRAVEL:
+            return {
+                loading: false,
+                error: '',
+                success: false
+            }
         case ADD_TRAVEL_SUCCESS:
             return {
                 ...state,

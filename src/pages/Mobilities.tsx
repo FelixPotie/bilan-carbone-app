@@ -1,12 +1,16 @@
 import React from 'react'
 import withRoot from '../modules/withRoot'
 import MobilitiesContainer from '../modules/views/Mobility';
+import Auth from '../modules/components/Auth';
 
 
 function Mobilities() {
 
     return (
-        <MobilitiesContainer/>
+        <div>
+            <Auth/>
+            <MobilitiesContainer/>
+        </div>
     )
 }
 

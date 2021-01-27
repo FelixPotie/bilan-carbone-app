@@ -87,7 +87,7 @@ function DepartmentCharts(props: Props) {
   
   function calculCarbone(department: string) : number{
     var sum = 0;
-    props.mobilityData.mobilites.forEach((mobility:any) => {
+    props.mobilityData.mobilitiesStats.forEach((mobility:any) => {
       if(mobility.departmentTypeName===department && getKeyValue(years)(mobility.startDate.substring(0, 4)) ){
         mobility.travels.forEach((travel:any) => {
           travel.steps.forEach( (step:any) => {
@@ -134,7 +134,6 @@ function DepartmentCharts(props: Props) {
             <XAxis dataKey="name" />
             <YAxis label={{ value: 'kg', angle: -90, position: 'insideLeft' }}/>
             <Tooltip />
-            <Legend />
             <Bar dataKey="carbone" barSize={20} fill="#8884d8" />
           </BarChart>
         </ResponsiveContainer>
