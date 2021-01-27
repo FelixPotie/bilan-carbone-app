@@ -199,7 +199,9 @@ function Simulation(props: Props) {
     }
 
     const addStep = (event: any) => {
-        setlistStep(listStep.concat(defaultStep))
+        var step = defaultStep;
+        step.from=listStep[listStep.length -1].to;
+        setlistStep(listStep.concat(step))
         event.preventDefault();
 
     }
@@ -368,7 +370,7 @@ function Simulation(props: Props) {
                                 {(props.user.isLoggedIn && urlParams.id) &&
                                     <div>
                                         <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                                            <KeyboardDatePicker className={classes.form} disableToolbar required inputVariant="outlined" format="dd/MM/yyyy" id="date" label="Date" value={date} onChange={handleChangeDate} onKeyDown={(event) => { if (event.key === 'Enter') event.preventDefault() }} KeyboardButtonProps={{ 'aria-label': 'change date', }} />
+                                            <KeyboardDatePicker className={classes.form} required inputVariant="outlined" format="dd/MM/yyyy" id="date" label="Date" value={date} onChange={handleChangeDate} onKeyDown={(event) => { if (event.key === 'Enter') event.preventDefault() }} KeyboardButtonProps={{ 'aria-label': 'change date', }} />
                                         </MuiPickersUtilsProvider>
                                         <FormControl variant="outlined" className={classes.form} style={{ marginBottom: "16px" }}>
                                             <InputLabel htmlFor="type">{t("TYPE")}</InputLabel>
@@ -405,7 +407,7 @@ function Simulation(props: Props) {
 
                             {(props.user.isLoggedIn && urlParams.id) &&
                                 <CardActions className={classes.actionButton}>
-                                    <Button type="submit">{t("SAVE")}</Button>
+                                    <Button variant="contained" color="primary" type="submit">{t("SAVE")}</Button>
                                 </CardActions>
                             }
                         </Card>

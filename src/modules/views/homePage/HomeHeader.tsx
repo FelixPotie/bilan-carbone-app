@@ -16,7 +16,8 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 20,
     margin: theme.spacing(1),
     textAlign:"center",
-    width:'100%'
+    width:'100%',
+    borderRadius: "10px"
   },
   buttons: {
     marginTop: theme.spacing(2),

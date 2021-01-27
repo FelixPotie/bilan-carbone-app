@@ -45,11 +45,15 @@ const styles = (theme: Theme) =>
       alignItems: 'center',
       marginBottom:theme.spacing(2)
     },
-    button: {
+    buttonBox: {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      marginBottom: theme.spacing(2)
+      marginBottom: theme.spacing(2),
+
+    },
+    button:{
+      borderRadius: "10px"
     }
   });
 
@@ -74,11 +78,12 @@ function ProductCategories(props: WithStyles<typeof styles>) {
               {t('ADEME_TEXT_PART2')}
             </Typography>
           </div>
-          <div className={classes.button}>
+          <div className={classes.buttonBox}>
             <Button
               color="secondary"
               size="large"
               variant="contained"
+              className={classes.button}
               component="a"
               onClick={() => history.push("/ecolab")}
               style={{margin: '5% 0% 5% 0%'}}

@@ -27,6 +27,8 @@ const styles = (theme: Theme) =>
     },
     button: {
       margin: theme.spacing(2),
+      borderRadius: "10px"
+
     },
   });
 
