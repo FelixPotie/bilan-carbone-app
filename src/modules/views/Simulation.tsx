@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActions, CardContent, Container, FormControl, Grid, InputLabel, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Select } from '@material-ui/core';
+import { Box, Button, Card, CardActions, CardContent, CircularProgress, Container, FormControl, Grid, InputLabel, List, ListItem, ListItemIcon, ListItemText, makeStyles, MenuItem, Select } from '@material-ui/core';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import AddIcon from '@material-ui/icons/Add';
 import React, { useEffect, useState } from 'react'
@@ -9,7 +9,7 @@ import Step from '../components/Step';
 import Comparator from '../components/Comparator';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux';
-import { addTravel } from '../../redux/travel/actions';
+import { addTravel, initTravel } from '../../redux/travel/actions';
 import { getMobilitiesByUser } from '../../redux/mobility/actions';
 import DateFnsUtils from '@date-io/date-fns';
 import { getDistance } from 'geolib'
@@ -20,6 +20,7 @@ import UnauthorizedContainer from './Unauthorized';
 import DriveEtaRoundedIcon from '@material-ui/icons/DriveEtaRounded';
 import GrainIcon from '@material-ui/icons/Grain';
 import Alert from '@material-ui/lab/Alert';
+import NotFound from '../../pages/NotFound';
 
 const mapState = (state: RootState) => {
     return {
@@ -77,9 +78,9 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(4),
     },
     button: {
-        marginTop: theme.spacing(4),
-        marginBottom: theme.spacing(4),
+        marginBottom: theme.spacing(1),
         justifyContent: 'center',
+        textDecoration: 'none'
     },
     tableContainer: {
         padingLeft: theme.spacing(4),
@@ -175,10 +176,11 @@ function Simulation(props: Props) {
         if (props.user.isLoggedIn && urlParams.id) {
             props.getMobilitiesByUser(props.user.user.username)
         }
+        
     }, [props.user.isLoggedIn])
 
     const urlParams: any = useParams()
-
+    
 
     const removeStep = (event: any, index: number) => {
         const newFeatures = [...listStep];
@@ -221,6 +223,7 @@ function Simulation(props: Props) {
     const checkMobilityId = () => {
         return props.mobilityData.mobilites.find((mobility: any) => (mobility.id === +urlParams.id))
     }
+
 
     const saveTravel = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -307,13 +310,31 @@ function Simulation(props: Props) {
         </Card>
     ))
 
+    const displayButton = () =>{
+        var good=true;
+        listStep.forEach((step:stepInterface)=>{
+            if(step.from.country==="" || step.to.country==="") good=false;
+        });
+        if(good){
+            return(
+                <Button variant="contained" color="primary" type="submit">{t("SAVE")}</Button>
+            )
+        }else{
+            return(
+                <Button variant="contained" color="primary" disabled>{t("SAVE")}</Button>
+            )
+        }
+    }
+
     if (listStep.length === 0) {
         listStep.push(defaultStep);
         setlistStep(listStep);
     }
 
-    return (!props.user.isLoggedIn && urlParams.id) || (urlParams.id && !checkMobilityId()) ? (
+    return (!props.user.isLoggedIn && urlParams.id) ? (
         <UnauthorizedContainer />
+    ) : (urlParams.id && !checkMobilityId()) ? (
+        <NotFound/>
     ) : props.travel.error ? (
         <Typography variant="h3" gutterBottom marked="center" align="center">
             {props.travel.error} : Veuillez réessayer
@@ -324,8 +345,21 @@ function Simulation(props: Props) {
         <React.Fragment>
             {(props.user.isLoggedIn && urlParams.id) ?
                 <Container className={classes.title}>
+                    <Link
+                        to="/mobilites"
+                        className={classes.button}
+                    >
+                        <Button
+                            variant="contained"
+                            className={classes.button}
+                        >
+                            {t('RETURN')}
+                        </Button>
+                    </Link>
                     <Box display="flex">
+                        
                         <Box m="auto">
+                            
                             <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
                                 {t("ENTER_YOUR_JOURNEY")}
                             </Typography>
@@ -407,7 +441,7 @@ function Simulation(props: Props) {
 
                             {(props.user.isLoggedIn && urlParams.id) &&
                                 <CardActions className={classes.actionButton}>
-                                    <Button variant="contained" color="primary" type="submit">{t("SAVE")}</Button>
+                                    {displayButton()}
                                 </CardActions>
                             }
                         </Card>

@@ -10,7 +10,9 @@ import UnauthorizedContainer from './Unauthorized';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import classes from '*.module.css';
+import { initTravel } from '../../redux/travel/actions';
 
 
 const mapState = (state: RootState) => {
@@ -25,7 +27,8 @@ const mapDispatch = (dispatch: any) => {
         getMobilitiesByUser: (username: string) => dispatch(getMobilitiesByUser(username)),
         deleteMobility: (id: number) => dispatch(deleteMobility(id)),
         loadUser: () => dispatch(loadUser()),
-        deleteTravel: (id: number, mobilityId: number) => dispatch(deleteTravel(id, mobilityId))
+        deleteTravel: (id: number, mobilityId: number) => dispatch(deleteTravel(id, mobilityId)),
+        initTravel: () => dispatch(initTravel())
     }
 }
 
@@ -43,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(4),
         marginBottom: theme.spacing(4),
         justifyContent: 'center',
+        textDecoration: 'none'
     },
     tableContainer: {
         padingLeft: theme.spacing(4),
@@ -68,6 +72,8 @@ const StyledTableCell = withStyles((theme: Theme) =>
 )(TableCell);
 
 function TravelRow(props: any) {
+
+
     const { row, deleteMobility, deleteTravel } = props
     const [open, setOpen] = useState(false)
 
@@ -94,12 +100,17 @@ function TravelRow(props: any) {
         if (row.travels.find((go: any) => go.type === "GO") && row.travels.find((back: any) => back.type === "BACK")) {
             return (<div></div>)
         } else {
-            return (<Button
-                variant="contained"
-                onClick={() => history.push(`${row.id}/add-journey`)}
-            >
-                <AddIcon />
-            </Button>)
+            return (
+                <Link
+                to={`/${row.id}/add-journey`}>
+                    <Button
+                        variant="contained"
+                        // onClick={() => history.push("/" + row.id + "/add-journey")}
+                    >
+                        <AddIcon />
+                    </Button>
+                </Link>
+            )
         }
     }
     return (
@@ -145,7 +156,7 @@ function TravelRow(props: any) {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {row.travels.map((travel: any) => (
+                                    {row.travels.sort((a:any,b:any) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0)).map((travel: any) => (
                                         <TableRow>
                                             <StyledTableCell align="center" component="th" scope="row">{displayDate(travel.date)}</StyledTableCell>
                                             <StyledTableCell align="center">{t(travel.type)}</StyledTableCell>
@@ -177,8 +188,12 @@ function MobilitiesContainer(props: Props) {
     const history = useHistory();
 
     useEffect(() => {
-        if (props.user.isLoggedIn) props.getMobilitiesByUser(props.user.user.username)
+        if (props.user.isLoggedIn) {
+            props.getMobilitiesByUser(props.user.user.username);
+            props.initTravel();
+        }
     }, [props.user.isLoggedIn])
+
 
     return !props.user.isLoggedIn ? (
         <UnauthorizedContainer />
@@ -199,13 +214,17 @@ function MobilitiesContainer(props: Props) {
                         </Typography>
                         <Box display="flex">
                             <Box m="auto">
-                                <Button
-                                    variant="contained"
+                                <Link
+                                    to="/add-mobility"
                                     className={classes.button}
-                                    onClick={() => history.push("/add-mobility")}
                                 >
-                                    {t("ADD_MOBILITY")}
-                                </Button>
+                                    <Button
+                                        variant="contained"
+                                        className={classes.button}
+                                    >
+                                        {t("ADD_MOBILITY")}
+                                    </Button>
+                                </Link>
                             </Box>
                         </Box>
                     </Container>
@@ -226,7 +245,7 @@ function MobilitiesContainer(props: Props) {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {props.mobilityData.mobilites.map((row: any) => (<React.Fragment><TravelRow row={row} deleteMobility={props.deleteMobility} deleteTravel={props.deleteTravel}></TravelRow></React.Fragment>
+                                    {props.mobilityData.mobilites.sort((a:any,b:any) => (a.startDate > b.startDate) ? 1 : ((b.startDate > a.startDate) ? -1 : 0)).map((row: any) => (<React.Fragment><TravelRow row={row} deleteMobility={props.deleteMobility} deleteTravel={props.deleteTravel}></TravelRow></React.Fragment>
                                     ))}
                                 </TableBody>
                             </Table>

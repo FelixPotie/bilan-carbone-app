@@ -10,23 +10,23 @@ import Typography from '../../components/Typography';
 import Button from '../../components/Button';
 import { Grid } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const styles = (theme: Theme) =>
   createStyles({
     textBloc: {
-      marginLeft: '2%', 
-      marginRight:'2%'
+      marginLeft: '2%',
+      marginRight: '2%'
     },
     title: {
       fontSize: theme.typography.h4.fontSize,
-      textAlign:"center"
+      textAlign: "center"
     },
     text: {
       marginTop: '5%',
-      textAlign:'justify'
+      textAlign: 'justify'
     },
-    grid:{
+    grid: {
       marginTop: '5%'
     },
     gif: {
@@ -43,13 +43,14 @@ const styles = (theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      marginBottom:theme.spacing(2)
+      marginBottom: theme.spacing(2)
     },
     buttonBox: {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
       marginBottom: theme.spacing(2),
+      textDecoration: "none"
 
     },
     button:{
@@ -68,28 +69,30 @@ function ProductCategories(props: WithStyles<typeof styles>) {
       <Grid container className={classes.grid} spacing={2} direction="row" justify="center" >
         <Grid item xs={12} md={4} className={classes.textBloc}>
           <Typography variant="h4" marked="left" className={classes.title}>
-          {t('ADEME_COLABORATION')}
+            {t('ADEME_COLABORATION')}
           </Typography>
           <div className={classes.item}>
             <Typography variant="h5" className={classes.text}  >
               {t('ADEME_TEXT_PART1')} <a href="https://ecolab.ademe.fr/">Ecolab</a>
-              <br/>
-              <br/>
+              <br />
+              <br />
               {t('ADEME_TEXT_PART2')}
             </Typography>
           </div>
-          <div className={classes.buttonBox}>
-            <Button
-              color="secondary"
-              size="large"
-              variant="contained"
-              className={classes.button}
-              component="a"
-              onClick={() => history.push("/ecolab")}
-              style={{margin: '5% 0% 5% 0%'}}
-            >
-              {t('ADEME_SIMULATOR')}
-            </Button>
+          <div className={classes.button}>
+            <Link
+            className={classes.button}
+              to="/ecolab">
+              <Button
+                color="secondary"
+                size="large"
+                variant="contained"
+                component="a"
+                style={{ margin: '5% 0% 5% 0%' }}
+              >
+                {t('ADEME_SIMULATOR')}
+              </Button>
+            </Link>
           </div>
         </Grid>
         <Grid item xs={12} md={7}>

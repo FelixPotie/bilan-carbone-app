@@ -3,7 +3,7 @@ export const GET_TRAVEL_SUCCESS  = 'GET_TRAVEL_SUCCESS'
 export const GET_TRAVEL_FAILURE  = 'GET_TRAVEL_FAILURE'
 export const ADD_TRAVEL_SUCCESS  = 'ADD_TRAVEL_SUCCESS'
 export const ADD_TRAVEL_FAILURE  = 'ADD_TRAVEL_FAILURE'
-
+export const INIT_TRAVEL = 'INIT_TRAVEL'
 
 interface getTravelRequest {
     type: typeof GET_TRAVEL_REQUEST,
@@ -30,5 +30,9 @@ interface addTravelFailure {
     payload: any
 }
 
+interface initTravel {
+    type: typeof INIT_TRAVEL
+}
 
-export type TravelActionTypes = getTravelRequest | getTravelSuccess | getTravelFailure | addTravelSuccess | addTravelFailure
+
+export type TravelActionTypes = getTravelRequest | getTravelSuccess | getTravelFailure | addTravelSuccess | addTravelFailure | initTravel

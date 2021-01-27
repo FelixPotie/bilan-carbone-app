@@ -1,6 +1,6 @@
 import { Box, Button, Container, makeStyles } from '@material-ui/core';
 import React from 'react'
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Typography from '../components/Typography';
 
 const useStyles = makeStyles((theme) => ({
@@ -14,8 +14,9 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(4),
         marginBottom: theme.spacing(4),
         justifyContent: 'center',
+        textDecoration: "none"
     }
-   
+
 }));
 
 function UnauthorizedContainer() {
@@ -24,23 +25,27 @@ function UnauthorizedContainer() {
     return (
         <React.Fragment>
             <Container>
-                    <Typography variant="h2" gutterBottom marked="center" align="center" className={classes.title}>
-                        Erreur 401 !
+                <Typography variant="h2" gutterBottom marked="center" align="center" className={classes.title}>
+                    Erreur 401 !
                     </Typography>
-                    <Typography variant="h5" gutterBottom marked="center" align="center">
-                        Bonjour, le contenu que vous recherchez nécessite une connexion. Connectez vous pour y accéder.
+                <Typography variant="h5" gutterBottom marked="center" align="center">
+                    Bonjour, le contenu que vous recherchez nécessite une connexion. Connectez vous pour y accéder.
                     </Typography>
-                    <Box display="flex">
-                        <Box m="auto">
+                <Box display="flex">
+                    <Box m="auto">
+                        <Link
+                            to="/signin"
+                            className={classes.button}
+                            >
                             <Button
                                 variant="contained"
-                                onClick={() => history.push("/signin")}
                                 className={classes.button}
-                                >
+                            >
                                 {'Se connecter'}
                             </Button>
-                        </Box>
+                        </Link>
                     </Box>
+                </Box>
             </Container>
         </React.Fragment>
     )

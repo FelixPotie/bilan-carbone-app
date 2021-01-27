@@ -42,5 +42,6 @@
     "ALERT_CONNECTED": "Ceci n'est qu'une simulation, pour enregistrer votre trajet veuillez le lier à une mobilité en vous rendant dans l'onglet ",
     "MOBILITIES": "Mobilités",
     "ALERT_DISCONNECTED":"Ceci n'est qu'une simulation, pour enregistrer votre trajet veuillez vous connecter et le lier à une mobilité !",
-    "LOGIN": "Se connecter"
+    "LOGIN": "Se connecter",
+    "RETURN": "Retourner aux mobilités"
 }
