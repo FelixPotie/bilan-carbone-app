@@ -8,7 +8,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import Button from '../../components/Button';
 import Typography from '../../components/Typography';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -19,8 +19,8 @@ const styles = (theme: Theme) =>
     },
     container: {
       display: 'flex',
-      flexWrap:'wrap',
-      justifyContent:'space-evenly',
+      flexWrap: 'wrap',
+      justifyContent: 'space-evenly',
       backgroundColor: theme.palette.secondary.light,
     },
     title: {
@@ -48,17 +48,20 @@ function HowItWorks(props: WithStyles<typeof styles>) {
         >
           {t("STAT_TEXT")}
         </Typography>
-        <Button
-          color="secondary"
-          size="large"
-          variant="contained"
-          className={classes.button}
-          component="a"
-          onClick={() => history.push("/statistics")}
-
-        >
-          {t("STAT")}
-        </Button>
+        <Link
+        to="/statistics"
+        className={classes.button}>
+          <Button
+            color="secondary"
+            size="large"
+            variant="contained"
+            className={classes.button}
+            component="a"
+            // onClick={() => history.push("/statistics")}
+          >
+            {t("STAT")}
+          </Button>
+        </Link>
       </div>
     </section>
   );
