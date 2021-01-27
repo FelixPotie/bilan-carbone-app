@@ -156,7 +156,7 @@ function TravelRow(props: any) {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {row.travels.map((travel: any) => (
+                                    {row.travels.sort((a:any,b:any) => (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0)).map((travel: any) => (
                                         <TableRow>
                                             <StyledTableCell align="center" component="th" scope="row">{displayDate(travel.date)}</StyledTableCell>
                                             <StyledTableCell align="center">{t(travel.type)}</StyledTableCell>
@@ -194,9 +194,6 @@ function MobilitiesContainer(props: Props) {
         }
     }, [props.user.isLoggedIn])
 
-    useEffect(() => {
-        
-    }, [])
 
     return !props.user.isLoggedIn ? (
         <UnauthorizedContainer />
@@ -248,7 +245,7 @@ function MobilitiesContainer(props: Props) {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {props.mobilityData.mobilites.map((row: any) => (<React.Fragment><TravelRow row={row} deleteMobility={props.deleteMobility} deleteTravel={props.deleteTravel}></TravelRow></React.Fragment>
+                                    {props.mobilityData.mobilites.sort((a:any,b:any) => (a.startDate > b.startDate) ? 1 : ((b.startDate > a.startDate) ? -1 : 0)).map((row: any) => (<React.Fragment><TravelRow row={row} deleteMobility={props.deleteMobility} deleteTravel={props.deleteTravel}></TravelRow></React.Fragment>
                                     ))}
                                 </TableBody>
                             </Table>
