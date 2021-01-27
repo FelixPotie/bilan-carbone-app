@@ -27,6 +27,7 @@ type Props = PropsFromRedux
 
 function Auth(props: Props) {
     useEffect(() => {
+        window.scrollTo(0, 0);
         if(props.label==="admin"){
             const token =localStorage.getItem('admintoken')
             if (token) {

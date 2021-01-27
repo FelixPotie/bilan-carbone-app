@@ -177,7 +177,7 @@ export default function Step(props: any) {
                             id="from"
                             value={getFrom()}
                             type="text"
-                            placeholder="from"
+                            placeholder={t("FROM")}
                             className={classes.field}
                             onChange={onChangeFrom}
                             onKeyDown={(event) => {
@@ -191,6 +191,7 @@ export default function Step(props: any) {
                             {props.step.from.country}
                         </Typography>
                         <Button className={classes.button} id="fromID" onClick={(e) => {
+                            e.preventDefault();
                             setPopover(true)
                             find(e, getFrom())
                         }}><SearchIcon /></Button>
@@ -203,7 +204,7 @@ export default function Step(props: any) {
                             label={t("TO")}
                             variant="standard"
                             id="to" value={getTo()}
-                            type="text" placeholder="to"
+                            type="text" placeholder={t("TO")}
                             className={classes.field} onChange={onChangeTo}
                             onKeyDown={(event) => {
                                 if (event.key === 'Enter') {
@@ -216,6 +217,7 @@ export default function Step(props: any) {
                             {props.step.to.country}
                         </Typography>
                         <Button className={classes.button} id="toID" onClick={(e) => {
+                            e.preventDefault();
                             setPopover(false)
                             find(e, getTo())
                         }}><SearchIcon /></Button>
