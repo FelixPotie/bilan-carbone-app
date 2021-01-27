@@ -50,11 +50,12 @@ const styles = (theme: Theme) =>
       justifyContent: "center",
       alignItems: "center",
       marginBottom: theme.spacing(2),
-      textDecoration: "none"
 
     },
     button:{
-      borderRadius: "10px"
+      borderRadius: "10px",
+      textDecoration: "none",
+
     }
   });
 
@@ -79,11 +80,12 @@ function ProductCategories(props: WithStyles<typeof styles>) {
               {t('ADEME_TEXT_PART2')}
             </Typography>
           </div>
-          <div className={classes.button}>
+          <div className={classes.buttonBox}>
             <Link
             className={classes.button}
               to="/ecolab">
               <Button
+                className={classes.button}
                 color="secondary"
                 size="large"
                 variant="contained"
