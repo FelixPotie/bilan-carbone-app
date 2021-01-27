@@ -20,6 +20,7 @@ const styles = (theme: Theme) =>
       display: 'flex',
       flexWrap: 'wrap',
       justifyContent: 'space-evenly',
+      alignItems: 'center',
       backgroundColor: theme.palette.secondary.light,
     },
     title: {
@@ -27,9 +28,9 @@ const styles = (theme: Theme) =>
       margin: theme.spacing(2),
     },
     button: {
-      margin: theme.spacing(2),
-      borderRadius: "10px"
-
+      margin:theme.spacing(2),
+      borderRadius: "10px",
+      textDecoration: "none",
     },
   });
 
