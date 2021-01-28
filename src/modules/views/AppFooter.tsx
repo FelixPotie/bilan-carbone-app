@@ -93,8 +93,8 @@ function AppFooter() {
   return (
     <Typography component="footer" className={classes.root}>
       <Container className={classes.container}>
-        <Grid container spacing={5}>
-          <Grid item xs={12} sm={12} md={5} >
+        <Grid style={{width:'100%', margin: '0px'}} container spacing={5}>
+          <Grid style={{padding:'0px'}} item xs={12} sm={12} md={5} >
             <Typography variant="h5" marked="left" className={classes.title}>
               {t("FOOTER.TITLE")}
             </Typography>

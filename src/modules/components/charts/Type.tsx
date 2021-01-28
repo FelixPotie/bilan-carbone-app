@@ -162,7 +162,7 @@ function TypeCharts(props : Props) {
 
   return (
     <React.Fragment>
-      <Typography variant="h4" gutterBottom marked="center" align="center" className={classes.title}>
+      <Typography variant="h4" gutterBottom marked="left" align="center" className={classes.title}>
           {t("TYPE")} ?
       </Typography>
       {displayData()}
