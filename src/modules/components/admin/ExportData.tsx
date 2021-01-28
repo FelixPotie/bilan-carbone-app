@@ -74,7 +74,7 @@ function ExportDataContainer(props: Props) {
                 sum = sum + step.carboneEmission;
             })
         });
-        return sum;
+        return (sum/1000);
     }
 
     useEffect(() => {
@@ -104,7 +104,7 @@ function ExportDataContainer(props: Props) {
                         Année: m.year,
                         Début: m.startDate.substring(0,10),
                         Fin: m.endDate.substring(0,10),
-                        Carbone: carbone(m.travels)
+                        Carbone: carbone(m.travels).toFixed(2)
                     }
                     exportData.push(row); 
                 }
@@ -169,7 +169,7 @@ function ExportDataContainer(props: Props) {
         allMobilityType: true
     })
 
-    const { trois, quatre, cinq } = stateSchlooYear;
+    // const { trois, quatre, cinq } = stateSchlooYear;
 
     const { allSchoolYear, allDepartment, allMobilityType } = allSelector;
 
@@ -202,11 +202,10 @@ function ExportDataContainer(props: Props) {
     };
 
     const handleChangeSchoolYear = (event: React.ChangeEvent<HTMLInputElement>) => {
-
         if (!event.target.checked) {
             setAllSelector({ ...allSelector, "allSchoolYear": event.target.checked });
         }
-        setStateSchoolYear({ ...stateSchlooYear, [event.target.value]: event.target.checked });
+        setStateSchoolYear({ ...stateSchlooYear, [event.target.name]: event.target.checked });
     };
 
     const handleChangeMobilityType = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -349,9 +348,9 @@ function ExportDataContainer(props: Props) {
                                 </Typography>
                                 <FormGroup row>
                                     <FormControlLabel control={<Checkbox onChange={selectAllSchoolYear} checked={allSchoolYear} name="allSchoolYear" />} label="Toutes les années" />
-                                    <FormControlLabel control={<Checkbox onChange={handleChangeSchoolYear} checked={trois} name="trois" />} label="3A" />
-                                    <FormControlLabel control={<Checkbox onChange={handleChangeSchoolYear} checked={quatre} name="quatre" />} label="4A" />
-                                    <FormControlLabel control={<Checkbox onChange={handleChangeSchoolYear} checked={cinq} name="cinq" />} label="5A" />
+                                    <FormControlLabel control={<Checkbox onChange={handleChangeSchoolYear} checked={stateSchlooYear.trois} name="trois" />} label="3A" />
+                                    <FormControlLabel control={<Checkbox onChange={handleChangeSchoolYear} checked={stateSchlooYear.quatre} name="quatre" />} label="4A" />
+                                    <FormControlLabel control={<Checkbox onChange={handleChangeSchoolYear} checked={stateSchlooYear.cinq} name="cinq" />} label="5A" />
                                 </FormGroup>
                             </Container>
                             <Container className={classes.subtitle}>
