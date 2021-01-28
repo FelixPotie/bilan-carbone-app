@@ -19,7 +19,7 @@ const styles = (theme: Theme) =>
       marginRight: '2%'
     },
     title: {
-      fontSize: theme.typography.h4.fontSize,
+      fontSize: '2rem',
       textAlign: "center"
     },
     text: {
@@ -27,7 +27,8 @@ const styles = (theme: Theme) =>
       textAlign: 'justify'
     },
     grid: {
-      marginTop: '5%'
+      marginTop: '5%',
+      marginBottom: '5%'
     },
     gif: {
       maxHeight: 500,
@@ -35,8 +36,9 @@ const styles = (theme: Theme) =>
       height: 'auto'
     },
     root: {
+      backgroundColor: 'white',
       paddingTop: theme.spacing(8),
-      paddingBottom: theme.spacing(4),
+      paddingBottom: theme.spacing(8),
       
     },
     item: {
