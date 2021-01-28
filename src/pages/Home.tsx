@@ -9,9 +9,7 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme: Theme) => ({
-    body: {
-      backgroundColor: theme.palette.secondary.light,
-    }
+    
 }));
 
 function Index() {
@@ -19,12 +17,10 @@ function Index() {
   return (
     <React.Fragment >
       <Auth/>
-      <HomeHeader />
-      <div className={classes.body}>
+      <HomeHeader />   
         <GraphSection />
         <ColabSection />
         <ShowStatSection />
-      </div>
     </React.Fragment>
   );
 }
