@@ -76,7 +76,7 @@ function DepartmentCharts(props: Props) {
 
 
   const collectData = () => {     
-    const departments = props.settingsData.appSettings.department;
+    const departments = props.settingsData.appSettings.department.sort((a:any,b:any)=>((a.status < b.status) ? 1 : ((b.status < a.status) ? -1 : 0)) || ((a.name > b.name) ? 1 :((b.name > a.name) ? -1 : 0)));
     const infos :{name:string, carbone: number}[]=[]
     departments.forEach((department: { [x: string]: string; }) => {
       infos.push({name:department.name, carbone: calculCarbone(department.name)})

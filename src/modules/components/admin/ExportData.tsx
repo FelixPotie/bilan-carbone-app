@@ -138,7 +138,8 @@ function ExportDataContainer(props: Props) {
     const [stateDepartment, setStateDepartment] = React.useState({});
 
     const createDepartmentSelector = () => {
-        const departments = props.appSettingsData.appSettings.department;
+        const departments = props.appSettingsData.appSettings.department.sort((a:any,b:any)=>((a.status < b.status) ? 1 : ((b.status < a.status) ? -1 : 0)) || ((a.name > b.name) ? 1 :((b.name > a.name) ? -1 : 0)));
+        console.log(departments);
         // const stateDepartmentAcc: { [x: string]: boolean; } = {};
         departments.forEach((department: { [x: string]: string; }) => {
             setStateDepartment((prevState) => ({ ...prevState, [department.name]: true }));
@@ -260,6 +261,9 @@ function ExportDataContainer(props: Props) {
         setOpenSnackBar(false);
     };
 
+    const displayType = (type: string) => {
+        return type==="SEMESTER"?"Semestre":type==="INTERNSHIP"?"Stage":type==="DOUBLE_DEGRE"?"Double diplôme":""
+    }
     /////// EXPORT LOGIC ///////////////////////////////////////////
 
     const getCheckedState = (states: any) => {
@@ -331,10 +335,10 @@ function ExportDataContainer(props: Props) {
                                     Choisir le type de mobilitées :
                                 </Typography>
                                 <FormGroup row>
-                                    <FormControlLabel control={<Checkbox onChange={selectAllMobilityType} checked={allMobilityType} name="allMobilityType" />} label="Tout les types de mobilitées" />
+                                    <FormControlLabel control={<Checkbox onChange={selectAllMobilityType} checked={allMobilityType} name="allMobilityType" />} label="Tous les types de mobilités" />
                                     {
                                         Object.entries<boolean>(stateMobilityType).map((paire) => {
-                                            return <FormControlLabel control={<Checkbox onChange={handleChangeMobilityType} checked={paire[1]} name={paire[0]} key={paire[0]} />} label={paire[0]} />
+                                            return <FormControlLabel control={<Checkbox onChange={handleChangeMobilityType} checked={paire[1]} name={paire[0]} key={paire[0]} />} label={displayType(paire[0])} />
                                         })
                                     }
                                 </FormGroup>
