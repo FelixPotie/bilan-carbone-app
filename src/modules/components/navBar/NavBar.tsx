@@ -170,8 +170,9 @@ function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
           >
             <div className={classes.appResponsive}>
               <NavBarLinks classesRow={classes.NavDrawerLinks} classesLinks={classes.linksContainerDrawer}/>
+
               <div className={classes.linksContainerDrawer} >
-                <SignInOutButton classesName={classes.rightLink} classes={classes}/>
+                <SignInOutButton classesName={classes.NavDrawerLinks} classes={classes}/>
               </div>
             </div>
           </Drawer>

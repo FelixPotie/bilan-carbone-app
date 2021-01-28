@@ -21,6 +21,10 @@ import DriveEtaRoundedIcon from '@material-ui/icons/DriveEtaRounded';
 import GrainIcon from '@material-ui/icons/Grain';
 import Alert from '@material-ui/lab/Alert';
 import NotFound from '../../pages/NotFound';
+import AirplanemodeActiveIcon from '@material-ui/icons/AirplanemodeActive';
+import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
+import MotorcycleIcon from '@material-ui/icons/Motorcycle';
+import TrainIcon from '@material-ui/icons/Train';
 
 const mapState = (state: RootState) => {
     return {
@@ -283,6 +287,15 @@ function Simulation(props: Props) {
         return <Step key={index} id={index} step={step} updateStep={updateStep} deleteAction={removeStep}></Step>
     });
 
+    const displayIcon = (means:string) => {
+        if(means==="PLANE") return <AirplanemodeActiveIcon/>
+        else if (means==="BUS") return <AirportShuttleIcon/>
+        else if (means==="MOTO") return <MotorcycleIcon/>
+        else if (means==="TER" || means==="TGV") return <TrainIcon/>
+        else return <DriveEtaRoundedIcon />
+            
+    }
+
     const recap = listStep.map((step, index) => (
         <Card className={classes.recap} key={index}>
             <Typography variant="h5">
@@ -291,7 +304,7 @@ function Simulation(props: Props) {
             <List>
                 <ListItem>
                     <ListItemIcon>
-                        <DriveEtaRoundedIcon />
+                        {displayIcon(step.by)}
                     </ListItemIcon>
                     <ListItemText>
                         {getDist(step)} km {t("BY")} {t(`${step.by}`)}
