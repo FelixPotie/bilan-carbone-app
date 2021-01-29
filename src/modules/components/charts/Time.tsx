@@ -1,4 +1,4 @@
-import { Checkbox, CircularProgress, FormControlLabel, FormGroup, Grid, makeStyles } from '@material-ui/core';
+import { Checkbox, CircularProgress, FormControlLabel, FormGroup, Grid, makeStyles, Switch } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect, ConnectedProps } from 'react-redux';
@@ -62,7 +62,9 @@ function TimeCharts(props: Props){
   interface Departments {
     [unit: string]: boolean
   }
-  const [departments , setDepartments] = React.useState<Departments>({})
+  const [departments , setDepartments] = React.useState<Departments>({});
+  const [perTraject , setPerTraject] = React.useState(false);
+
   const getKeyValue = <T extends object, U extends keyof T>(obj: T) => (key: U) => obj[key];
 
 
@@ -78,7 +80,7 @@ function TimeCharts(props: Props){
         collectData();
       }
     }
-  }, [props.settingsData.success, props.mobilityData.success, departments])
+  }, [props.settingsData.success, props.mobilityData.success, departments, perTraject])
 
   const collectDepartments = () => {     
     const departments = props.settingsData.appSettings.department;
@@ -100,15 +102,18 @@ function TimeCharts(props: Props){
 
   function calculCarbone(year: number) : number{
     var sum = 0;
+    var nbTraject=0;
     props.mobilityData.mobilitiesStats.forEach((mobility:any) => {
       if(+mobility.startDate.substring(0, 4)===year && getKeyValue(departments)(mobility.departmentTypeName)){
         mobility.travels.forEach((travel:any) => {
           travel.steps.forEach( (step:any) => {
             sum=sum+step.carboneEmission/1000;
           })
+          nbTraject++;
         })
       }
     });
+    if(perTraject) return sum/nbTraject;
     return sum;
   }
 
@@ -116,10 +121,15 @@ function TimeCharts(props: Props){
     setDepartments((prevState) => ({...prevState, [event.target.name]: event.target.checked }));
   };
 
+  const handlePerTraject = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPerTraject(()=> (event.target.checked));
+  };
+  
   const displayYears = () => {
     if(props.settingsData.success){
       return(
         <FormGroup className={classes.form}>
+          <FormControlLabel className={classes.checkBox} control={<Switch onChange={e => handlePerTraject(e)} checked={perTraject}/>} label={t("PER_TRAJECT")} />
           {Object.keys(departments).map((row:any) => (
               <FormControlLabel className={classes.checkBox} control={<Checkbox  onChange={e => handleDepartment(e)} checked={getKeyValue(departments)(row)?true:false} name={row}/>} label={row} />
           ))}

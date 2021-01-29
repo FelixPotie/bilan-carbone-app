@@ -1,4 +1,4 @@
-import { Checkbox, CircularProgress, FormControlLabel, FormGroup, Grid, makeStyles } from '@material-ui/core';
+import { Checkbox, CircularProgress, FormControlLabel, FormGroup, Grid, makeStyles, Switch } from '@material-ui/core';
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import { connect, ConnectedProps } from 'react-redux';
@@ -59,6 +59,7 @@ function DepartmentCharts(props: Props) {
     [unit: string]: boolean
   }
   const [years , setYears] = React.useState<Years>({})
+  const [perTraject , setPerTraject] = React.useState(false);
 
   useEffect(()=> {
     if(props.settingsData.success && props.mobilityData.success) {
@@ -72,7 +73,7 @@ function DepartmentCharts(props: Props) {
         collectData();
       }
     }
-  }, [props.settingsData.success, props.mobilityData.success, years])
+  }, [props.settingsData.success, props.mobilityData.success, years, perTraject])
 
 
   const collectData = () => {     
@@ -87,15 +88,18 @@ function DepartmentCharts(props: Props) {
   
   function calculCarbone(department: string) : number{
     var sum = 0;
+    var nbTraject=0;
     props.mobilityData.mobilitiesStats.forEach((mobility:any) => {
       if(mobility.departmentTypeName===department && getKeyValue(years)(mobility.startDate.substring(0, 4)) ){
         mobility.travels.forEach((travel:any) => {
           travel.steps.forEach( (step:any) => {
             sum=sum+step.carboneEmission/1000;
           })
+          nbTraject++;
         })
       }
     });
+    if(perTraject) return sum/nbTraject;
     return sum;
   }
   
@@ -111,10 +115,15 @@ function DepartmentCharts(props: Props) {
     setYears((prevState) => ({...prevState, [event.target.name]: event.target.checked }));
   };
 
+  const handlePerTraject = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPerTraject(()=> (event.target.checked));
+  };
+
   const displayYears = () => {
     if(props.settingsData.success){
       return (
         <FormGroup className={classes.form}>
+          <FormControlLabel className={classes.checkBox} control={<Switch onChange={e => handlePerTraject(e)} checked={perTraject}/>} label={t("PER_TRAJECT")} />
           {Object.keys(years).map((row:any) => (
               <FormControlLabel className={classes.checkBox} control={<Checkbox  onChange={e => handleYear(e)} checked={getKeyValue(years)(row)?true:false} name={row}/>} label={row} />
           ))}
