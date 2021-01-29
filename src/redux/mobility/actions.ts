@@ -70,7 +70,7 @@ export function getAllMobilitiesSuccess(mobilites:any) : MobilityActionTypes{
 export const getAllMobilities = () => {
     return(dispatch:any) => {
         dispatch(getMobilitiesRequest())
-        axios.get('mobility/').then(response => {
+        axios.get('mobility/admin/all').then(response => {
             const mobilities = response.data
             dispatch(getAllMobilitiesSuccess(mobilities))
         })

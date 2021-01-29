@@ -1,7 +1,6 @@
 import {
     Container,
     Box,
-    Button,
     TableContainer,
     TableHead,
     makeStyles,
@@ -9,20 +8,19 @@ import {
     TableCell,
     Theme,
     withStyles,
-    InputBase, IconButton, Select
+    InputBase, IconButton
 } from '@material-ui/core';
 import { Paper, Table, TableRow, TableBody } from'@material-ui/core';
 import Typography from '../../components/Typography';
 import React, {useEffect, useRef} from 'react'
 import { useTranslation } from 'react-i18next';
-import withRoot from '../../withRoot';
-import { Link, useHistory } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../../redux';
 import { loadAdmin } from '../../../redux/admin/actions';
 import { getAllMobilities } from '../../../redux/mobility/actions';
 import { getAppSettings } from '../../../redux/appSettings/actions';
 import SearchIcon from "@material-ui/icons/Search";
+import UnauthorizedAdminContainer from "./UnauthorizedAdmin";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -86,7 +84,6 @@ const StyledTableCell = withStyles((theme: Theme) =>
 
 const mapState = (state: RootState) => {
     return {
-        appSettingsData: state.appSettings,
         allMobilitiesData: state.mobility,
         admin: state.admin
     }
@@ -94,7 +91,6 @@ const mapState = (state: RootState) => {
 
 const mapDispatch = (dispatch: any) => {
     return {
-        getAppSettings: () => dispatch(getAppSettings()),
         getAllMobility: () => dispatch(getAllMobilities()),
         loadAdmin: () => dispatch(loadAdmin())
     }
@@ -118,7 +114,6 @@ function SearchStudent(props: Props) {
     };
 
     useEffect(() => {
-        props.getAppSettings();
         props.getAllMobility();
     }, []);
 
@@ -175,6 +170,10 @@ function SearchStudent(props: Props) {
     }
 
     return (
+        !props.admin.isLoggedIn ? (
+                <UnauthorizedAdminContainer />
+            ) :
+            (
         <div>
             <React.Fragment>
                     <Container className={classes.title}>
@@ -242,7 +241,7 @@ function SearchStudent(props: Props) {
                 </React.Fragment>
         </div>
         
-    );
+    ));
 }
 
 export default connector(SearchStudent);
