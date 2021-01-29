@@ -144,19 +144,25 @@ function NavBarAdmin(props: Props) {
                     className={classes.rightLink}
                     to='/admin/export-data'
                   >
-                    Exporter les données
+                    Exporter
                   </Link>
                   <Link
                       className={classes.rightLink}
                       to='/admin/list'
                   >
-                    Gestion des admins
+                    Admins
                   </Link>
                   <Link
                       className={classes.rightLink}
                       to='/admin/departments'
                   >
-                    Gestion des sections
+                    Sections
+                  </Link> 
+                  <Link
+                      className={classes.rightLink}
+                      to='/admin/search'
+                  >
+                    Rechercher
                   </Link> 
                 </Hidden>
               </div>
