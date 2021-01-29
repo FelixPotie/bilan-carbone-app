@@ -1,14 +1,28 @@
-import { Container, Box, Button, TableContainer, TableHead, makeStyles, createStyles, TableCell, Theme, withStyles } from '@material-ui/core';
+import {
+    Container,
+    Box,
+    Button,
+    TableContainer,
+    TableHead,
+    makeStyles,
+    createStyles,
+    TableCell,
+    Theme,
+    withStyles,
+    InputBase, IconButton, Select
+} from '@material-ui/core';
 import { Paper, Table, TableRow, TableBody } from'@material-ui/core';
 import Typography from '../../components/Typography';
-import React from 'react'
+import React, {useEffect, useRef} from 'react'
 import { useTranslation } from 'react-i18next';
 import withRoot from '../../withRoot';
 import { Link, useHistory } from 'react-router-dom';
-import { connect } from 'http2';
-import { ConnectedProps } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../../redux';
 import { loadAdmin } from '../../../redux/admin/actions';
+import { getAllMobilities } from '../../../redux/mobility/actions';
+import { getAppSettings } from '../../../redux/appSettings/actions';
+import SearchIcon from "@material-ui/icons/Search";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -16,21 +30,46 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(4),
         marginTop: theme.spacing(4),
     },
+    searchBarContainer:{
+        display: 'flex',
+        justifyContent: 'center',
+        marginBottom: theme.spacing(4),
+        marginTop: theme.spacing(4),
+    },
+    searchBar:{
+        backgroundColor: theme.palette.secondary.light,
+        padding: '1% 2% 1% 2%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: "10px",
+
+    },
+    textField:{
+        borderBottom: 'none',
+        width: '40%'
+    },
+    searchIcon: {
+        width: '10%',
+    },
     button: {
         marginTop: theme.spacing(4),
         marginBottom: theme.spacing(4),
         justifyContent: 'center',
         textDecoration: 'none'
     },
-    tableContainer: {
+    container: {
         padingLeft: theme.spacing(4),
         padingRight: theme.spacing(4),
-        marginBottom: theme.spacing(4)
+        marginBottom: theme.spacing(4),
+
+    },
+    tableContainer: {
+        maxHeight: 500,
     },
     table: {
         minWidth: 700,
     },
-
 }));
 
 const StyledTableCell = withStyles((theme: Theme) =>
@@ -48,28 +87,93 @@ const StyledTableCell = withStyles((theme: Theme) =>
 const mapState = (state: RootState) => {
     return {
         appSettingsData: state.appSettings,
-        mobilityFiltered: state.mobility,
+        allMobilitiesData: state.mobility,
         admin: state.admin
     }
 }
 
 const mapDispatch = (dispatch: any) => {
     return {
-        getMobilityFiltered: () => dispatch(getMobilities()),
-        loadAdmin: () => dispatch(loadAdmin()) //REPLACE BY FONCTION WHICH EXPORT THE REEL DATA
+        getAppSettings: () => dispatch(getAppSettings()),
+        getAllMobility: () => dispatch(getAllMobilities()),
+        loadAdmin: () => dispatch(loadAdmin())
     }
 }
 
-const connector = connect(mapState, mapDispatch)
+const connector = connect(mapState, mapDispatch);
 type PropsFromRedux = ConnectedProps<typeof connector>
 type Props = PropsFromRedux
 
 function SearchStudent(props: Props) {
+    const [state, setState] = React.useState({
+        firstName: "",
+        lastName: "",
+        mobilitiesSelected: [{}]
+    });
+
+    const {firstName, lastName, mobilitiesSelected } = state;
+
+    const handleChange = (event: React.ChangeEvent<any>) => {
+        setState({ ...state, [event.target.name]: event.target.value });
+    };
+
+    useEffect(() => {
+        props.getAppSettings();
+        props.getAllMobility();
+    }, []);
+
+    const handleSearch = () => {
+        const mobilitySelected = props.allMobilitiesData.mobilites.filter((mobility:any) => {
+            return mobility.userId.includes(firstName.toLocaleLowerCase()) && mobility.userId.includes(lastName.toLocaleLowerCase());
+        });
+        setState({ ...state, mobilitiesSelected: mobilitySelected });
+    };
 
     const classes = useStyles();
     const { t } = useTranslation('mobility');
-    const history = useHistory();
+
+    function displayDate(date: string): string {
+        return date.substring(8, 10) + "/" + date.substring(5, 7) + "/" + date.substring(0, 4);
+    }
+
+    function carbon(travels: any): number {
+        var sum = 0;
+        travels.forEach((travel: any) => {
+            travel.steps.forEach((step: any) => {
+                sum = sum + step.carboneEmission;
+            })
+        });
+        return sum;
+    }
     
+    function travelType(travels: any) {
+        return travels.map((travel: any) => travel.type)
+    }
+
+    function getMobilityRow(mobility: any) {
+        return (
+            (Object.keys(mobility).length === 0 && mobility.constructor === Object) ?
+                <React.Fragment>
+                    <TableRow>
+                        <StyledTableCell colSpan={8} align="center">Essayer une recherche</StyledTableCell>
+                    </TableRow>
+                </React.Fragment>
+                :
+            <React.Fragment>
+                <TableRow key={mobility.id}>
+                    <StyledTableCell align="center">{mobility.userId}</StyledTableCell>
+                    <StyledTableCell align="center">{t(mobility.type)}</StyledTableCell>
+                    <StyledTableCell align="center">{mobility.place}</StyledTableCell>
+                    <StyledTableCell align="center">{mobility.year}</StyledTableCell>
+                    <StyledTableCell align="center">{displayDate(mobility.startDate)}</StyledTableCell>
+                    <StyledTableCell align="center">{displayDate(mobility.endDate)}</StyledTableCell>
+                    <StyledTableCell align="center">{travelType(mobility.travels).toString()}</StyledTableCell>
+                    <StyledTableCell align="center">{(carbon(mobility.travels) / 1000).toFixed(2)} kg</StyledTableCell>
+                </TableRow>
+            </React.Fragment>
+        );
+    }
+
     return (
         <div>
             <React.Fragment>
@@ -77,31 +181,60 @@ function SearchStudent(props: Props) {
                         <Box display="flex">
                             <Box m="auto">
                                 <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
-                                    {t("MY_MOBILITIES")}
+                                    Recherche de mobilitées
                                 </Typography>
                             </Box>
                         </Box>
                         <Typography variant="h5" gutterBottom marked="center" align="center">
-                            {t("INFO_MOBILITIES")}
+                            Entrez le nom, le prénom ou les deux pour rechercher les mobilitées correspondantes
                         </Typography>
                     </Container>
-                    <Container className={classes.tableContainer}>
-                        <TableContainer component={Paper}>
-                            <Table className={classes.table} aria-label="customized table">
+                    <Container className={classes.searchBarContainer}>
+                        <div className={classes.searchBar} >
+                            <InputBase className={classes.textField}
+                                       name="firstName"
+                                       placeholder="Prénom"
+                                       value={firstName}
+                                       onChange={handleChange}
+                                       onKeyDown={(event) => {
+                                           if (event.key === 'Enter') {
+                                               handleSearch();
+                                           }
+                                       }}
+                                       />
+                            <InputBase className={classes.textField}
+                                       name="lastName"
+                                       placeholder="Nom"
+                                       value={lastName}
+                                       onChange={handleChange}
+                                       onKeyDown={(event) => {
+                                           if (event.key === 'Enter') {
+                                               handleSearch();
+                                           }
+                                       }}
+                                        />
+                            <IconButton onClick={handleSearch} type="submit" className={classes.searchIcon} aria-label="search">
+                                <SearchIcon />
+                            </IconButton>
+                        </div>
+                    </Container>
+                    <Container className={classes.container}>
+                        <TableContainer className={classes.tableContainer} component={Paper}>
+                            <Table stickyHeader className={classes.table} aria-label="customized table">
                                 <TableHead>
-                                    <TableRow>
-                                        <StyledTableCell align="center" />
+                                    <TableRow key="head">
+                                        <StyledTableCell align="center">Étudiant</StyledTableCell>
                                         <StyledTableCell align="center">Type</StyledTableCell>
                                         <StyledTableCell align="center">{t("CITY")}</StyledTableCell>
                                         <StyledTableCell align="center">{t("STUDY_YEAR")}</StyledTableCell>
                                         <StyledTableCell align="center">{t("START_DATE")}</StyledTableCell>
                                         <StyledTableCell align="center">{t("END_DATE")}</StyledTableCell>
+                                        <StyledTableCell align="center">Type de trajets</StyledTableCell>
                                         <StyledTableCell align="center">{t("CARBON")}</StyledTableCell>
-                                        <StyledTableCell align="center"># trajets</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    test
+                                    {mobilitiesSelected.map(mobility => getMobilityRow(mobility))}
                                 </TableBody>
                             </Table>
                         </TableContainer>
