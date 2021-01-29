@@ -82,7 +82,7 @@ function ListAdminContainer(props: Props) {
                         <Box display="flex">
                             <Box m="auto">
                                 <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
-                                    List des administateurs
+                                    Liste des administateurs
                         </Typography>
                             </Box>
                         </Box>

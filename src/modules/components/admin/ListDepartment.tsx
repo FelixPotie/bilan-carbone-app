@@ -119,7 +119,7 @@ function ListDepartmentContainer(props: Props) {
                 <Box display="flex">
                     <Box m="auto">
                         <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
-                            List des sections
+                            Liste des sections
                         </Typography>
                     </Box>
                 </Box>
