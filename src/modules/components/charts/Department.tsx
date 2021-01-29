@@ -41,8 +41,8 @@ const useStyles = makeStyles((theme) => ({
     margin: 'auto'
   },
   total: {
-    marginBottom: theme.spacing(3),
-    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(8),
+    marginTop: theme.spacing(8),
   },
   chart: {
     marginLeft: '2.5%'
@@ -157,9 +157,9 @@ function DepartmentCharts(props: Props) {
 
   return(
     <React.Fragment>
-        <Grid container spacing={3} className={classes.total}>
+        <Grid style={{width:'100%'}} container spacing={3} className={classes.total}>
           <Grid item md={6}>
-            <Typography variant="h4" gutterBottom marked="center" align="center" className={classes.title}>
+            <Typography variant="h4" marked="left" gutterBottom align="center" className={classes.title}>
               {t("WHICH_DEPARTMENT")} ?
             </Typography>
             <Typography variant="h5" gutterBottom marked="center" align="center" className={classes.title}>

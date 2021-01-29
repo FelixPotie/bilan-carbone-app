@@ -10,6 +10,10 @@ import Typography from '../Typography';
 
 
 const useStyles = makeStyles((theme) => ({
+  root:{
+    marginBottom: theme.spacing(8),
+    marginTop: theme.spacing(8),
+  },
   title: {
       marginBottom: theme.spacing(4),
       marginTop: theme.spacing(4),
@@ -165,9 +169,10 @@ function TimeCharts(props: Props){
 
     return (
       <React.Fragment>
-        <Grid container spacing={3} className={classes.total}>
-        <Grid item md={6}>
-            <Typography variant="h4" gutterBottom marked="center" align="center" className={classes.title}>
+        <div className={classes.root}>
+        <Grid container spacing={3} className={classes.total} style={{width:'100%'}}>
+        <Grid item md={6} style={{ width:'100%'}}>
+            <Typography variant="h4" marked="left" gutterBottom align="center" className={classes.title}>
               {t("TIME_TITLE")}
             </Typography>
             <Typography variant="h5" gutterBottom marked="center" align="center" className={classes.title}>
@@ -179,6 +184,7 @@ function TimeCharts(props: Props){
             {displayData()}
           </Grid>
         </Grid>
+        </div>
       </React.Fragment>
     )
 }
