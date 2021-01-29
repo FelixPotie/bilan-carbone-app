@@ -13,6 +13,7 @@ import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import { Link, useHistory } from 'react-router-dom';
 import classes from '*.module.css';
 import { initTravel } from '../../redux/travel/actions';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
 
 
 const mapState = (state: RootState) => {
@@ -164,6 +165,7 @@ function TravelRow(props: any) {
                                         <StyledSmallTableCell align="center">{t("DATE")}</StyledSmallTableCell>
                                         <StyledSmallTableCell align="center">Type</StyledSmallTableCell>
                                         <StyledSmallTableCell align="center">{t("STEPS")}</StyledSmallTableCell>
+                                        <StyledSmallTableCell align="center">{t("MODIFY_TRAJECT")}</StyledSmallTableCell>
                                         <StyledSmallTableCell align="center">{t("DELETE_TRAJECT")}</StyledSmallTableCell>
                                     </TableRow>
                                 </TableHead>
@@ -173,6 +175,17 @@ function TravelRow(props: any) {
                                             <StyledSmallTableCell align="center" component="th" scope="row">{displayDate(travel.date)}</StyledSmallTableCell>
                                             <StyledSmallTableCell align="center">{t(travel.type)}</StyledSmallTableCell>
                                             <StyledSmallTableCell align="center">{travel.steps.sort((a: any, b: any) => { return a.rank - b.rank }).map((step: any) => (<div>{step.rank + 1}. {t("FROM")} {step.departure} {t("TO")} {step.arrival}</div>))}
+                                            </StyledSmallTableCell>
+                                            <StyledSmallTableCell align="center">
+                                            <Link
+                                                to={`${row.id}/update-journey/${travel.id}`}
+                                            >
+                                                <Button
+                                                    variant="contained"
+                                                >
+                                                    <AutorenewIcon />
+                                                </Button>
+                                            </Link>
                                             </StyledSmallTableCell>
                                             <StyledSmallTableCell align="center">
                                                 <Button

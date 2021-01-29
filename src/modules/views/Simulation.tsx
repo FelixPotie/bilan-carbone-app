@@ -26,11 +26,12 @@ import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
 import MotorcycleIcon from '@material-ui/icons/Motorcycle';
 import TrainIcon from '@material-ui/icons/Train';
 
-const mapState = (state: RootState) => {
+const mapState = (state: RootState, ownProps: any) => {
     return {
         user: state.user,
         travel: state.travel,
         mobilityData: state.mobility,
+        label: ownProps.label
     }
 }
 
@@ -174,17 +175,38 @@ function Simulation(props: Props) {
     const [date, setDate] = React.useState<Date | null>(
         null
     )
-    const [type, setType] = useState(null)
+    const [type, setType] = useState(null);
+    const [mobility, setMobility] = React.useState<any>();
+    const [travel, setTravel] = React.useState<any>();
 
     useEffect(() => {
-        if (props.user.isLoggedIn && urlParams.id) {
-            props.getMobilitiesByUser(props.user.user.username)
+        if (props.user.isLoggedIn && (props.label.label==="add" || props.label==="update")) {
+            props.getMobilitiesByUser(props.user.user.username);
         }
-        
     }, [props.user.isLoggedIn])
 
+    useEffect(() => {
+        if(props.user.isLoggedIn && props.label==="update") setMobility(props.mobilityData.mobilites.find((mobility: any) => (mobility.id === +mobilityId)));
+    }, [props.mobilityData.success])
+
+    useEffect(() => {
+        if(props.user.isLoggedIn && props.label==="update" && mobility) setTravel(mobility.travels.find((t:any)=>t.id===+travelId))
+    }, [props.mobilityData.success, mobility])
+
+    useEffect(() => {
+        if(props.user.isLoggedIn && props.label==="update" && travel) initData()
+    }, [props.mobilityData.success, travel])
+
     const urlParams: any = useParams()
-    
+    const mobilityId = props.label==="add"? urlParams.id : props.label==="update"? urlParams.id : undefined;
+    const travelId = props.label==="update"? urlParams.journeyid: undefined;
+        
+    const initData = () => {
+        if(travel){
+            setDate(travel.date);
+            setType(travel.type);
+        }
+    }
 
     const removeStep = (event: any, index: number) => {
         const newFeatures = [...listStep];
@@ -225,7 +247,11 @@ function Simulation(props: Props) {
     }
 
     const checkMobilityId = () => {
-        return props.mobilityData.mobilites.find((mobility: any) => (mobility.id === +urlParams.id))
+        return props.mobilityData.mobilites.find((mobility: any) => (mobility.id === +mobilityId))
+    }
+
+    const checkTravelId = () => {
+        return props.mobilityData.mobilites.find((mobility: any) => mobility.travels.find((travel:any) => (travel.id === +travelId)))
     }
 
 
@@ -255,7 +281,14 @@ function Simulation(props: Props) {
 
     const chooseType = () => {
         const mob = props.mobilityData.mobilites.find((m: any) => m.id === +urlParams.id);
-        if (mob.travels.find((go: any) => go.type === "GO") && mob.travels.find((back: any) => back.type === "BACK")) {
+        if(props.label==="update"){
+            return (
+                <Select disabled variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} value={type} >
+                    <MenuItem value={'GO'}>{t("GO")}</MenuItem>
+                    <MenuItem value={'BACK'}>{t("BACK")}</MenuItem>
+                </Select>
+            )
+        } else if (mob.travels.find((go: any) => go.type === "GO") && mob.travels.find((back: any) => back.type === "BACK")) {
             return (
                 <Select required variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} autoComplete="type" onChange={handleChangeType} value={type} >
                 </Select>
@@ -346,9 +379,11 @@ function Simulation(props: Props) {
 
     return (!props.user.isLoggedIn && urlParams.id) ? (
         <UnauthorizedContainer />
-    ) : (urlParams.id && !checkMobilityId()) ? (
+    ) : (mobilityId && !checkMobilityId()) ? (
         <NotFound/>
-    ) : props.travel.error ? (
+    ) : (travelId && !checkTravelId()) ? (
+        <NotFound/>
+    )  : props.travel.error ? (
         <Typography variant="h3" gutterBottom marked="center" align="center">
             {props.travel.error} : Veuillez réessayer
         </Typography>
@@ -356,30 +391,23 @@ function Simulation(props: Props) {
         <Redirect to="/mobilites" />
     ) : (
         <React.Fragment>
-            {(props.user.isLoggedIn && urlParams.id) ?
+            {(props.user.isLoggedIn && (props.label==="add" || props.label==="update")) ?
                 <Container className={classes.title}>
-                    {/* <Link
-                        to="/mobilites"
-                        className={classes.button}
-                    >
-                        <Button
-                            variant="contained"
-                            className={classes.button}
-                        >
-                            {t('RETURN')}
-                        </Button>
-                    </Link> */}
                     <Box display="flex">
-                        
                         <Box m="auto">
-                            
+                            {props.label==="add"?
                             <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
                                 {t("ENTER_YOUR_JOURNEY")}
                             </Typography>
+                            :
+                            <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
+                                {t("UPDATE_YOUR_JOURNEY")}
+                            </Typography>
+                            }
                         </Box>
                     </Box>
                     <Typography variant="h5" gutterBottom marked="center" align="center">
-                        {props.mobilityData.mobilites.map((mobility: any) => mobility.id === Number(urlParams.id) &&
+                        {props.mobilityData.mobilites.map((mobility: any) => mobility.id === Number(mobilityId) &&
                             <div>{t("SUBTITLE")}{t(mobility.type)} {t("IN")} {mobility.place}.</div>)}
                     </Typography>
                 </Container>
@@ -414,13 +442,13 @@ function Simulation(props: Props) {
                                         </Typography>
                                     </Box>
                                 </Box>
-                                {(props.user.isLoggedIn && urlParams.id) &&
+                                {(props.user.isLoggedIn && (props.label==="add" || props.label==="update")) &&
                                     <div>
                                         <MuiPickersUtilsProvider utils={DateFnsUtils} >
                                             <KeyboardDatePicker className={classes.form} required inputVariant="outlined" format="dd/MM/yyyy" id="date" label="Date" value={date} onChange={handleChangeDate} onKeyDown={(event) => { if (event.key === 'Enter') event.preventDefault() }} KeyboardButtonProps={{ 'aria-label': 'change date', }} />
                                         </MuiPickersUtilsProvider>
                                         <FormControl variant="outlined" className={classes.form} style={{ marginBottom: "16px" }}>
-                                            <InputLabel htmlFor="type">{t("TYPE")}</InputLabel>
+                                            {props.label==="add" &&<InputLabel htmlFor="type">{t("TYPE")}</InputLabel>}
                                             {chooseType()}
                                         </FormControl>
                                     </div>
