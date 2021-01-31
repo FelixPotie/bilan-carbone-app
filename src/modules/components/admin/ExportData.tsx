@@ -23,7 +23,7 @@ import Snackbar from '../Snackbar'
 import DateFnsUtils from '@date-io/date-fns';
 import 'date-fns';
 import { ExportToCsv } from 'export-to-csv';
-
+import { mobilityCarbonEmission } from '../../../utils/mobilityTools';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -42,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
     }
 
 }));
-
 
 const mapState = (state: RootState) => {
     return {
@@ -67,16 +66,6 @@ type Props = PropsFromRedux
 function ExportDataContainer(props: Props) {
     const classes = useStyles();
 
-    function carbone(travels: any): number {
-        var sum = 0;
-        travels.forEach((travel: any) => {
-            travel.steps.forEach((step: any) => {
-                sum = sum + step.carboneEmission;
-            })
-        });
-        return (sum/1000);
-    }
-
     useEffect(() => {
         props.getAppSettings();
     }, []);
@@ -90,7 +79,7 @@ function ExportDataContainer(props: Props) {
 
     useEffect(() => {
         if (props.mobilityFiltered.success) {
-            if (props.mobilityFiltered.mobilites.length !== 0) { 
+            if (props.mobilityFiltered.mobilites.length !== 0) {
                 var exportData = [];
                 for(let i=0; i<props.mobilityFiltered.mobilites.length; i++){
                     const m=props.mobilityFiltered.mobilites[i];
@@ -104,9 +93,9 @@ function ExportDataContainer(props: Props) {
                         Année: m.year,
                         Début: m.startDate.substring(0,10),
                         Fin: m.endDate.substring(0,10),
-                        Carbone: carbone(m.travels).toFixed(2)
+                        Carbone: mobilityCarbonEmission(m.travels).toFixed(2)
                     }
-                    exportData.push(row); 
+                    exportData.push(row);
                 }
                 const options = {
                     fieldSeparator: ',',
@@ -120,7 +109,7 @@ function ExportDataContainer(props: Props) {
                     useBom: true,
                     useKeysAsHeaders: true,
                 };
-                
+
                 const csvExporter = new ExportToCsv(options);
                 csvExporter.generateCsv(exportData);
 
@@ -296,7 +285,7 @@ function ExportDataContainer(props: Props) {
         <UnauthorizedAdminContainer />
     ) :
         !props.appSettingsData.success ? (
-            <CircularProgress color="secondary" /> /// Replace with loading ! 
+            <CircularProgress color="secondary" />
         ) : (
                 <React.Fragment>
                     <Container className={classes.title}>

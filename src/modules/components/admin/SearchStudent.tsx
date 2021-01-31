@@ -1,3 +1,13 @@
+// React
+import React, {useEffect} from 'react'
+import { useTranslation } from 'react-i18next';
+// Redux
+import { connect, ConnectedProps } from 'react-redux';
+import { RootState } from '../../../redux';
+import { loadAdmin } from '../../../redux/admin/actions';
+import { getAllMobilities } from '../../../redux/mobility/actions';
+// Material UI
+import SearchIcon from "@material-ui/icons/Search";
 import {
     Container,
     Box,
@@ -11,16 +21,11 @@ import {
     InputBase, IconButton
 } from '@material-ui/core';
 import { Paper, Table, TableRow, TableBody } from'@material-ui/core';
-import Typography from '../../components/Typography';
-import React, {useEffect, useRef} from 'react'
-import { useTranslation } from 'react-i18next';
-import { connect, ConnectedProps } from 'react-redux';
-import { RootState } from '../../../redux';
-import { loadAdmin } from '../../../redux/admin/actions';
-import { getAllMobilities } from '../../../redux/mobility/actions';
-import { getAppSettings } from '../../../redux/appSettings/actions';
-import SearchIcon from "@material-ui/icons/Search";
+// Component
 import UnauthorizedAdminContainer from "./UnauthorizedAdmin";
+import Typography from '../../components/Typography';
+// Utils
+import { displayMobilityDate, mobilityCarbonEmission, mobilityTravelsType } from  '../../../utils/mobilityTools'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -57,10 +62,7 @@ const useStyles = makeStyles((theme) => ({
         textDecoration: 'none'
     },
     container: {
-        padingLeft: theme.spacing(4),
-        padingRight: theme.spacing(4),
         marginBottom: theme.spacing(4),
-
     },
     tableContainer: {
         maxHeight: 500,
@@ -101,6 +103,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 type Props = PropsFromRedux
 
 function SearchStudent(props: Props) {
+
     const [state, setState] = React.useState({
         firstName: "",
         lastName: "",
@@ -127,29 +130,11 @@ function SearchStudent(props: Props) {
     const classes = useStyles();
     const { t } = useTranslation('mobility');
 
-    function displayDate(date: string): string {
-        return date.substring(8, 10) + "/" + date.substring(5, 7) + "/" + date.substring(0, 4);
-    }
-
-    function carbon(travels: any): number {
-        var sum = 0;
-        travels.forEach((travel: any) => {
-            travel.steps.forEach((step: any) => {
-                sum = sum + step.carboneEmission;
-            })
-        });
-        return sum;
-    }
-    
-    function travelType(travels: any) {
-        return travels.map((travel: any) => travel.type)
-    }
-
     function getMobilityRow(mobility: any) {
         return (
             (Object.keys(mobility).length === 0 && mobility.constructor === Object) ?
                 <React.Fragment>
-                    <TableRow>
+                    <TableRow key={'emptyRow'}>
                         <StyledTableCell colSpan={8} align="center">Essayer une recherche</StyledTableCell>
                     </TableRow>
                 </React.Fragment>
@@ -160,10 +145,10 @@ function SearchStudent(props: Props) {
                     <StyledTableCell align="center">{t(mobility.type)}</StyledTableCell>
                     <StyledTableCell align="center">{mobility.place}</StyledTableCell>
                     <StyledTableCell align="center">{mobility.year}</StyledTableCell>
-                    <StyledTableCell align="center">{displayDate(mobility.startDate)}</StyledTableCell>
-                    <StyledTableCell align="center">{displayDate(mobility.endDate)}</StyledTableCell>
-                    <StyledTableCell align="center">{travelType(mobility.travels).toString()}</StyledTableCell>
-                    <StyledTableCell align="center">{(carbon(mobility.travels) / 1000).toFixed(2)} kg</StyledTableCell>
+                    <StyledTableCell align="center">{displayMobilityDate(mobility.startDate)}</StyledTableCell>
+                    <StyledTableCell align="center">{displayMobilityDate(mobility.endDate)}</StyledTableCell>
+                    <StyledTableCell align="center">{mobilityTravelsType(mobility.travels).toString()}</StyledTableCell>
+                    <StyledTableCell align="center">{(mobilityCarbonEmission(mobility.travels) / 1000).toFixed(2)} kg</StyledTableCell>
                 </TableRow>
             </React.Fragment>
         );
@@ -185,7 +170,7 @@ function SearchStudent(props: Props) {
                             </Box>
                         </Box>
                         <Typography variant="h5" gutterBottom marked="center" align="center">
-                            Entrez le nom, le prénom ou les deux pour rechercher les mobilitées correspondantes
+                            Entrez le nom d'un étudiant, le prénom ou les deux pour rechercher les mobilitées correspondantes
                         </Typography>
                     </Container>
                     <Container className={classes.searchBarContainer}>
@@ -222,14 +207,14 @@ function SearchStudent(props: Props) {
                             <Table stickyHeader className={classes.table} aria-label="customized table">
                                 <TableHead>
                                     <TableRow key="head">
-                                        <StyledTableCell align="center">Étudiant</StyledTableCell>
-                                        <StyledTableCell align="center">Type</StyledTableCell>
-                                        <StyledTableCell align="center">{t("CITY")}</StyledTableCell>
-                                        <StyledTableCell align="center">{t("STUDY_YEAR")}</StyledTableCell>
-                                        <StyledTableCell align="center">{t("START_DATE")}</StyledTableCell>
-                                        <StyledTableCell align="center">{t("END_DATE")}</StyledTableCell>
-                                        <StyledTableCell align="center">Type de trajets</StyledTableCell>
-                                        <StyledTableCell align="center">{t("CARBON")}</StyledTableCell>
+                                        <StyledTableCell key={'student'} align="center">Étudiant</StyledTableCell>
+                                        <StyledTableCell key={'type'} align="center">Type</StyledTableCell>
+                                        <StyledTableCell key={'city'} align="center">{t("CITY")}</StyledTableCell>
+                                        <StyledTableCell key={'year'} align="center">{t("STUDY_YEAR")}</StyledTableCell>
+                                        <StyledTableCell key={'startDate'} align="center">{t("START_DATE")}</StyledTableCell>
+                                        <StyledTableCell key={'endDate'} align="center">{t("END_DATE")}</StyledTableCell>
+                                        <StyledTableCell key={'typeTraject'} align="center">Type de trajets</StyledTableCell>
+                                        <StyledTableCell key={'carbon'} align="center">{t("CARBON")}</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
