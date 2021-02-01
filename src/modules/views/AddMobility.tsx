@@ -156,6 +156,7 @@ function AddMobilityContainer(props: Props) {
                                 <MenuItem value={'SEMESTER'}>{t("SEMESTER")}</MenuItem>
                                 <MenuItem value={'INTERNSHIP'}>{t("INTERNSHIP")}</MenuItem>
                                 <MenuItem value={'DOUBLE_DEGRE'}>{t("DOUBLE_DEGRE")}</MenuItem>
+                                <MenuItem value={'OTHER'}>{t("OTHER")}</MenuItem>
                             </Select>
                         </FormControl>
                         <div className={classes.form}>

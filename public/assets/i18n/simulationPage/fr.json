@@ -45,5 +45,6 @@
     "LOGIN": "Se connecter",
     "RETURN": "Retourner aux mobilités",
     "UPDATE_YOUR_JOURNEY": "Modifier votre trajet",
-    "UPDATE": "Modifier"
+    "UPDATE": "Modifier",
+    "BEST_SOLUTION" : "Vous avez choisi la meilleure solution pour votre trajet"
 }

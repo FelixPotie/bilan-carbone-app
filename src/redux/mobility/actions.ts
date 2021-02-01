@@ -1,4 +1,15 @@
-import { GET_MOBILITY_FAILURE, GET_MOBILITY_REQUEST, GET_MOBILITY_SUCCESS, ADD_MOBILITY_SUCCESS, GET_MOBILITIES_STATS_SUCCESS, ADD_MOBILITY_FAILURE , DELETE_MOBILITY_SUCCESS, DELETE_MOBILITY_FAILURE, MobilityActionTypes, DELETE_TRAVEL_SUCCESS, DELETE_TRAVEL_FAILURE } from "./types";
+import { GET_MOBILITY_FAILURE, 
+    GET_MOBILITY_REQUEST, 
+    GET_MOBILITY_SUCCESS, 
+    ADD_MOBILITY_SUCCESS, 
+    GET_MOBILITIES_STATS_SUCCESS, 
+    ADD_MOBILITY_FAILURE , 
+    DELETE_MOBILITY_SUCCESS, 
+    DELETE_MOBILITY_FAILURE, 
+    MobilityActionTypes, 
+    DELETE_TRAVEL_SUCCESS, 
+    DELETE_TRAVEL_FAILURE, 
+    GET_ALL_MOBILITIES_SUCCESS } from "./types";
 import axios from 'axios'
 
 export function getMobilityRequest() : MobilityActionTypes{
@@ -42,10 +53,32 @@ export const getMobilitiesByUser = (username: string) => {
     }
 }
 
-export function getMobilitiesFoStatsSuccess(mobilites:any) : MobilityActionTypes{
+export function getMobilitiesForStatsSuccess(mobilites:any) : MobilityActionTypes{
+    console.log("getMobsuccess")
     return {
         type: GET_MOBILITIES_STATS_SUCCESS,
         payload: mobilites
+    }
+}
+
+export function getAllMobilitiesSuccess(mobilites:any) : MobilityActionTypes{
+    return {
+        type: GET_ALL_MOBILITIES_SUCCESS,
+        payload: mobilites
+    }
+}
+
+export const getAllMobilities = () => {
+    return(dispatch:any) => {
+        dispatch(getMobilitiesRequest())
+        axios.get('mobility/admin/all').then(response => {
+            const mobilities = response.data
+            dispatch(getAllMobilitiesSuccess(mobilities))
+        })
+        .catch(error => {
+            const errorMsg = error.message
+            dispatch(getMobilityFailure(errorMsg))
+        })
     }
 }
 
@@ -53,18 +86,8 @@ export const getMobilitiesForStats = () => {
     return(dispatch:any) => {
         dispatch(getMobilitiesRequest())
         axios.get('mobility/').then(response => {
-            const mobilities = response.data.map((mobility:any)=> 
-                ({
-                    departmentTypeName:mobility.departmentTypeName,
-                    type:mobility.type,
-                    year:mobility.year,
-                    startDate:mobility.startDate,
-                    endDate:mobility.endDate,
-                    travels:mobility.travels,
-                    departmentType:mobility.departmentType
-                })
-            )
-            dispatch(getMobilitiesFoStatsSuccess(mobilities))
+            const mobilities = response.data
+            dispatch(getMobilitiesForStatsSuccess(mobilities))
         })
         .catch(error => {
             const errorMsg = error.message

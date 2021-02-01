@@ -45,5 +45,6 @@
     "LOGIN": "Login",
     "RETURN": "Go back to the mobilities",
     "UPDATE_YOUR_JOURNEY": "Update your journey",
-    "UPDATE": "Update"
+    "UPDATE": "Update",
+    "BEST_SOLUTION" : "This is the best solution for this journey"
 }
