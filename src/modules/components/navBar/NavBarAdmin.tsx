@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBarProps, Hidden, WithStyles } from '@material-ui/core';
+import {AppBarProps, Hidden, SwipeableDrawer, WithStyles} from '@material-ui/core';
 import { withStyles, Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import AppBar from './AppBar';
 import SignInOutButton from './SignInOutButton';
@@ -125,6 +125,10 @@ function NavBarAdmin(props: Props) {
     setMobileOpen(!mobileOpen);
   };
 
+  const handleDrawerOpen = () => {
+    setMobileOpen(mobileOpen);
+  }
+
   return (
     <div>
         <AppBar position="fixed">
@@ -186,10 +190,12 @@ function NavBarAdmin(props: Props) {
             </div>
           </Toolbar>
           <Hidden lgUp implementation="js">
-            <Drawer
+            <SwipeableDrawer
               variant="temporary"
               anchor={"right"}
               open={mobileOpen}
+              onOpen={handleDrawerOpen}
+              swipeAreaWidth={20}
               classes={{
                 paper: classes.drawerPaper
               }}
@@ -203,29 +209,36 @@ function NavBarAdmin(props: Props) {
                       onClick={handleDrawerToggle}
                       to='/admin/export-data'
                     >
-                      Exporter les données
+                      Exporter
                     </Link>
                     <Link
                         className={classes.linksContainerDrawer}
                         onClick={handleDrawerToggle}
                         to='/admin/list'
                     >
-                      Gestion des admins
+                      Admins
                     </Link>
                     <Link
                         className={classes.linksContainerDrawer}
                         onClick={handleDrawerToggle}
                         to='/admin/departments'
                     >
-                      Gestion des sections
-                    </Link> 
+                      Sections
+                    </Link>
+                    <Link
+                        className={classes.linksContainerDrawer}
+                        onClick={handleDrawerToggle}
+                        to='/admin/search'
+                    >
+                      Rechercher
+                    </Link>
                   </div>
                 }
                 <div className={classes.NavDrawerLinks} >
                   <SignInOutButton classesName={classes.linksContainerDrawer} classes={classes}/>
                 </div>
               </div>
-            </Drawer>
+            </SwipeableDrawer>
           </Hidden>
         </AppBar>
       <div className={classes.placeholder} />
