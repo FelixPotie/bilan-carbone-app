@@ -9,6 +9,7 @@ import SignIn from "../pages/SignIn";
 import SimulationPage from "../pages/SimulationPage";
 import Statistics from "../pages/Statistics";
 import Terms from "../pages/Terms";
+import UpdateJourney from "../pages/UpdateJourney";
 
 const routes = [
     {
@@ -47,6 +48,10 @@ const routes = [
     {
         path: "/:id/add-journey",
         component: AddJourney
+    },
+    {
+        path: "/:id/update-journey/:journeyid",
+        component: UpdateJourney
     },
     {
         path: "/statistics",
