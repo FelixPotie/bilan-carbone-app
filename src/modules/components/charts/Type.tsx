@@ -8,7 +8,7 @@ import {
 import { RootState } from '../../../redux';
 import Typography from '../Typography';
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#BBBBBB'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = (data : any) => {
@@ -93,6 +93,7 @@ function TypeCharts(props : Props) {
       { name: 'Stage', value: calculCarbone('INTERNSHIP') },
       { name: 'Semestre', value: calculCarbone('SEMESTER') },
       { name: 'Double diplôme', value: calculCarbone('DOUBLE_DEGRE') },
+      {name: 'Autre', value: calculCarbone('OTHER')}
     ];
     setData(data);
   }
