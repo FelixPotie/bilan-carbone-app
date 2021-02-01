@@ -42,5 +42,6 @@
     "ALERT_CONNECTED": "This is just a simulation, to record your trip, please link it to a mobility by going to the tab ",
     "MOBILITIES": "Mobilities",
     "ALERT_DISCONNECTED":"This is just a simulation, to record your trip, please login and link it to a mobility !",
-    "LOGIN": "Login"
+    "LOGIN": "Login",
+    "BEST_SOLUTION" : "This is the best solution for this journey"
 }
