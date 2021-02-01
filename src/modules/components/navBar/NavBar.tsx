@@ -1,7 +1,7 @@
 import React from 'react';
 import SignInOutButton from './SignInOutButton';
 import Toolbar, { styles as toolbarStyles } from '../Toolbar';
-import { AppBarProps, Hidden, WithStyles } from '@material-ui/core';
+import {AppBarProps, Hidden, SwipeableDrawer, WithStyles} from '@material-ui/core';
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
 import AppBar from './AppBar';
 import IconButton from "@material-ui/core/IconButton";
@@ -122,6 +122,10 @@ function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
     setMobileOpen(!mobileOpen);
   };
 
+  const handleDrawerOpen = () => {
+    setMobileOpen(mobileOpen);
+  };
+
   const  {t} = useTranslation();
   
 
@@ -161,13 +165,15 @@ function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
           </div>
         </Toolbar>
         <Hidden mdUp implementation="js">
-          <Drawer
+          <SwipeableDrawer
             variant="temporary"
             anchor={"right"}
             open={mobileOpen}
             classes={{
               paper: classes.drawerPaper
             }}
+            swipeAreaWidth={20}
+            onOpen={handleDrawerOpen}
             onClose={handleDrawerToggle}
             onClick={handleDrawerToggle}
           >
@@ -178,7 +184,7 @@ function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
                 <SignInOutButton classesName={classes.linksContainerDrawer} classes={classes}/>
               </div>
             </div>
-          </Drawer>
+          </SwipeableDrawer>
         </Hidden>
       </AppBar>
       <div className={classes.placeholder} />
