@@ -33,11 +33,11 @@ function UnauthorizedContainer() {
                 <Box display="flex">
                     <Box m="auto">
                         <Link
-                            to="/signin">
+                            to="/signin"
                             className={classes.button}
+                            >
                             <Button
                                 variant="contained"
-                                // onClick={() => history.push("/signin")}
                                 className={classes.button}
                             >
                                 {'Se connecter'}

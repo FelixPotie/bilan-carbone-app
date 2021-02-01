@@ -157,7 +157,7 @@ function HomeHeader(props: Props) {
   return (
     <HomeHeaderLayout >
       {/* Increase the network loading priority of the background image. */}
-      <Typography color="inherit" align="center" variant="h2" marked="center">
+      <Typography style={{fontSize: '2.5rem'}} color="inherit" align="center" variant="h2" marked="center">
         {t("SIMULATE_YOUR_JOURNEY")}
       </Typography>
       {displaySubtitles()}

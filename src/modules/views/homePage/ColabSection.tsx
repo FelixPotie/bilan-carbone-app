@@ -19,7 +19,7 @@ const styles = (theme: Theme) =>
       marginRight: '2%'
     },
     title: {
-      fontSize: theme.typography.h4.fontSize,
+      fontSize: '2rem',
       textAlign: "center"
     },
     text: {
@@ -27,7 +27,8 @@ const styles = (theme: Theme) =>
       textAlign: 'justify'
     },
     grid: {
-      marginTop: '5%'
+      marginTop: '5%',
+      marginBottom: '5%'
     },
     gif: {
       maxHeight: 500,
@@ -35,8 +36,9 @@ const styles = (theme: Theme) =>
       height: 'auto'
     },
     root: {
+      backgroundColor: 'white',
       paddingTop: theme.spacing(8),
-      paddingBottom: theme.spacing(4),
+      paddingBottom: theme.spacing(8),
       
     },
     item: {
@@ -50,11 +52,12 @@ const styles = (theme: Theme) =>
       justifyContent: "center",
       alignItems: "center",
       marginBottom: theme.spacing(2),
-      textDecoration: "none"
 
     },
     button:{
-      borderRadius: "10px"
+      borderRadius: "10px",
+      textDecoration: "none",
+
     }
   });
 
@@ -78,11 +81,12 @@ function ProductCategories(props: WithStyles<typeof styles>) {
               {t('ADEME_TEXT_PART2')}
             </Typography>
           </div>
-          <div className={classes.button}>
+          <div className={classes.buttonBox}>
             <Link
             className={classes.button}
               to="/ecolab">
               <Button
+                className={classes.button}
                 color="secondary"
                 size="large"
                 variant="contained"

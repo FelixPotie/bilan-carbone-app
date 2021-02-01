@@ -13,23 +13,24 @@ import { Link } from 'react-router-dom';
 const styles = (theme: Theme) =>
   createStyles({
     root: {
-      paddingTop: theme.spacing(8),
+      paddingTop: theme.spacing(15),
       paddingBottom: theme.spacing(15),
+      backgroundColor: theme.palette.secondary.light,
     },
     container: {
       display: 'flex',
       flexWrap: 'wrap',
       justifyContent: 'space-evenly',
-      backgroundColor: theme.palette.secondary.light,
+      alignItems: 'center',
     },
     title: {
       fontSize: theme.typography.h4.fontSize,
       margin: theme.spacing(2),
     },
     button: {
-      margin: theme.spacing(2),
-      borderRadius: "10px"
-
+      margin:theme.spacing(2),
+      borderRadius: "10px",
+      textDecoration: "none",
     },
   });
 

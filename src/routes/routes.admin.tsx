@@ -4,6 +4,7 @@ import ListAdmin from "../pages/admin/ListAdmin";
 import NotFound from "../pages/NotFound";
 import SignInAdmin from "../pages/admin/SignInAdmin";
 import ListDepartment from "../pages/admin/ListDepartment";
+import SearchStudentPage from "../pages/admin/SearchStudentPage";
 
 const routes = [
     {
@@ -25,6 +26,10 @@ const routes = [
     {
         path: "/admin/add",
         component: AddAdmin
+    },
+    {
+        path: "/admin/search",
+        component: SearchStudentPage
     },
     {
         path: "*",

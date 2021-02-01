@@ -119,7 +119,7 @@ function ListDepartmentContainer(props: Props) {
                 <Box display="flex">
                     <Box m="auto">
                         <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
-                            List des sections
+                            Liste des sections
                         </Typography>
                     </Box>
                 </Box>
@@ -190,7 +190,7 @@ function ListDepartmentContainer(props: Props) {
                         </TableRow>
                         </TableHead>
                         <TableBody>
-                        {props.settingsData.appSettings.department.sort((a:any,b:any) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)).map((row:any) => (
+                        {props.settingsData.appSettings.department.sort((a:any,b:any)=>((a.status < b.status) ? 1 : ((b.status < a.status) ? -1 : 0)) || ((a.name > b.name) ? 1 :((b.name > a.name) ? -1 : 0))).map((row:any) => (
                             <TableRow key={row.name}>
                             <StyledTableCell align="center">{row.name}</StyledTableCell>
                             <StyledTableCell align="center">{row.status}</StyledTableCell>

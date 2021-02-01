@@ -23,7 +23,7 @@ import Snackbar from '../Snackbar'
 import DateFnsUtils from '@date-io/date-fns';
 import 'date-fns';
 import { ExportToCsv } from 'export-to-csv';
-
+import { mobilityCarbonEmission } from '../../../utils/mobilityTools';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -42,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
     }
 
 }));
-
 
 const mapState = (state: RootState) => {
     return {
@@ -67,16 +66,6 @@ type Props = PropsFromRedux
 function ExportDataContainer(props: Props) {
     const classes = useStyles();
 
-    function carbone(travels: any): number {
-        var sum = 0;
-        travels.forEach((travel: any) => {
-            travel.steps.forEach((step: any) => {
-                sum = sum + step.carboneEmission;
-            })
-        });
-        return sum;
-    }
-
     useEffect(() => {
         props.getAppSettings();
     }, []);
@@ -90,7 +79,7 @@ function ExportDataContainer(props: Props) {
 
     useEffect(() => {
         if (props.mobilityFiltered.success) {
-            if (props.mobilityFiltered.mobilites.length !== 0) { 
+            if (props.mobilityFiltered.mobilites.length !== 0) {
                 var exportData = [];
                 for(let i=0; i<props.mobilityFiltered.mobilites.length; i++){
                     const m=props.mobilityFiltered.mobilites[i];
@@ -104,9 +93,9 @@ function ExportDataContainer(props: Props) {
                         Année: m.year,
                         Début: m.startDate.substring(0,10),
                         Fin: m.endDate.substring(0,10),
-                        Carbone: carbone(m.travels)
+                        Carbone: mobilityCarbonEmission(m.travels).toFixed(2)
                     }
-                    exportData.push(row); 
+                    exportData.push(row);
                 }
                 const options = {
                     fieldSeparator: ',',
@@ -120,7 +109,7 @@ function ExportDataContainer(props: Props) {
                     useBom: true,
                     useKeysAsHeaders: true,
                 };
-                
+
                 const csvExporter = new ExportToCsv(options);
                 csvExporter.generateCsv(exportData);
 
@@ -138,7 +127,8 @@ function ExportDataContainer(props: Props) {
     const [stateDepartment, setStateDepartment] = React.useState({});
 
     const createDepartmentSelector = () => {
-        const departments = props.appSettingsData.appSettings.department;
+        const departments = props.appSettingsData.appSettings.department.sort((a:any,b:any)=>((a.status < b.status) ? 1 : ((b.status < a.status) ? -1 : 0)) || ((a.name > b.name) ? 1 :((b.name > a.name) ? -1 : 0)));
+        console.log(departments);
         // const stateDepartmentAcc: { [x: string]: boolean; } = {};
         departments.forEach((department: { [x: string]: string; }) => {
             setStateDepartment((prevState) => ({ ...prevState, [department.name]: true }));
@@ -168,7 +158,7 @@ function ExportDataContainer(props: Props) {
         allMobilityType: true
     })
 
-    const { trois, quatre, cinq } = stateSchlooYear;
+    // const { trois, quatre, cinq } = stateSchlooYear;
 
     const { allSchoolYear, allDepartment, allMobilityType } = allSelector;
 
@@ -201,11 +191,10 @@ function ExportDataContainer(props: Props) {
     };
 
     const handleChangeSchoolYear = (event: React.ChangeEvent<HTMLInputElement>) => {
-
         if (!event.target.checked) {
             setAllSelector({ ...allSelector, "allSchoolYear": event.target.checked });
         }
-        setStateSchoolYear({ ...stateSchlooYear, [event.target.value]: event.target.checked });
+        setStateSchoolYear({ ...stateSchlooYear, [event.target.name]: event.target.checked });
     };
 
     const handleChangeMobilityType = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -260,6 +249,9 @@ function ExportDataContainer(props: Props) {
         setOpenSnackBar(false);
     };
 
+    const displayType = (type: string) => {
+        return type==="SEMESTER"?"Semestre":type==="INTERNSHIP"?"Stage":type==="DOUBLE_DEGRE"?"Double diplôme":""
+    }
     /////// EXPORT LOGIC ///////////////////////////////////////////
 
     const getCheckedState = (states: any) => {
@@ -293,7 +285,7 @@ function ExportDataContainer(props: Props) {
         <UnauthorizedAdminContainer />
     ) :
         !props.appSettingsData.success ? (
-            <CircularProgress color="secondary" /> /// Replace with loading ! 
+            <CircularProgress color="secondary" />
         ) : (
                 <React.Fragment>
                     <Container className={classes.title}>
@@ -331,10 +323,10 @@ function ExportDataContainer(props: Props) {
                                     Choisir le type de mobilitées :
                                 </Typography>
                                 <FormGroup row>
-                                    <FormControlLabel control={<Checkbox onChange={selectAllMobilityType} checked={allMobilityType} name="allMobilityType" />} label="Tout les types de mobilitées" />
+                                    <FormControlLabel control={<Checkbox onChange={selectAllMobilityType} checked={allMobilityType} name="allMobilityType" />} label="Tous les types de mobilités" />
                                     {
                                         Object.entries<boolean>(stateMobilityType).map((paire) => {
-                                            return <FormControlLabel control={<Checkbox onChange={handleChangeMobilityType} checked={paire[1]} name={paire[0]} key={paire[0]} />} label={paire[0]} />
+                                            return <FormControlLabel control={<Checkbox onChange={handleChangeMobilityType} checked={paire[1]} name={paire[0]} key={paire[0]} />} label={displayType(paire[0])} />
                                         })
                                     }
                                 </FormGroup>
@@ -345,9 +337,9 @@ function ExportDataContainer(props: Props) {
                                 </Typography>
                                 <FormGroup row>
                                     <FormControlLabel control={<Checkbox onChange={selectAllSchoolYear} checked={allSchoolYear} name="allSchoolYear" />} label="Toutes les années" />
-                                    <FormControlLabel control={<Checkbox onChange={handleChangeSchoolYear} checked={trois} name="trois" />} label="3A" />
-                                    <FormControlLabel control={<Checkbox onChange={handleChangeSchoolYear} checked={quatre} name="quatre" />} label="4A" />
-                                    <FormControlLabel control={<Checkbox onChange={handleChangeSchoolYear} checked={cinq} name="cinq" />} label="5A" />
+                                    <FormControlLabel control={<Checkbox onChange={handleChangeSchoolYear} checked={stateSchlooYear.trois} name="trois" />} label="3A" />
+                                    <FormControlLabel control={<Checkbox onChange={handleChangeSchoolYear} checked={stateSchlooYear.quatre} name="quatre" />} label="4A" />
+                                    <FormControlLabel control={<Checkbox onChange={handleChangeSchoolYear} checked={stateSchlooYear.cinq} name="cinq" />} label="5A" />
                                 </FormGroup>
                             </Container>
                             <Container className={classes.subtitle}>

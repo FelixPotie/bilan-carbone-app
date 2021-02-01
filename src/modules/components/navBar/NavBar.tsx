@@ -79,7 +79,9 @@ const styles = (theme: Theme) => createStyles({
 
   linksContainerDrawer:{
     color: 'black', //use theme black text 
-    margin:'10px'
+    margin:'10px',
+    textDecoration: 'none',
+    textTransform: 'uppercase'
   },
 
   empty:{ //should be deleted
@@ -167,11 +169,13 @@ function NavBar(props: WithStyles<typeof styles> & AppBarProps) {
               paper: classes.drawerPaper
             }}
             onClose={handleDrawerToggle}
+            onClick={handleDrawerToggle}
           >
             <div className={classes.appResponsive}>
               <NavBarLinks classesRow={classes.NavDrawerLinks} classesLinks={classes.linksContainerDrawer}/>
-              <div className={classes.linksContainerDrawer} >
-                <SignInOutButton classesName={classes.rightLink} classes={classes}/>
+
+              <div className={classes.NavDrawerLinks} >
+                <SignInOutButton classesName={classes.linksContainerDrawer} classes={classes}/>
               </div>
             </div>
           </Drawer>

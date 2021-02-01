@@ -19,6 +19,12 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(4),
       margin: 'auto'
   },
+
+  gridContainer:{
+    width:'100%', 
+    marginBottom: theme.spacing(8),
+    marginTop: theme.spacing(8),
+  }
  
 }));
 
@@ -55,7 +61,10 @@ function StatisticsView(props : Props) {
       <HomeHeaderLayout>
       <Box display="flex">
         <Box m="auto">
-          <Typography variant="h2" color="inherit" gutterBottom marked="center" align="center" className={classes.title}>
+          <Typography           
+          // HERE
+          style={{fontSize: '2.5rem'}}
+          variant="h2" color="inherit" gutterBottom marked="center" align="center" className={classes.title}>
             {t("STATISTICS")}
         </Typography>
         </Box>
@@ -64,7 +73,7 @@ function StatisticsView(props : Props) {
 
       </HomeHeaderLayout>
       <DepartmentCharts />
-      <Grid container spacing={3}>
+      <Grid container className={classes.gridContainer} spacing={3}>
         <Grid item md={6}>
           <SchoolYearCharts />
         </Grid>
