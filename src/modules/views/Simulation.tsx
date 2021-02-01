@@ -9,7 +9,7 @@ import Step from '../components/Step';
 import Comparator from '../components/Comparator';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux';
-import { addTravel, initTravel } from '../../redux/travel/actions';
+import { addTravel, initTravel, updateTravel } from '../../redux/travel/actions';
 import { getMobilitiesByUser } from '../../redux/mobility/actions';
 import DateFnsUtils from '@date-io/date-fns';
 import { getDistance } from 'geolib'
@@ -38,6 +38,7 @@ const mapState = (state: RootState, ownProps: any) => {
 const mapDispatch = (dispatch: any) => {
     return {
         addTravel: (body: object) => dispatch(addTravel(body)),
+        updateTravel: (body: object) => dispatch(updateTravel(body)),
         getMobilitiesByUser: (username: string) => dispatch(getMobilitiesByUser(username)),
     }
 }
@@ -205,6 +206,29 @@ function Simulation(props: Props) {
         if(travel){
             setDate(travel.date);
             setType(travel.type);
+            const list : stepInterface[] = [];
+            travel.steps.forEach((s:any)=>{
+                const place1 : place = {
+                    name: s.departure.split(',')[0],
+                    country: "",
+                    lat: 0,
+                    lng: 0
+                }
+                const place2 : place = {
+                    name: s.arrival.split(',')[0],
+                    country: "",
+                    lat: 0,
+                    lng: 0
+                }
+                const newStep : stepInterface = {
+                    from: place1,
+                    to: place2,
+                    by: s.meansOfTransport,
+                    nbPers: 1
+                }
+                list.push(newStep);
+            })
+            setlistStep(list);
         }
     }
 
@@ -259,9 +283,11 @@ function Simulation(props: Props) {
         e.preventDefault();
         let steps: Object[] = []
         const body = {
-            mobilityId: urlParams.id,
+            mobilityId: mobilityId,
+            travel:travel,
+            travelId: travelId,
             type: type,
-            date: date?.toISOString(),
+            date: date,
             steps: steps
         }
         listStep.forEach((step, index: number) => {
@@ -274,9 +300,14 @@ function Simulation(props: Props) {
                 carboneEmission: Math.round(calculateur(getDist(step), step.by, step.nbPers))
             })
             if (index === listStep.length - 1) {
-                props.addTravel(body)
+                if(props.label==="add"){
+                    props.addTravel(body)
+                } else if(props.label==="update"){
+                    props.updateTravel(body);
+                }
             }
         })
+        
     }
 
     const chooseType = () => {
@@ -362,13 +393,27 @@ function Simulation(props: Props) {
             if(step.from.country==="" || step.to.country==="") good=false;
         });
         if(good){
-            return(
-                <Button variant="contained" color="primary" type="submit">{t("SAVE")}</Button>
-            )
+            if(props.label==="add"){
+                return(
+                    <Button variant="contained" color="primary" type="submit">{t("SAVE")}</Button>
+                )
+            } else {
+                return(
+                    <Button variant="contained" color="primary" type="submit">{t("UPDATE")}</Button>
+                )
+            }
+            
         }else{
-            return(
-                <Button variant="contained" color="primary" disabled>{t("SAVE")}</Button>
-            )
+            if(props.label==="add"){
+                return(
+                    <Button variant="contained" color="primary" disabled>{t("SAVE")}</Button>
+                )
+            } else {
+                return(
+                    <Button variant="contained" color="primary" disabled>{t("UPDATE")}</Button>
+
+                )
+            }
         }
     }
 
@@ -480,7 +525,7 @@ function Simulation(props: Props) {
                                 </div>
                             </CardContent>
 
-                            {(props.user.isLoggedIn && urlParams.id) &&
+                            {(props.user.isLoggedIn && (props.label==="add" || props.label==="update")) &&
                                 <CardActions className={classes.actionButton}>
                                     {displayButton()}
                                 </CardActions>
