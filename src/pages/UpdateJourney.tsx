@@ -5,14 +5,14 @@ import Auth from '../modules/components/Auth';
 
 
 
-function AddJourney() {
+function UpdateJourney() {
 
     return (
         <div>
             <Auth/>
-            <Simulation label="add"/>
+            <Simulation label="update"/>
         </div>
     )
 }
 
-export default withRoot(AddJourney);
+export default withRoot(UpdateJourney);
