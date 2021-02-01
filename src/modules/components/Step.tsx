@@ -90,11 +90,6 @@ export default function Step(props: any) {
             }
         }
         props.updateStep(newStep, props.id);
-        if(event.nativeEvent.data === " "){
-            setPopover(true);
-            find(event, getFrom());
-        }
-
     }
 
     const onChangeTo = (event: any) => {
@@ -107,10 +102,6 @@ export default function Step(props: any) {
             }
         }
         props.updateStep(newStep, props.id);
-        if(event.nativeEvent.data === " "){
-            setPopover(false);
-            find(event, getTo());
-        }
     }
 
     const find = (event: any, point: string) => {
