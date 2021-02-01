@@ -53,7 +53,8 @@ export const getMobilitiesByUser = (username: string) => {
     }
 }
 
-export function getMobilitiesFoStatsSuccess(mobilites:any) : MobilityActionTypes{
+export function getMobilitiesForStatsSuccess(mobilites:any) : MobilityActionTypes{
+    console.log("getMobsuccess")
     return {
         type: GET_MOBILITIES_STATS_SUCCESS,
         payload: mobilites
@@ -85,18 +86,8 @@ export const getMobilitiesForStats = () => {
     return(dispatch:any) => {
         dispatch(getMobilitiesRequest())
         axios.get('mobility/').then(response => {
-            const mobilities = response.data.map((mobility:any)=> 
-                ({
-                    departmentTypeName:mobility.departmentTypeName,
-                    type:mobility.type,
-                    year:mobility.year,
-                    startDate:mobility.startDate,
-                    endDate:mobility.endDate,
-                    travels:mobility.travels,
-                    departmentType:mobility.departmentType
-                })
-            )
-            dispatch(getMobilitiesFoStatsSuccess(mobilities))
+            const mobilities = response.data
+            dispatch(getMobilitiesForStatsSuccess(mobilities))
         })
         .catch(error => {
             const errorMsg = error.message
