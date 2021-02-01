@@ -3,11 +3,11 @@
     "TOTAL": "Total des émissions carbones",
     "OF":"de",
     "WHICH_DEPARTMENT":"Quels départements émettent le moins",
-    "TEXT_DEPARTMENT": "Lors des années suivantes, quels sont les département ayant dégagés le moins d'émission carbones lors de leurs trajets lié aux mobilitées internationnales",
+    "TEXT_DEPARTMENT": "Lors des années suivantes, quels sont les départements ayant dégagés le moins d'émissions carbones lors de leurs trajets liés aux mobilités internationales",
     "SCHOOL_YEAR": "En quelle année émettons-nous le moins",
     "TYPE": "Quel type de mobilité émet le moins",
     "TIME_TITLE": "Evolution des émissions carbones au fil du temps",
-    "TIME_TEXT": "Au fur et à mesure des années, les émissions carbones de Polytech Montpellier liées aux mobilités internationnales ont elles tendance à diminuer ?"
-
+    "TIME_TEXT": "Au fur et à mesure des années, les émissions carbones de Polytech Montpellier liées aux mobilités internationales ont-elles tendance à diminuer ?",
+    "PER_TRAJECT": "Pondéré par trajet"
     
 }

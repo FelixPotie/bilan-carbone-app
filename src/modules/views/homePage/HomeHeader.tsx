@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { Grid } from '@material-ui/core';
 import { RootState } from '../../../redux';
 import { connect, ConnectedProps } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -66,7 +66,6 @@ type Props = PropsFromRedux
 function HomeHeader(props: Props) {
   const classes = useStyles();
 
-  const history = useHistory();
 
   const { t } = useTranslation('homePage');
 

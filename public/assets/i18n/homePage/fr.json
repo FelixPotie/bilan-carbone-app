@@ -1,8 +1,8 @@
 {
   "ADD_MOBILITY": "Ici vous pouvez enregistrer vos trajets liés à vos mobilités internationales de Polytech Montpellier",
-  "ADEME_COLABORATION": "Collaboration avec l'Ademe",
+  "ADEME_COLABORATION": "Collaboration avec l'ADEME",
   "ADEME_SIMULATOR": "Simulateur de l'ADEME",
-  "ADEME_TEXT_PART1": "Pour réaliser le calcul des émissions carbones nous avons utilisé les données de l'ADEME, Agence De l'Environnement et de la Maîtrise de l'Énergie. Notre calculateur carbone est basé sur le systeme offert par leur plate-forme : ",
+  "ADEME_TEXT_PART1": "Pour réaliser le calcul des émissions carbones, nous avons utilisé les données de l'ADEME, Agence De l'Environnement et de la Maîtrise de l'Énergie. Notre calculateur carbone est basé sur le systeme offert par leur plate-forme : ",
   "ADEME_TEXT_PART2": "Vous pouvez essayer ce simulateur directement sur ce site en cliquant sur le bouton ci-dessous.",
   "LAUNCH_SIMULATION": "Simulateur",
   "LOGGIN": "Connectez-vous pour enregistrer une mobilité internationale de Polytech Montpellier et ses trajets associés ou",
