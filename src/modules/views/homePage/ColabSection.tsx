@@ -10,7 +10,7 @@ import Typography from '../../components/Typography';
 import Button from '../../components/Button';
 import { Grid } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -63,7 +63,6 @@ const styles = (theme: Theme) =>
 
 function ProductCategories(props: WithStyles<typeof styles>) {
   const { classes } = props;
-  const history = useHistory();
 
   const { t } = useTranslation('homePage');
 

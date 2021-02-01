@@ -43,5 +43,5 @@
     "MOBILITIES": "Mobilités",
     "ALERT_DISCONNECTED":"Ceci n'est qu'une simulation, pour enregistrer votre trajet veuillez vous connecter et le lier à une mobilité !",
     "LOGIN": "Se connecter",
-    "RETURN": "Retourner aux mobilités"
+    "BEST_SOLUTION" : "Vous avez choisi la meilleure solution pour votre trajet"
 }

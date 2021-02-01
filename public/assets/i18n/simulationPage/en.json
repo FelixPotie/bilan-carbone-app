@@ -43,5 +43,5 @@
     "MOBILITIES": "Mobilities",
     "ALERT_DISCONNECTED":"This is just a simulation, to record your trip, please login and link it to a mobility !",
     "LOGIN": "Login",
-    "RETURN": "Go back to the mobilities"
+    "BEST_SOLUTION" : "This is the best solution for this journey"
 }
