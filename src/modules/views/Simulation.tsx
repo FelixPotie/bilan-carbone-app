@@ -181,7 +181,7 @@ function Simulation(props: Props) {
     const [travel, setTravel] = React.useState<any>();
 
     useEffect(() => {
-        if (props.user.isLoggedIn && (props.label.label==="add" || props.label==="update")) {
+        if (props.user.isLoggedIn && (props.label==="add" || props.label==="update")) {
             props.getMobilitiesByUser(props.user.user.username);
         }
     }, [props.user.isLoggedIn])
