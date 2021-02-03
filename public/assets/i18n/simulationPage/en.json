@@ -24,7 +24,7 @@
     "SAVE":"Save",
     "PASSENGER":"passenger",
     "PASSENGERS":"passengers",
-    "IN": "in",
+    "IN": "at",
     "EN": "By",
     "ENTER_YOUR_JOURNEY":"Enter your journey",
     "JOURNEY_DESC":"Enter here all the info of your journey to calculate your CO2 emissions.",
@@ -46,5 +46,6 @@
     "RETURN": "Go back to the mobilities",
     "UPDATE_YOUR_JOURNEY": "Update your journey",
     "UPDATE": "Update",
-    "BEST_SOLUTION" : "This is the best solution for this journey"
+    "BEST_SOLUTION" : "This is the best solution for this journey",
+    "OTHER": "journey"
 }
