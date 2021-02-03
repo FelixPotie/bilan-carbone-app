@@ -235,7 +235,7 @@ function NavBarAdmin(props: Props) {
                   </div>
                 }
                 <div className={classes.NavDrawerLinks} >
-                  <SignInOutButton classesName={classes.linksContainerDrawer} classes={classes}/>
+                  <SignInOutButton label="admin" classesName={classes.linksContainerDrawer} classes={classes} />
                 </div>
               </div>
             </SwipeableDrawer>
