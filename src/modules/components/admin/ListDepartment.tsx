@@ -35,7 +35,8 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(4),
     },
     button: {
-        margin: 'auto'
+        margin: 'auto',
+        // marginTop: "5%"
     },
     tableContainer:{
         padingLeft: theme.spacing(4),
@@ -140,7 +141,7 @@ function ListDepartmentContainer(props: Props) {
                                     autoComplete="name"
                                     onChange={handleChange}
                                     value={name}
-                                    className={classes.button}
+                                    className={classes.field}
                                 />
                             </div>
                         </Grid>

@@ -98,7 +98,7 @@ function ExportDataContainer(props: Props) {
                     exportData.push(row);
                 }
                 const options = {
-                    fieldSeparator: ',',
+                    fieldSeparator: ';',
                     filename: 'rapportDemissionCarbone',
                     quoteStrings: '"',
                     decimalSeparator: '.',
@@ -250,7 +250,7 @@ function ExportDataContainer(props: Props) {
     };
 
     const displayType = (type: string) => {
-        return type==="SEMESTER"?"Semestre":type==="INTERNSHIP"?"Stage":type==="DOUBLE_DEGRE"?"Double diplôme":""
+        return type==="SEMESTER"?"Semestre":type==="INTERNSHIP"?"Stage":type==="DOUBLE_DEGRE"?"Double diplôme":type==="OTHER"?"Autre":""
     }
     /////// EXPORT LOGIC ///////////////////////////////////////////
 
