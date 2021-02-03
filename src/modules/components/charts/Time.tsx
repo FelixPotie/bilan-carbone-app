@@ -146,7 +146,7 @@ function TimeCharts(props: Props){
     if(props.settingsData.success && props.mobilityData.success){
       return (
         // <div className={classes.graph}>
-          <ResponsiveContainer width="90%" height={250}>
+          <ResponsiveContainer width="90%" height={300}>
             <AreaChart
               data={data}
               className={classes.chart}
