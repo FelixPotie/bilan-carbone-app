@@ -25,6 +25,7 @@ import AirplanemodeActiveIcon from '@material-ui/icons/AirplanemodeActive';
 import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
 import MotorcycleIcon from '@material-ui/icons/Motorcycle';
 import TrainIcon from '@material-ui/icons/Train';
+import { wait } from '@testing-library/react';
 
 const mapState = (state: RootState, ownProps: any) => {
     return {
@@ -165,6 +166,11 @@ const useStyles = makeStyles((theme) => ({
         width:"80%",
         margin:"auto",
         marginTop: theme.spacing(2)
+    },
+    load:{
+        display:"flex",
+        justifyContent: "center",
+        marginTop: theme.spacing(4)
     }
 }));
 
@@ -179,6 +185,13 @@ function Simulation(props: Props) {
     const [type, setType] = useState(null);
     const [mobility, setMobility] = React.useState<any>();
     const [travel, setTravel] = React.useState<any>();
+    const [show, setShow] = React.useState(false)
+
+    useEffect(() => {
+        setTimeout(() => {
+            setShow(true)
+        }, 1000)
+    }, [show])
 
     useEffect(() => {
         if (props.user.isLoggedIn && (props.label==="add" || props.label==="update")) {
@@ -271,11 +284,11 @@ function Simulation(props: Props) {
     }
 
     const checkMobilityId = () => {
-        return props.mobilityData.mobilites.find((mobility: any) => (mobility.id === +mobilityId))
+        return !props.mobilityData.mobilites.find((mobility: any) => (mobility.id === +mobilityId))
     }
 
     const checkTravelId = () => {
-        return props.mobilityData.mobilites.find((mobility: any) => mobility.travels.find((travel:any) => (travel.id === +travelId)))
+        return !props.mobilityData.mobilites.find((mobility: any) => mobility.travels.find((travel:any) => (travel.id === +travelId)))
     }
 
 
@@ -422,12 +435,27 @@ function Simulation(props: Props) {
         setlistStep(listStep);
     }
 
+    const displayError = () => {
+        if(show) return (<NotFound/>)
+        else {
+            return (
+                <div className={classes.load}>
+                    <CircularProgress/>
+                </div>
+            )
+        }
+    }
+
     return (!props.user.isLoggedIn && urlParams.id) ? (
         <UnauthorizedContainer />
-    ) : (mobilityId && !checkMobilityId()) ? (
-        <NotFound/>
-    ) : (travelId && !checkTravelId()) ? (
-        <NotFound/>
+    ) : (mobilityId && checkMobilityId()) ? (
+        <React.Fragment>
+            {displayError()}
+        </React.Fragment>
+    ) : (travelId && checkTravelId()) ? (
+        <React.Fragment>
+            {displayError()}
+        </React.Fragment>
     )  : props.travel.error ? (
         <Typography variant="h3" gutterBottom marked="center" align="center">
             {props.travel.error} : Veuillez réessayer
