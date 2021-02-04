@@ -1,6 +1,7 @@
 {
     "CONNECTION": "Connexion",
     "PASSWORD": "Mot de passe",
-    "ID":"Identifiant Polytech"
+    "ID":"Identifiant Polytech",
+    "USERNAME_FORMAT": "prénom.nom"
     
 }

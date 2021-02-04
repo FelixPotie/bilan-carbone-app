@@ -43,10 +43,6 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(6),
     paddingTop: theme.spacing(3),
   },
-  button: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(2),
-  },
   feedback: {
     marginTop: theme.spacing(2),
   },
@@ -59,6 +55,9 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(2),
     Right: theme.spacing(2),
   },
+  button:{
+    marginTop: '16px',
+  },
 }));
 
 function SignInContainer(props: Props) {
@@ -68,12 +67,18 @@ function SignInContainer(props: Props) {
   const [stateLogin, setStateLogin] = React.useState({
     username: "",
     password: "",
+    usernameError: false
   });
 
-  const { username, password } = stateLogin;
+  const { username, password , usernameError} = stateLogin;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setStateLogin({ ...stateLogin, [event.target.name]: event.target.value });
+    if (event.target.value.includes('@')) {
+      setStateLogin({ ...stateLogin, [event.target.name]: event.target.value , usernameError: true});
+    } else {
+      setStateLogin({ ...stateLogin, [event.target.name]: event.target.value , usernameError: false});
+    }
+
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -132,6 +137,7 @@ function SignInContainer(props: Props) {
                 value={password}
               />
               <Button
+                  className={classes.button}
                 type="submit"
                 fullWidth
                 variant="contained"
@@ -180,6 +186,7 @@ function SignInContainer(props: Props) {
                   </React.Fragment>
                   <form className={classes.form} onSubmit={e => onSubmit(e)}>
                     <TextField
+                        error={usernameError}
                       variant="outlined"
                       margin="normal"
                       required
@@ -191,6 +198,7 @@ function SignInContainer(props: Props) {
                       onChange={handleChange}
                       value={username}
                       autoFocus
+                        helperText={usernameError? t('USERNAME_FORMAT') : ""}
                     />
                     <TextField
                       variant="outlined"
@@ -206,6 +214,7 @@ function SignInContainer(props: Props) {
                       value={password}
                     />
                     <Button
+                        className={classes.button}
                       type="submit"
                       fullWidth
                       variant="contained"
