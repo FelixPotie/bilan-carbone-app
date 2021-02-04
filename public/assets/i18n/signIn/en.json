@@ -1,6 +1,7 @@
 {
     "CONNECTION": "Login",
     "PASSWORD": "Password",
-    "ID":"Polytech identifier"
+    "ID":"Polytech identifier",
+    "USERNAME_FORMAT": "firstname.lastname"
     
 }
