@@ -36,8 +36,14 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 type Props = PropsFromRedux
 
 const useStyles = makeStyles((theme) => ({
+    container:{
+        paddingLeft: '0px',
+        paddingRight: '0px',
+    },
     title: {
         marginBottom: theme.spacing(2),
+        marginRight: '5%',
+        marginLeft:  '5%',
       },
   form: {
     marginRight: '5%',
@@ -128,12 +134,12 @@ function AddMobilityContainer(props: Props) {
             <Redirect to={`${props.mobility.mobilityId}/add-journey`}/>
         ) : (
         <React.Fragment>
-            <Grid container justify="space-evenly" alignItems="center" >
+            <Grid container className={classes.container} justify="space-evenly" alignItems="center" >
                 <Grid item md={12}>
                 <AppForm>
                     <Box display="flex" className={classes.title}>
                         <Box m="auto">
-                            <Typography variant="h3" gutterBottom marked="center" align="center">
+                            <Typography variant="h3" gutterBottom marked="center" align="left">
                                 {t("ADD_MOBILITY")}
                             </Typography>
                         </Box>

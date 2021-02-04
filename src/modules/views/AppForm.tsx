@@ -7,8 +7,12 @@ import Paper from '../components/Paper';
 const styles = (theme: Theme) => ({
   root: {
     display: 'flex',
-    backgroundImage: 'url(/static/onepirate/appCurvyLines.png)',
-    backgroundRepeat: 'no-repeat',
+    backgroundColor: theme.palette.secondary.light,
+  },
+  container:{
+    paddingLeft: '0px',
+    paddingRight: '0px',
+
   },
   paper: {
     padding: theme.spacing(4, 3),
@@ -25,7 +29,7 @@ function AppForm(
 
   return (
     <div className={classes.root}>
-      <Container maxWidth="sm">
+      <Container className={classes.container} maxWidth="sm" >
         <Box>
           <Paper className={classes.paper} background="light">
             {children}
