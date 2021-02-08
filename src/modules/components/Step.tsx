@@ -312,14 +312,17 @@ export default function Step(props: any) {
                                         country: result.countryName,
                                         lat: parseFloat(result.lat),
                                         lng: parseFloat(result.lng)
-                                    }
+                                    },
+                                    dist: Math.round(getDistance({ latitude: parseFloat(result.lat), longitude: parseFloat(result.lng) }, { latitude: props.step.to.lat, longitude: props.step.to.lng }) / 10) / 100
                                 }
                                 if (props.step.by === 'CAR' || props.step.by === 'ELECTRIC_CAR' || props.step.by === 'BUS' || props.step.by === 'MOTO') {
                                     updateDist(newStep)
                                 }
-                                else props.updateStep(newStep, props.id)
-                            }
-                            else {
+                                else {
+                                    props.updateStep(newStep, props.id)
+                                    console.log("LALALI")
+                                }
+                            } else {
                                 let newStep = {
                                     ...props.step,
                                     to: {
@@ -327,15 +330,20 @@ export default function Step(props: any) {
                                         country: result.countryName,
                                         lat: parseFloat(result.lat),
                                         lng: parseFloat(result.lng)
-                                    }
+                                    },
+                                    dist: Math.round(getDistance({ latitude: parseFloat(result.lat), longitude: parseFloat(result.lng) }, { latitude: props.step.from.lat, longitude: props.step.from.lng }) / 10) / 100
                                 }
                                 if (props.step.by === 'CAR' || props.step.by === 'ELECTRIC_CAR' || props.step.by === 'BUS' || props.step.by === 'MOTO') {
                                     updateDist(newStep)
                                 }
-                                else props.updateStep(newStep, props.id)
+                                else {
+                                    props.updateStep(newStep, props.id)
+                                    console.log("LALALA")
+                                }
 
                             }
                             handleClose()
+                            console.log("LALAL00")
                         }}> {result.name}, {result.countryName} </p>
                     ))
                     :

@@ -36,12 +36,12 @@ export const data: meanOfTransport[] =[
 	},
 	{
 		name: "TER",
-        bornes: [0,300],
+        bornes: [0,500],
         parPersonne: 24.8
 	},
 	{
 		name: "TGV",
-        bornes: [0,1000],
+        bornes: [0,2500],
         parPersonne: 1.73
     },
 ]

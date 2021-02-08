@@ -225,22 +225,22 @@ function Simulation(props: Props) {
             travel.steps.forEach((s: any) => {
                 const place1: place = {
                     name: s.departure.split(',')[0],
-                    country: "",
-                    lat: 0,
-                    lng: 0
+                    country: s.departure.split(',')[1],
+                    lat: s.latDeparture,
+                    lng: s.longDeparture
                 }
                 const place2: place = {
                     name: s.arrival.split(',')[0],
-                    country: "",
-                    lat: 0,
-                    lng: 0
+                    country: s.arrival.split(',')[1],
+                    lat: s.latArrival,
+                    lng: s.longArrival
                 }
                 const newStep: stepInterface = {
                     from: place1,
                     to: place2,
                     by: s.meansOfTransport,
                     nbPers: 1,
-                    dist: 0
+                    dist: s.distance
                 }
                 list.push(newStep);
             })
@@ -316,9 +316,14 @@ function Simulation(props: Props) {
                 arrival: `${step.to.name}, ${step.to.country}`,
                 distance: dist,
                 meansOfTransport: step.by,
-                carboneEmission: Math.round(calculateur(dist, step.by, step.nbPers))
+                carboneEmission: Math.round(calculateur(dist, step.by, step.nbPers)),
+                latDeparture: step.from.lat,
+                longDeparture: step.from.lng,
+                latArrival: step.to.lat,
+                longArrival: step.to.lng,
             })
             if (index === listStep.length - 1) {
+                console.log(body)
                 if (props.label === "add") {
                     props.addTravel(body)
                 } else if (props.label === "update") {
