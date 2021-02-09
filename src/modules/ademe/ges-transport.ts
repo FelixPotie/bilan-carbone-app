@@ -26,7 +26,7 @@ export const data: meanOfTransport[] =[
 	},
 	{
 		name: "BUS",
-        bornes: [0,1000],
+        bornes: [0,1500],
         parPersonne: 35.2
 	},
 	{
