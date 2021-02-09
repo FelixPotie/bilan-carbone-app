@@ -71,6 +71,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd bilan_carbone
-            docker pull symongayet/bilan-carbone-app:main
+            docker-compose pull app
             docker-compose up -d
             docker image prune -f
+            
