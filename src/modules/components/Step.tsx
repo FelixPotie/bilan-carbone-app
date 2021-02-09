@@ -85,12 +85,12 @@ export default function Step(props: any) {
     const getDist = (step: any): number => {
         return Math.round(getDistance({ latitude: step.from.lat, longitude: step.from.lng }, { latitude: step.to.lat, longitude: step.to.lng }) / 10) / 100
     }
-
+    
     function updateDist(step: any) {
-        let url = `http://router.project-osrm.org/route/v1/driving/${step.from.lng},${step.from.lat};${step.to.lng},${step.to.lat}?overview=false`
+        let url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf624884ad3bda18dc4f5895317c47566066a5&start=${step.from.lng},${step.from.lat}&end=${step.to.lng},${step.to.lat}`
         axios.get(url)
-            .then((data: any) => {
-                let dist = data?.data?.routes[0]?.distance
+            .then((resp: any) => {
+                let dist = resp?.data?.features[0]?.properties?.summary?.distance
                 dist && dist !== 0 ?
                     step.dist = Math.round(dist / 10) / 100 :
                     step.dist = getDist(step)
