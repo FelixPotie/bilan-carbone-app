@@ -1,5 +1,5 @@
 // import classes from '*.module.css'
-import { makeStyles, Select, Popover, FormControl, Button, Card, CardContent, CardHeader, IconButton, Typography } from '@material-ui/core'
+import { makeStyles, Select, Popover, FormControl, Button, Card, CardContent, CardHeader, IconButton, Typography, Menu } from '@material-ui/core'
 import { TextField, MenuItem } from '@material-ui/core'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
@@ -292,7 +292,8 @@ export default function Step(props: any) {
                     </div>
                 </CardContent>
             </Card>
-            <Popover id={id} open={open} anchorEl={anchorEl} onClose={handleClose}
+                <Menu open ={open} anchorEl={anchorEl} onClose={handleClose}
+                getContentAnchorEl={null}
                 anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'left',
@@ -303,7 +304,7 @@ export default function Step(props: any) {
                 }}>
                 {(results && results.length !== 0) ?
                     results.map((result: any, index) => (
-                        <p key={index} onClick={async () => {
+                        <MenuItem key={index} onClick={async () => {
                             if (popover) {
                                 let newStep = {
                                     ...props.step,
@@ -320,7 +321,6 @@ export default function Step(props: any) {
                                 }
                                 else {
                                     props.updateStep(newStep, props.id)
-                                    console.log("LALALI")
                                 }
                             } else {
                                 let newStep = {
@@ -338,17 +338,15 @@ export default function Step(props: any) {
                                 }
                                 else {
                                     props.updateStep(newStep, props.id)
-                                    console.log("LALALA")
                                 }
 
                             }
                             handleClose()
-                            console.log("LALAL00")
-                        }}> {result.name}, {result.countryName} </p>
+                        }}> {result.name}, {result.countryName} </MenuItem>
                     ))
                     :
                     <div>pas de resultats</div>
-                }</Popover>
+                }</Menu>
         </React.Fragment>
     )
 }

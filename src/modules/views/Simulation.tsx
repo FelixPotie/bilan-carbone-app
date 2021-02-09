@@ -222,7 +222,7 @@ function Simulation(props: Props) {
             setDate(travel.date);
             setType(travel.type);
             const list: stepInterface[] = [];
-            travel.steps.forEach((s: any) => {
+            travel.steps.sort((a:any,b:any)=>(a.rank - b.rank)).forEach((s: any) => {
                 const place1: place = {
                     name: s.departure.split(',')[0],
                     country: s.departure.split(',')[1],
