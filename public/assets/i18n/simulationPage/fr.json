@@ -46,5 +46,6 @@
     "RETURN": "Retourner aux mobilités",
     "UPDATE_YOUR_JOURNEY": "Modifier votre trajet",
     "UPDATE": "Modifier",
-    "BEST_SOLUTION" : "Vous avez choisi la meilleure solution pour votre trajet"
+    "BEST_SOLUTION" : "Vous avez choisi la meilleure solution pour votre trajet",
+    "OTHER": "voyage"
 }

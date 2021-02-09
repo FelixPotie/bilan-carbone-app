@@ -25,7 +25,7 @@ import AirplanemodeActiveIcon from '@material-ui/icons/AirplanemodeActive';
 import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
 import MotorcycleIcon from '@material-ui/icons/Motorcycle';
 import TrainIcon from '@material-ui/icons/Train';
-import { wait } from '@testing-library/react';
+import axios from 'axios';
 
 const mapState = (state: RootState, ownProps: any) => {
     return {
@@ -59,7 +59,8 @@ interface stepInterface {
     from: place,
     to: place,
     by: string,
-    nbPers: number
+    nbPers: number,
+    dist: number
 }
 
 const defaultPlace: place = {
@@ -74,7 +75,8 @@ const defaultStep: stepInterface =
     from: defaultPlace,
     to: defaultPlace,
     by: "CAR",
-    nbPers: 1
+    nbPers: 1,
+    dist: 0
 }
 
 const defaultListStep: stepInterface[] = []
@@ -162,13 +164,13 @@ const useStyles = makeStyles((theme) => ({
     generalform: {
         display: "contents"
     },
-    alert:{
-        width:"80%",
-        margin:"auto",
+    alert: {
+        width: "80%",
+        margin: "auto",
         marginTop: theme.spacing(2)
     },
-    load:{
-        display:"flex",
+    load: {
+        display: "flex",
         justifyContent: "center",
         marginTop: theme.spacing(4)
     }
@@ -194,50 +196,51 @@ function Simulation(props: Props) {
     }, [show])
 
     useEffect(() => {
-        if (props.user.isLoggedIn && (props.label==="add" || props.label==="update")) {
+        if (props.user.isLoggedIn && (props.label === "add" || props.label === "update")) {
             props.getMobilitiesByUser(props.user.user.username);
         }
     }, [props.user.isLoggedIn])
 
     useEffect(() => {
-        if(props.user.isLoggedIn && props.label==="update") setMobility(props.mobilityData.mobilites.find((mobility: any) => (mobility.id === +mobilityId)));
+        if (props.user.isLoggedIn && props.label === "update") setMobility(props.mobilityData.mobilites.find((mobility: any) => (mobility.id === +mobilityId)));
     }, [props.mobilityData.success])
 
     useEffect(() => {
-        if(props.user.isLoggedIn && props.label==="update" && mobility) setTravel(mobility.travels.find((t:any)=>t.id===+travelId))
+        if (props.user.isLoggedIn && props.label === "update" && mobility) setTravel(mobility.travels.find((t: any) => t.id === +travelId))
     }, [props.mobilityData.success, mobility])
 
     useEffect(() => {
-        if(props.user.isLoggedIn && props.label==="update" && travel) initData()
+        if (props.user.isLoggedIn && props.label === "update" && travel) initData()
     }, [props.mobilityData.success, travel])
 
     const urlParams: any = useParams()
-    const mobilityId = props.label==="add"? urlParams.id : props.label==="update"? urlParams.id : undefined;
-    const travelId = props.label==="update"? urlParams.journeyid: undefined;
-        
+    const mobilityId = props.label === "add" ? urlParams.id : props.label === "update" ? urlParams.id : undefined;
+    const travelId = props.label === "update" ? urlParams.journeyid : undefined;
+
     const initData = () => {
-        if(travel){
+        if (travel) {
             setDate(travel.date);
             setType(travel.type);
-            const list : stepInterface[] = [];
-            travel.steps.forEach((s:any)=>{
-                const place1 : place = {
+            const list: stepInterface[] = [];
+            travel.steps.forEach((s: any) => {
+                const place1: place = {
                     name: s.departure.split(',')[0],
-                    country: "",
-                    lat: 0,
-                    lng: 0
+                    country: s.departure.split(',')[1],
+                    lat: s.latDeparture,
+                    lng: s.longDeparture
                 }
-                const place2 : place = {
+                const place2: place = {
                     name: s.arrival.split(',')[0],
-                    country: "",
-                    lat: 0,
-                    lng: 0
+                    country: s.arrival.split(',')[1],
+                    lat: s.latArrival,
+                    lng: s.longArrival
                 }
-                const newStep : stepInterface = {
+                const newStep: stepInterface = {
                     from: place1,
                     to: place2,
                     by: s.meansOfTransport,
-                    nbPers: 1
+                    nbPers: 1,
+                    dist: s.distance
                 }
                 list.push(newStep);
             })
@@ -265,7 +268,7 @@ function Simulation(props: Props) {
 
     const addStep = (event: any) => {
         var step = defaultStep;
-        step.from=listStep[listStep.length -1].to;
+        step.from = listStep[listStep.length - 1].to;
         setlistStep(listStep.concat(step))
         event.preventDefault();
 
@@ -283,12 +286,14 @@ function Simulation(props: Props) {
         return Math.round(getDistance({ latitude: step.from.lat, longitude: step.from.lng }, { latitude: step.to.lat, longitude: step.to.lng }) / 10) / 100
     }
 
+
+
     const checkMobilityId = () => {
         return !props.mobilityData.mobilites.find((mobility: any) => (mobility.id === +mobilityId))
     }
 
     const checkTravelId = () => {
-        return !props.mobilityData.mobilites.find((mobility: any) => mobility.travels.find((travel:any) => (travel.id === +travelId)))
+        return !props.mobilityData.mobilites.find((mobility: any) => mobility.travels.find((travel: any) => (travel.id === +travelId)))
     }
 
 
@@ -297,35 +302,41 @@ function Simulation(props: Props) {
         let steps: Object[] = []
         const body = {
             mobilityId: mobilityId,
-            travel:travel,
+            travel: travel,
             travelId: travelId,
             type: type,
             date: date,
             steps: steps
         }
         listStep.forEach((step, index: number) => {
+            let dist = step.dist
             steps.push({
                 rank: index,
                 departure: `${step.from.name}, ${step.from.country}`,
                 arrival: `${step.to.name}, ${step.to.country}`,
-                distance: Math.round(getDist(step)),
+                distance: dist,
                 meansOfTransport: step.by,
-                carboneEmission: Math.round(calculateur(getDist(step), step.by, step.nbPers))
+                carboneEmission: Math.round(calculateur(dist, step.by, step.nbPers)),
+                latDeparture: step.from.lat,
+                longDeparture: step.from.lng,
+                latArrival: step.to.lat,
+                longArrival: step.to.lng,
             })
             if (index === listStep.length - 1) {
-                if(props.label==="add"){
+                console.log(body)
+                if (props.label === "add") {
                     props.addTravel(body)
-                } else if(props.label==="update"){
+                } else if (props.label === "update") {
                     props.updateTravel(body);
                 }
             }
         })
-        
+
     }
 
     const chooseType = () => {
         const mob = props.mobilityData.mobilites.find((m: any) => m.id === +urlParams.id);
-        if(props.label==="update"){
+        if (props.label === "update") {
             return (
                 <Select disabled variant="outlined" fullWidth id="type" name="type" label={t("TYPE")} value={type} >
                     <MenuItem value={'GO'}>{t("GO")}</MenuItem>
@@ -364,13 +375,13 @@ function Simulation(props: Props) {
         return <Step key={index} id={index} step={step} updateStep={updateStep} deleteAction={removeStep}></Step>
     });
 
-    const displayIcon = (means:string) => {
-        if(means==="PLANE") return <AirplanemodeActiveIcon/>
-        else if (means==="BUS") return <AirportShuttleIcon/>
-        else if (means==="MOTO") return <MotorcycleIcon/>
-        else if (means==="TER" || means==="TGV") return <TrainIcon/>
+    const displayIcon = (means: string) => {
+        if (means === "PLANE") return <AirplanemodeActiveIcon />
+        else if (means === "BUS") return <AirportShuttleIcon />
+        else if (means === "MOTO") return <MotorcycleIcon />
+        else if (means === "TER" || means === "TGV") return <TrainIcon />
         else return <DriveEtaRoundedIcon />
-            
+
     }
 
     const recap = listStep.map((step, index) => (
@@ -384,7 +395,7 @@ function Simulation(props: Props) {
                         {displayIcon(step.by)}
                     </ListItemIcon>
                     <ListItemText>
-                        {getDist(step)} km {t("BY")} {t(`${step.by}`)}
+                        {step.dist} km {t("BY")} {t(`${step.by}`)}
                     </ListItemText>
                 </ListItem>
                 <ListItem>
@@ -392,37 +403,37 @@ function Simulation(props: Props) {
                         <GrainIcon />
                     </ListItemIcon>
                     <ListItemText>
-                        CO<sub>2</sub> equivalent : {Math.round(calculateur(getDist(step), step.by, step.nbPers) / 10) / 100} kg
+                        CO<sub>2</sub> equivalent : {Math.round(calculateur(step.dist, step.by, step.nbPers) / 10) / 100} kg
                     </ListItemText>
                 </ListItem>
             </List>
-            <Comparator key={index} meansOfTransport={step.by} distance={getDist(step)} nbPers={step.nbPers} emissions={calculateur(getDist(step), step.by, step.nbPers)} />
+            <Comparator key={index} meansOfTransport={step.by} distance={step.dist} nbPers={step.nbPers} emissions={calculateur(getDist(step), step.by, step.nbPers)} />
         </Card>
     ))
 
-    const displayButton = () =>{
-        var good=true;
-        listStep.forEach((step:stepInterface)=>{
-            if(step.from.country==="" || step.to.country==="") good=false;
+    const displayButton = () => {
+        var good = true;
+        listStep.forEach((step: stepInterface) => {
+            if (step.from.country === "" || step.to.country === "") good = false;
         });
-        if(good){
-            if(props.label==="add"){
-                return(
+        if (good) {
+            if (props.label === "add") {
+                return (
                     <Button variant="contained" color="primary" type="submit">{t("SAVE")}</Button>
                 )
             } else {
-                return(
+                return (
                     <Button variant="contained" color="primary" type="submit">{t("UPDATE")}</Button>
                 )
             }
-            
-        }else{
-            if(props.label==="add"){
-                return(
+
+        } else {
+            if (props.label === "add") {
+                return (
                     <Button variant="contained" color="primary" disabled>{t("SAVE")}</Button>
                 )
             } else {
-                return(
+                return (
                     <Button variant="contained" color="primary" disabled>{t("UPDATE")}</Button>
 
                 )
@@ -436,11 +447,11 @@ function Simulation(props: Props) {
     }
 
     const displayError = () => {
-        if(show) return (<NotFound/>)
+        if (show) return (<NotFound />)
         else {
             return (
                 <div className={classes.load}>
-                    <CircularProgress/>
+                    <CircularProgress />
                 </div>
             )
         }
@@ -456,114 +467,114 @@ function Simulation(props: Props) {
         <React.Fragment>
             {displayError()}
         </React.Fragment>
-    )  : props.travel.error ? (
+    ) : props.travel.error ? (
         <Typography variant="h3" gutterBottom marked="center" align="center">
             {props.travel.error} : Veuillez réessayer
         </Typography>
     ) : props.travel.success ? (
         <Redirect to="/mobilites" />
     ) : (
-        <React.Fragment>
-            {(props.user.isLoggedIn && (props.label==="add" || props.label==="update")) ?
-                <Container className={classes.title}>
-                    <Box display="flex">
-                        <Box m="auto">
-                            {props.label==="add"?
-                            <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
-                                {t("ENTER_YOUR_JOURNEY")}
-                            </Typography>
-                            :
-                            <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
-                                {t("UPDATE_YOUR_JOURNEY")}
-                            </Typography>
-                            }
-                        </Box>
-                    </Box>
-                    <Typography variant="h5" gutterBottom marked="center" align="center">
-                        {props.mobilityData.mobilites.map((mobility: any) => mobility.id === Number(mobilityId) &&
-                            <div>{t("SUBTITLE")}{t(mobility.type)} {t("IN")} {mobility.place}.</div>)}
-                    </Typography>
-                </Container>
-                :
-                <Container className={classes.title}>
-                    <Box display="flex">
-                        <Box m="auto">
-                            <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
-                                {t("SIMULATE_YOUR_JOURNEY")}
-                            </Typography>
-                        </Box>
-                    </Box>
-                    <Typography variant="h5" gutterBottom marked="center" align="center">
-                        {t("PAGE_DESCRIPTION")}
-                    </Typography>
-                    {props.user.isLoggedIn ?
-                        <Alert variant="outlined" severity="warning" className={classes.alert}>{t("ALERT_CONNECTED")}<strong><Link to='/mobilites'>{t("MOBILITIES")}</Link></strong> !</Alert>
-                        :
-                        <Alert variant="outlined" severity="warning" className={classes.alert}>{t("ALERT_DISCONNECTED")} <strong><Link to='/signin'>{t("LOGIN")}</Link></strong></Alert>
-                    }
-                </Container>
-            }
-            <Grid container>
-                <form onSubmit={e => saveTravel(e)} className={classes.generalform}>
-                    <Grid item md={6} className={classes.cardContainer} >
-                        <Card className={classes.journeyCard} >
-                            <CardContent className={classes.cardContent}>
-                                <Box display="flex" >
-                                    <Box m="auto">
-                                        <Typography className={classes.cardTitle} variant="h4" marked="center" align="center" color="inherit">
-                                            {t("YOUR_JOURNEY")}
+                            <React.Fragment>
+                                {(props.user.isLoggedIn && (props.label === "add" || props.label === "update")) ?
+                                    <Container className={classes.title}>
+                                        <Box display="flex">
+                                            <Box m="auto">
+                                                {props.label === "add" ?
+                                                    <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
+                                                        {t("ENTER_YOUR_JOURNEY")}
+                                                    </Typography>
+                                                    :
+                                                    <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
+                                                        {t("UPDATE_YOUR_JOURNEY")}
+                                                    </Typography>
+                                                }
+                                            </Box>
+                                        </Box>
+                                        <Typography variant="h5" gutterBottom marked="center" align="center">
+                                            {props.mobilityData.mobilites.map((mobility: any) => mobility.id === Number(mobilityId) &&
+                                                <div>{t("SUBTITLE")}{t(mobility.type)} {t("IN")} {mobility.place}.</div>)}
                                         </Typography>
-                                    </Box>
-                                </Box>
-                                {(props.user.isLoggedIn && (props.label==="add" || props.label==="update")) &&
-                                    <div>
-                                        <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                                            <KeyboardDatePicker className={classes.form} required inputVariant="outlined" format="dd/MM/yyyy" id="date" label="Date" value={date} onChange={handleChangeDate} onKeyDown={(event) => { if (event.key === 'Enter') event.preventDefault() }} KeyboardButtonProps={{ 'aria-label': 'change date', }} />
-                                        </MuiPickersUtilsProvider>
-                                        <FormControl variant="outlined" className={classes.form} style={{ marginBottom: "16px" }}>
-                                            {props.label==="add" &&<InputLabel htmlFor="type">{t("TYPE")}</InputLabel>}
-                                            {chooseType()}
-                                        </FormControl>
-                                    </div>
+                                    </Container>
+                                    :
+                                    <Container className={classes.title}>
+                                        <Box display="flex">
+                                            <Box m="auto">
+                                                <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
+                                                    {t("SIMULATE_YOUR_JOURNEY")}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                        <Typography variant="h5" gutterBottom marked="center" align="center">
+                                            {t("PAGE_DESCRIPTION")}
+                                        </Typography>
+                                        {props.user.isLoggedIn ?
+                                            <Alert variant="outlined" severity="warning" className={classes.alert}>{t("ALERT_CONNECTED")}<strong><Link to='/mobilites'>{t("MOBILITIES")}</Link></strong> !</Alert>
+                                            :
+                                            <Alert variant="outlined" severity="warning" className={classes.alert}>{t("ALERT_DISCONNECTED")} <strong><Link to='/signin'>{t("LOGIN")}</Link></strong></Alert>
+                                        }
+                                    </Container>
                                 }
-                                <div className={classes.steps}>
-                                    {displayListStep}
-                                </div>
-                            </CardContent>
-                            <CardActions className={classes.actionButton}>
-                                <Button onClick={addStep}>{<AddIcon fontSize="large" />}</Button>
-                            </CardActions>
-                        </Card>
-                    </Grid>
-                    <Grid item md={6} className={classes.cardContainer}>
-                        <Card className={classes.journeyCard} >
-                            <CardContent className={classes.cardContent}>
-                                <Box display="flex" >
-                                    <Box m="auto">
-                                        <Typography className={classes.cardTitle} variant="h4" marked="center" align="center" color="inherit">
-                                            {t("YOUR_EMISSIONS")}
-                                        </Typography>
-                                    </Box>
-                                </Box>
-                                <Typography key="emission" className={classes.etape} variant="h5" color="inherit">
-                                    {t("EMISSION_DESCRIPTION")}
-                                </Typography>
-                                <div className={classes.steps}>
-                                    {recap}
-                                </div>
-                            </CardContent>
+                                <Grid container>
+                                    <form onSubmit={e => saveTravel(e)} className={classes.generalform}>
+                                        <Grid item md={6} className={classes.cardContainer} >
+                                            <Card className={classes.journeyCard} >
+                                                <CardContent className={classes.cardContent}>
+                                                    <Box display="flex" >
+                                                        <Box m="auto">
+                                                            <Typography className={classes.cardTitle} variant="h4" marked="center" align="center" color="inherit">
+                                                                {t("YOUR_JOURNEY")}
+                                                            </Typography>
+                                                        </Box>
+                                                    </Box>
+                                                    {(props.user.isLoggedIn && (props.label === "add" || props.label === "update")) &&
+                                                        <div>
+                                                            <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                                                                <KeyboardDatePicker className={classes.form} required inputVariant="outlined" format="dd/MM/yyyy" id="date" label="Date" value={date} onChange={handleChangeDate} onKeyDown={(event) => { if (event.key === 'Enter') event.preventDefault() }} KeyboardButtonProps={{ 'aria-label': 'change date', }} />
+                                                            </MuiPickersUtilsProvider>
+                                                            <FormControl variant="outlined" className={classes.form} style={{ marginBottom: "16px" }}>
+                                                                {props.label === "add" && <InputLabel htmlFor="type">{t("TYPE")}</InputLabel>}
+                                                                {chooseType()}
+                                                            </FormControl>
+                                                        </div>
+                                                    }
+                                                    <div className={classes.steps}>
+                                                        {displayListStep}
+                                                    </div>
+                                                </CardContent>
+                                                <CardActions className={classes.actionButton}>
+                                                    <Button onClick={addStep}>{<AddIcon fontSize="large" />}</Button>
+                                                </CardActions>
+                                            </Card>
+                                        </Grid>
+                                        <Grid item md={6} className={classes.cardContainer}>
+                                            <Card className={classes.journeyCard} >
+                                                <CardContent className={classes.cardContent}>
+                                                    <Box display="flex" >
+                                                        <Box m="auto">
+                                                            <Typography className={classes.cardTitle} variant="h4" marked="center" align="center" color="inherit">
+                                                                {t("YOUR_EMISSIONS")}
+                                                            </Typography>
+                                                        </Box>
+                                                    </Box>
+                                                    <Typography key="emission" className={classes.etape} variant="h5" color="inherit">
+                                                        {t("EMISSION_DESCRIPTION")}
+                                                    </Typography>
+                                                    <div className={classes.steps}>
+                                                        {recap}
+                                                    </div>
+                                                </CardContent>
 
-                            {(props.user.isLoggedIn && (props.label==="add" || props.label==="update")) &&
-                                <CardActions className={classes.actionButton}>
-                                    {displayButton()}
-                                </CardActions>
-                            }
-                        </Card>
-                    </Grid>
-                </form>
-            </Grid>
-        </React.Fragment>
-    )
+                                                {(props.user.isLoggedIn && (props.label === "add" || props.label === "update")) &&
+                                                    <CardActions className={classes.actionButton}>
+                                                        {displayButton()}
+                                                    </CardActions>
+                                                }
+                                            </Card>
+                                        </Grid>
+                                    </form>
+                                </Grid>
+                            </React.Fragment>
+                        )
 }
 
 export default connector(Simulation);

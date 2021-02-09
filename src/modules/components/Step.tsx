@@ -8,6 +8,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
 import CancelIcon from '@material-ui/icons/Cancel';
+import axios from 'axios';
+import { getDistance } from 'geolib';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -57,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
         overflow: "hidden",
         whiteSpace: "nowrap"
     },
-    valid:{
+    valid: {
         marginTop: "33px",
         width: "5%",
         right: '5%'
@@ -78,6 +80,26 @@ export default function Step(props: any) {
     }
     const getTo = () => {
         return props.step.to.name
+    }
+
+    const getDist = (step: any): number => {
+        return Math.round(getDistance({ latitude: step.from.lat, longitude: step.from.lng }, { latitude: step.to.lat, longitude: step.to.lng }) / 10) / 100
+    }
+
+    function updateDist(step: any) {
+        let url = `http://router.project-osrm.org/route/v1/driving/${step.from.lng},${step.from.lat};${step.to.lng},${step.to.lat}?overview=false`
+        axios.get(url)
+            .then((data: any) => {
+                let dist = data?.data?.routes[0]?.distance
+                dist && dist !== 0 ?
+                    step.dist = Math.round(dist / 10) / 100 :
+                    step.dist = getDist(step)
+                props.updateStep(step, props.id)
+            })
+            .catch(() => {
+                step.dist = getDist(step)
+                props.updateStep(step, props.id)
+            })
     }
 
     const onChangeFrom = (event: any) => {
@@ -115,9 +137,18 @@ export default function Step(props: any) {
     const getBy = () => props.step.by
 
     const handleChangeTransport = (event: any) => {
-        props.updateStep({
-            ...props.step, by: event.target.value
-        }, props.id)
+        let by = event.target.value
+
+        if ((by === 'CAR' || by === 'ELECTRIC_CAR' || by === 'BUS' || by === 'MOTO'))
+            updateDist({
+                ...props.step, by: event.target.value
+            })
+        else {
+
+            props.updateStep({
+                ...props.step, by: event.target.value, dist: getDist(props.step)
+            }, props.id)
+        }
     }
 
     const getNbPers = () => props.step.nbPers
@@ -129,14 +160,14 @@ export default function Step(props: any) {
         }, props.id)
     }
 
-    const displayValid = (country: string) =>{
-        if(!country){
+    const displayValid = (country: string) => {
+        if (!country) {
             return (
-                <CancelIcon className={classes.valid} style={{color: "#ee0000"}}/>
+                <CancelIcon className={classes.valid} style={{ color: "#ee0000" }} />
             )
-        }else{
+        } else {
             return (
-                <DoneOutlineIcon className={classes.valid} style={{color: "#00ee00"}}/>
+                <DoneOutlineIcon className={classes.valid} style={{ color: "#00ee00" }} />
             )
         }
     }
@@ -272,7 +303,7 @@ export default function Step(props: any) {
                 }}>
                 {(results && results.length !== 0) ?
                     results.map((result: any, index) => (
-                        <p key={index} onClick={() => {
+                        <p key={index} onClick={async () => {
                             if (popover) {
                                 let newStep = {
                                     ...props.step,
@@ -281,11 +312,17 @@ export default function Step(props: any) {
                                         country: result.countryName,
                                         lat: parseFloat(result.lat),
                                         lng: parseFloat(result.lng)
-                                    }
+                                    },
+                                    dist: Math.round(getDistance({ latitude: parseFloat(result.lat), longitude: parseFloat(result.lng) }, { latitude: props.step.to.lat, longitude: props.step.to.lng }) / 10) / 100
                                 }
-                                props.updateStep(newStep, props.id)
-                            }
-                            else {
+                                if (props.step.by === 'CAR' || props.step.by === 'ELECTRIC_CAR' || props.step.by === 'BUS' || props.step.by === 'MOTO') {
+                                    updateDist(newStep)
+                                }
+                                else {
+                                    props.updateStep(newStep, props.id)
+                                    console.log("LALALI")
+                                }
+                            } else {
                                 let newStep = {
                                     ...props.step,
                                     to: {
@@ -293,11 +330,20 @@ export default function Step(props: any) {
                                         country: result.countryName,
                                         lat: parseFloat(result.lat),
                                         lng: parseFloat(result.lng)
-                                    }
+                                    },
+                                    dist: Math.round(getDistance({ latitude: parseFloat(result.lat), longitude: parseFloat(result.lng) }, { latitude: props.step.from.lat, longitude: props.step.from.lng }) / 10) / 100
                                 }
-                                props.updateStep(newStep, props.id)
+                                if (props.step.by === 'CAR' || props.step.by === 'ELECTRIC_CAR' || props.step.by === 'BUS' || props.step.by === 'MOTO') {
+                                    updateDist(newStep)
+                                }
+                                else {
+                                    props.updateStep(newStep, props.id)
+                                    console.log("LALALA")
+                                }
+
                             }
                             handleClose()
+                            console.log("LALAL00")
                         }}> {result.name}, {result.countryName} </p>
                     ))
                     :
