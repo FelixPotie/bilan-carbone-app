@@ -165,12 +165,12 @@ function SearchStudent(props: Props) {
                         <Box display="flex">
                             <Box m="auto">
                                 <Typography variant="h3" gutterBottom marked="center" align="center" color="inherit">
-                                    Recherche de mobilitées
+                                    Recherche de mobilités
                                 </Typography>
                             </Box>
                         </Box>
                         <Typography variant="h5" gutterBottom marked="center" align="center">
-                            Entrez le nom d'un étudiant, le prénom ou les deux pour rechercher les mobilitées correspondantes
+                            Entrez le nom d'un étudiant, le prénom ou les deux pour rechercher les mobilités correspondantes
                         </Typography>
                     </Container>
                     <Container className={classes.searchBarContainer}>

@@ -292,7 +292,7 @@ function ExportDataContainer(props: Props) {
                         <Box display="flex">
                             <Box m="auto">
                                 <Typography variant="h3" marked="center" align="center">
-                                    Exporter les données des mobilitées internationales
+                                    Exporter les données des mobilités internationales
                                 </Typography>
                             </Box>
                         </Box>
@@ -320,7 +320,7 @@ function ExportDataContainer(props: Props) {
 
                             <Container className={classes.subtitle}>
                                 <Typography key="type" variant="h6" marked="center" align="center">
-                                    Choisir le type de mobilitées :
+                                    Choisir le type de mobilités :
                                 </Typography>
                                 <FormGroup row>
                                     <FormControlLabel control={<Checkbox onChange={selectAllMobilityType} checked={allMobilityType} name="allMobilityType" />} label="Tous les types de mobilités" />
