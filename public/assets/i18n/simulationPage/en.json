@@ -19,6 +19,7 @@
     "TER":"TER",
     "TGV":"TGV",
     "ELECTRIC_CAR":"Electric car",
+    "FERRY_PEOPLE": "Ferry",
     "YOUR_EMISSIONS":"your emissions",
     "EMISSION_DESCRIPTION":"This is an estimation of CO2 emissions for each each of your steps :",
     "SAVE":"Save",

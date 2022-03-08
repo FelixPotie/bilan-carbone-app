@@ -19,6 +19,7 @@
     "TER":"TER",
     "TGV":"TGV",
     "ELECTRIC_CAR":"Voiture électrique",
+    "FERRY_PEOPLE":"Ferry",
     "YOUR_EMISSIONS":"vos émissions",
     "EMISSION_DESCRIPTION":"Voici une estimation des émissions de CO2 pour chacune de vos étapes :",
     "SAVE":"Enregistrer",
