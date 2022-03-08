@@ -11,7 +11,6 @@ const styles = (theme: Theme) =>
   createStyles({
     root: {
       borderRadius: 0,
-      fontWeight: theme.typography.fontWeightMedium,
       fontFamily: theme.typography.h1.fontFamily,
       padding: theme.spacing(2, 4),
       fontSize: theme.typography.pxToRem(14),
