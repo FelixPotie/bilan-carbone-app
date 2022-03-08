@@ -25,7 +25,7 @@ export const calculateur = (distance : number, moyen: string, voyageurs :number 
 		case "CAR" : case "ELECTRIC_CAR": {
 			return data[index].parVehicule!*distance/voyageurs;
 		}
-		case "TER" : case "MOTO" : case "TGV" : case "BUS" : {
+		case "TER" : case "MOTO" : case "TGV" : case "BUS" : case "FERRY_PEOPLE" : {
 			return data[index].parPersonne*distance;
 		}
 

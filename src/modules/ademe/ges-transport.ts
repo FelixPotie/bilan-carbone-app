@@ -44,6 +44,11 @@ export const data: meanOfTransport[] =[
         bornes: [0,2500],
         parPersonne: 1.73
     },
+  {
+    name: "FERRY_PEOPLE",
+    bornes:[0,10000],
+    parPersonne: 460
+  }
 ]
 
 export const dataTest: any ={

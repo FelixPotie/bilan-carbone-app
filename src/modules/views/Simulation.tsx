@@ -19,6 +19,7 @@ import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import UnauthorizedContainer from './Unauthorized';
 import DriveEtaRoundedIcon from '@material-ui/icons/DriveEtaRounded';
 import GrainIcon from '@material-ui/icons/Grain';
+import DirectionsBoatIcon from '@material-ui/icons/DirectionsBoat';
 import Alert from '@material-ui/lab/Alert';
 import NotFound from '../../pages/NotFound';
 import AirplanemodeActiveIcon from '@material-ui/icons/AirplanemodeActive';
@@ -380,6 +381,7 @@ function Simulation(props: Props) {
         else if (means === "BUS") return <AirportShuttleIcon />
         else if (means === "MOTO") return <MotorcycleIcon />
         else if (means === "TER" || means === "TGV") return <TrainIcon />
+        else if (means === "FERRY_PEOPLE") return <DirectionsBoatIcon />
         else return <DriveEtaRoundedIcon />
 
     }
