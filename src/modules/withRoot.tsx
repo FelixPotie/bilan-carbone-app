@@ -3,7 +3,9 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from './theme';
 
-export default function withRoot<P>(Component: React.ComponentType<P>) {
+type IComponent<P> =  React.ComponentType<P>
+
+export default function withRoot<P>(Component: IComponent<P>) {
   function WithRoot(props: P) {
     return (
       <ThemeProvider theme={theme}>
