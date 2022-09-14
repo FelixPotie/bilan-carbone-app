@@ -5,13 +5,14 @@ export const displayMobilityDate = (date: string): string => {
 }
 
 export const mobilityCarbonEmission = (travels: any): number => {
-    var sum = 0;
+    var gramme = 0;
     travels.forEach((travel: any) => {
         travel.steps.forEach((step: any) => {
-            sum = sum + step.carboneEmission;
+            gramme = gramme + step.carboneEmission;
         })
     });
-    return sum;
+    const kg = gramme / 1000
+    return kg;
 }
 
 export const mobilityTravelsType = (travels: any): string[] => {

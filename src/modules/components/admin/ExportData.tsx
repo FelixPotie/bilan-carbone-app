@@ -63,6 +63,26 @@ const connector = connect(mapState, mapDispatch)
 type PropsFromRedux = ConnectedProps<typeof connector>
 type Props = PropsFromRedux
 
+function getArrivalCityFromMobility(mobility: any) {
+    const steps = mobility.travels[0].steps
+    const lastStep = steps[steps.length - 1]
+    return lastStep.arrival
+}
+
+function getMeanOfTransportFromMobility(mobility: any) {
+    const allSteps = mobility.travels.flatMap((travel: any) => travel.steps)
+    const meansOfTransports =  new Set(allSteps.map((step: { meansOfTransport: any; }) => {return step.meansOfTransport} ))
+    return Array.from(meansOfTransports).join(",")
+}
+
+function getMobilityWithStep(mobilites: any) {
+    return mobilites.filter((mobility: { travels: string | any[] | undefined; }) =>
+        mobility.travels !== undefined &&
+        mobility.travels.length !== 0 &&
+        mobility.travels[0].steps !== undefined &&
+        mobility.travels[0].steps.length !== 0)
+}
+
 function ExportDataContainer(props: Props) {
     const classes = useStyles();
 
@@ -81,15 +101,17 @@ function ExportDataContainer(props: Props) {
         if (props.mobilityFiltered.success) {
             if (props.mobilityFiltered.mobilites.length !== 0) {
                 var exportData = [];
-                for(let i=0; i<props.mobilityFiltered.mobilites.length; i++){
-                    const m=props.mobilityFiltered.mobilites[i];
+                const mobilityWithTravel = getMobilityWithStep(props.mobilityFiltered.mobilites)
+                for(let i=0; i<mobilityWithTravel.length; i++){
+                    const m=mobilityWithTravel[i];
                     const row={
                         id: m.id,
                         Nom: m.userId.split('.')[1],
                         Prénom: m.userId.split('.')[0],
                         Département: m.departmentTypeName,
                         Type: m.type,
-                        Lieu: m.place,
+                        Lieu: getArrivalCityFromMobility(m),
+                        MoyenDeTransport: getMeanOfTransportFromMobility(m),
                         Année: m.year,
                         Début: m.startDate.substring(0,10),
                         Fin: m.endDate.substring(0,10),
@@ -128,8 +150,6 @@ function ExportDataContainer(props: Props) {
 
     const createDepartmentSelector = () => {
         const departments = props.appSettingsData.appSettings.department.sort((a:any,b:any)=>((a.status < b.status) ? 1 : ((b.status < a.status) ? -1 : 0)) || ((a.name > b.name) ? 1 :((b.name > a.name) ? -1 : 0)));
-        console.log(departments);
-        // const stateDepartmentAcc: { [x: string]: boolean; } = {};
         departments.forEach((department: { [x: string]: string; }) => {
             setStateDepartment((prevState) => ({ ...prevState, [department.name]: true }));
         })
