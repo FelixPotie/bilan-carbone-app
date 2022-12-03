@@ -23,7 +23,7 @@ import Snackbar from '../Snackbar'
 import DateFnsUtils from '@date-io/date-fns';
 import 'date-fns';
 import { ExportToCsv } from 'export-to-csv';
-import { mobilityCarbonEmission } from '../../../utils/mobilityTools';
+import {mobilityCarbonEmission, mobilityDistance} from '../../../utils/mobilityTools';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -63,10 +63,26 @@ const connector = connect(mapState, mapDispatch)
 type PropsFromRedux = ConnectedProps<typeof connector>
 type Props = PropsFromRedux
 
-function getArrivalCityFromMobility(mobility: any) {
-    const steps = mobility.travels[0].steps
-    const lastStep = steps[steps.length - 1]
-    return lastStep.arrival
+function getArrivalCityFromTravel(travel: any) {
+    const steps = travel.steps
+    if ( travel.type === "GO") {
+        const lastStep = steps[steps.length - 1];
+        return lastStep.arrival
+    }
+    // Else is BACK type
+    const firstStep = steps[0];
+    return firstStep.departure;
+}
+
+function getDepartureCityFromTravel(travel: any) {
+    const steps = travel.steps
+    if ( travel.type === "GO") {
+        const lastStep = steps[0];
+        return lastStep.departure
+    }
+    // Else is BACK type
+    const firstStep = steps[steps.length - 1];
+    return firstStep.arrival;
 }
 
 function getMeanOfTransportFromMobility(mobility: any) {
@@ -81,6 +97,14 @@ function getMobilityWithStep(mobilites: any) {
         mobility.travels.length !== 0 &&
         mobility.travels[0].steps !== undefined &&
         mobility.travels[0].steps.length !== 0)
+}
+
+function hasGoTravel(mobilites: any) {
+    return mobilites.travels.some((travel: { type: string; }) => travel.type === "GO")
+}
+
+function hasBackTravel(mobilites: any) {
+    return mobilites.travels.some((travel: { type: string; }) => travel.type === "BACK")
 }
 
 function ExportDataContainer(props: Props) {
@@ -110,12 +134,16 @@ function ExportDataContainer(props: Props) {
                         Prénom: m.userId.split('.')[0],
                         Département: m.departmentTypeName,
                         Type: m.type,
-                        Lieu: getArrivalCityFromMobility(m),
+                        Trajet_aller: hasGoTravel(m),
+                        Trajet_retour: hasBackTravel(m),
+                        Depart: getDepartureCityFromTravel(m.travels[0]),
+                        Arriver: getArrivalCityFromTravel(m.travels[0]),
                         MoyenDeTransport: getMeanOfTransportFromMobility(m),
                         Année: m.year,
                         Début: m.startDate.substring(0,10),
                         Fin: m.endDate.substring(0,10),
-                        Carbone: mobilityCarbonEmission(m.travels).toFixed(2)
+                        Carbone: mobilityCarbonEmission(m.travels).toFixed(2),
+                        Distance: mobilityDistance(m.travels).toFixed(2)
                     }
                     exportData.push(row);
                 }

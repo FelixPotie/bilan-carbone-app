@@ -15,6 +15,16 @@ export const mobilityCarbonEmission = (travels: any): number => {
     return kg;
 }
 
+export const mobilityDistance = (travels: any): number => {
+    var distance = 0;
+    travels.forEach((travel: any) => {
+        travel.steps.forEach((step: any) => {
+            distance = distance + step.distance;
+        })
+    });
+    return distance;
+}
+
 export const mobilityTravelsType = (travels: any): string[] => {
     return travels.map((travel: any) => travel.type)
 }
