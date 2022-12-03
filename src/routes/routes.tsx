@@ -10,6 +10,7 @@ import SimulationPage from "../pages/SimulationPage";
 import Statistics from "../pages/Statistics";
 import Terms from "../pages/Terms";
 import UpdateJourney from "../pages/UpdateJourney";
+import Hypothesis from "../pages/Hypothesis";
 
 const routes = [
     {
@@ -24,7 +25,6 @@ const routes = [
         path: "/home",
         component: Home
     },
-   
     {
         path: "/privacy",
         component: Privacy
@@ -56,6 +56,10 @@ const routes = [
     {
         path: "/statistics",
         component: Statistics
+    },
+    {
+        path: "/hypothesis",
+        component: Hypothesis
     },
     {
         path: "/ecolab",

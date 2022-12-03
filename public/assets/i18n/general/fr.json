@@ -5,6 +5,7 @@
     "TITLE": "Calculateur d'émission carbone des mobilités Polytech"
   },
   "HOME": "Accueil",
+  "HYPOTHESIS": "Hypothèse",
   "LANGUAGE": "Langue",
   "LEGAL": "Mentions légales",
   "LOGIN": "Se connecter",
@@ -18,5 +19,5 @@
   "SIGNIN": "Se connecter",
   "SIGNOUT": "Se déconnecter"
 
-  
+
 }

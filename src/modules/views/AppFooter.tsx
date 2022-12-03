@@ -40,8 +40,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   Link: {
     color: 'white',
-    textDecoration: 'none', 
-    
+    textDecoration: 'none',
+
   },
   title: {
     fontSize: theme.typography.h4.fontSize,
@@ -117,6 +117,8 @@ function AppFooter() {
               </li>
               <li >
                 <Link className={classes.Link} to="/statistics">{t("STATISTICS")}</Link>
+              </li><li >
+                <Link className={classes.Link} to="/hypothesis">{t("HYPOTHESIS")}</Link>
               </li>
             </ul>
           </Grid>
