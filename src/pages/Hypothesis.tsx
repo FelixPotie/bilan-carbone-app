@@ -32,10 +32,10 @@ function Hypothesis() {
                             {t(meanOfTransport.name)} :
                             de {meanOfTransport.bornes[0]} à {meanOfTransport.bornes[1]} km,
                             équivalent CO2 par km  :<br/>
-                            de 0 à 1000: <b>230 gCO2e/km/personne</b>, <br/>
-                            de 1000 à 2000: <b>186 gCO2e/km/personne</b>,<br/>
-                            de 2000 à 3500: <b>178 gCO2e/km/personne</b>,<br/>
-                            de 3500 à Inf: <b>151 gCO2e/km/personne</b><br/>
+                            de 0 à 1000: <b>126 gCO2e/km/personne</b>, <br/>
+                            de 1000 à 2000: <b>102 gCO2e/km/personne</b>,<br/>
+                            de 2000 à 3500: <b>97.4 gCO2e/km/personne</b>,<br/>
+                            de 3500 à Inf: <b>82.8 gCO2e/km/personne</b><br/>
                         </Typography>)
                 }
             })}

@@ -9,10 +9,10 @@ export const data: meanOfTransport[] =[
 	{	name: "PLANE",
         bornes: [500,100000],
         parPersonne:{
-            de0a1000: 230,
-            de1000a2000: 186,
-            de2000a3500: 178,
-            de3500aInf: 151
+            de0a1000: 126,
+            de1000a2000: 102,
+            de2000a3500: 97.4,
+            de3500aInf: 82.8,
 		}
 	},
     {    name: "CAR",
