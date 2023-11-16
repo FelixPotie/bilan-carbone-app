@@ -73,7 +73,7 @@ function SignInContainer(props: Props) {
   const { username, password , usernameError} = stateLogin;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.value.includes('@')) {
+    if (event.target.name === 'username' && event.target.value.includes('@')) {
       setStateLogin({ ...stateLogin, [event.target.name]: event.target.value , usernameError: true});
     } else {
       setStateLogin({ ...stateLogin, [event.target.name]: event.target.value , usernameError: false});
